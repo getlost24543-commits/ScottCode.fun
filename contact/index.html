@@ -182,5 +182,854 @@ themeButton.addEventListener("click", () => {
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
-</script></body>
+</script>
+<script>
+(() => {
+  "use strict";
+
+  // ==========================================
+  // SCOTTCODE FX ENGINE v1.0
+  // Interactive canvas, particles, lighting,
+  // 3D cards, scroll reveals and click effects.
+  // No libraries required.
+  // ==========================================
+
+  if (window.__SCOTTCODE_FX__) return;
+  window.__SCOTTCODE_FX__ = true;
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const isMobile = matchMedia("(pointer: coarse)").matches;
+  const isSmallScreen = matchMedia("(max-width: 700px)").matches;
+
+  const CONFIG = {
+    particleCount: isSmallScreen ? 42 : 85,
+    particleSpeed: reducedMotion ? 0 : 0.42,
+    connectionDistance: isSmallScreen ? 105 : 145,
+    mouseRadius: 170,
+    clickBurstCount: 20,
+    glowColor: "90, 180, 255"
+  };
+
+  // ------------------------------------------
+  // 1. CREATE THE EFFECTS LAYER
+  // ------------------------------------------
+
+  const fx = document.createElement("div");
+  fx.id = "scottcode-fx";
+
+  fx.innerHTML = `
+    <canvas id="scottcode-canvas"
+      aria-hidden="true"></canvas>
+
+    <div class="scott-orb scott-orb-one"></div>
+    <div class="scott-orb scott-orb-two"></div>
+    <div class="scott-orb scott-orb-three"></div>
+
+    <div id="scott-mouse-glow"></div>
+  `;
+
+  document.body.prepend(fx);
+
+  const canvas = fx.querySelector("canvas");
+  const ctx = canvas.getContext("2d", {
+    alpha: true,
+    desynchronized: true
+  });
+
+  const mouseGlow = document.getElementById(
+    "scott-mouse-glow"
+  );
+
+  // ------------------------------------------
+  // 2. INJECT THE ANIMATION STYLES
+  // ------------------------------------------
+
+  const style = document.createElement("style");
+
+  style.textContent = `
+    #scottcode-fx {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      contain: strict;
+      isolation: isolate;
+    }
+
+    #scottcode-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.82;
+    }
+
+    #scott-mouse-glow {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(45, 145, 255, 0.13) 0%,
+        rgba(45, 145, 255, 0.055) 36%,
+        transparent 70%
+      );
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 350ms ease;
+      will-change: left, top;
+    }
+
+    .scott-orb {
+      position: absolute;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      filter: blur(95px);
+      opacity: 0.12;
+      will-change: transform;
+      animation: scottFloat 18s ease-in-out infinite alternate;
+    }
+
+    .scott-orb-one {
+      background: #087cff;
+      top: -150px;
+      left: -100px;
+    }
+
+    .scott-orb-two {
+      background: #6045ff;
+      right: -160px;
+      top: 32%;
+      animation-delay: -7s;
+      animation-duration: 23s;
+    }
+
+    .scott-orb-three {
+      background: #00c8ff;
+      bottom: -200px;
+      left: 30%;
+      animation-delay: -11s;
+      animation-duration: 26s;
+    }
+
+    @keyframes scottFloat {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate3d(70px, 45px, 0) scale(1.15);
+      }
+
+      100% {
+        transform: translate3d(-35px, 95px, 0) scale(.92);
+      }
+    }
+
+    /* Keep normal website content above the FX layer. */
+    body > :not(#scottcode-fx) {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Scroll reveal animations */
+    .scott-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 750ms cubic-bezier(.2,.7,.2,1),
+        transform 750ms cubic-bezier(.2,.7,.2,1);
+      transition-delay: var(--scott-delay, 0ms);
+    }
+
+    .scott-reveal.scott-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Optional hover tilt */
+    [data-scott-tilt] {
+      transform-style: preserve-3d;
+      transition:
+        transform 180ms ease,
+        border-color 250ms ease,
+        box-shadow 250ms ease;
+      will-change: transform;
+    }
+
+    [data-scott-tilt]:hover {
+      border-color: rgba(90, 180, 255, 0.5);
+      box-shadow:
+        0 18px 45px rgba(0, 110, 255, 0.12),
+        0 0 24px rgba(0, 145, 255, 0.055);
+    }
+
+    /* Click burst */
+    .scott-click-ring {
+      position: fixed;
+      z-index: 99999;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(100, 190, 255, 0.85);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(.2);
+      animation: scottRing 650ms ease-out forwards;
+    }
+
+    @keyframes scottRing {
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(5);
+      }
+    }
+
+    /* Keyboard accessibility */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid #65baff;
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 700px) {
+      .scott-orb {
+        width: 220px;
+        height: 220px;
+        filter: blur(70px);
+      }
+
+      #scott-mouse-glow {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scott-orb {
+        animation: none !important;
+      }
+
+      .scott-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      [data-scott-tilt] {
+        transform: none !important;
+        transition: none !important;
+      }
+
+      .scott-click-ring {
+        display: none;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  // ------------------------------------------
+  // 3. CANVAS SETUP
+  // ------------------------------------------
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let particles = [];
+  let bursts = [];
+  let animationFrame = null;
+  let lastFrame = 0;
+
+  const mouse = {
+    x: -10000,
+    y: -10000,
+    active: false
+  };
+
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    // Limit pixel density for performance.
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    createParticles();
+  }
+
+  // ------------------------------------------
+  // 4. PARTICLE SYSTEM
+  // ------------------------------------------
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createParticles() {
+    const areaFactor = Math.min(
+      1,
+      (width * height) / (1440 * 900)
+    );
+
+    const count = Math.max(
+      20,
+      Math.round(CONFIG.particleCount * areaFactor)
+    );
+
+    particles = Array.from({ length: count }, () => ({
+      x: random(0, width),
+      y: random(0, height),
+      vx: random(-0.35, 0.35) * CONFIG.particleSpeed,
+      vy: random(-0.35, 0.35) * CONFIG.particleSpeed,
+      radius: random(0.8, 2.1),
+      phase: random(0, Math.PI * 2),
+      brightness: random(0.35, 0.95)
+    }));
+  }
+
+  // ------------------------------------------
+  // 5. INTERACTIVE CLICK BURSTS
+  // ------------------------------------------
+
+  function createBurst(x, y) {
+    if (reducedMotion) return;
+
+    for (let i = 0; i < CONFIG.clickBurstCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = random(0.8, 3.5);
+
+      bursts.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        decay: random(0.018, 0.035),
+        radius: random(1, 3)
+      });
+    }
+
+    // Prevent too many effects accumulating.
+    if (bursts.length > 240) {
+      bursts.splice(0, bursts.length - 240);
+    }
+  }
+
+  // ------------------------------------------
+  // 6. ANIMATION LOOP
+  // ------------------------------------------
+
+  function draw(timestamp = 0) {
+    animationFrame = null;
+
+    // Cap animation frequency.
+    if (timestamp - lastFrame < 30) {
+      scheduleFrame();
+      return;
+    }
+
+    lastFrame = timestamp;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Update and draw particles.
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      if (!reducedMotion) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Mouse interaction: gentle repulsion.
+        if (mouse.active) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (distance > 0 && distance < CONFIG.mouseRadius) {
+            const force =
+              (1 - distance / CONFIG.mouseRadius) * 0.8;
+
+            p.x += (dx / distance) * force;
+            p.y += (dy / distance) * force;
+          }
+        }
+
+        // Wrap particles around the screen.
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+        if (p.y < -10) p.y = height + 10;
+        if (p.y > height + 10) p.y = -10;
+      }
+
+      const pulse = reducedMotion
+        ? 1
+        : 0.75 + Math.sin(timestamp * 0.0015 + p.phase) * 0.25;
+
+      const radius = p.radius * pulse;
+
+      // Draw particle.
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle =
+        `rgba(${CONFIG.glowColor},${p.brightness * 0.8})`;
+      ctx.fill();
+
+      // Connect nearby particles.
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x;
+        const dy = p.y - q.y;
+        const distanceSquared = dx * dx + dy * dy;
+        const maxDistance = CONFIG.connectionDistance;
+
+        if (distanceSquared < maxDistance * maxDistance) {
+          const distance = Math.sqrt(distanceSquared);
+          const alpha = (1 - distance / maxDistance) * 0.2;
+
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle =
+            `rgba(${CONFIG.glowColor},${alpha})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw mouse connection field.
+    if (mouse.active && !reducedMotion) {
+      for (const p of particles) {
+        const distance = Math.hypot(
+          p.x - mouse.x,
+          p.y - mouse.y
+        );
+
+        if (distance < CONFIG.connectionDistance * 1.5) {
+          ctx.beginPath();
+          ctx.moveTo(mouse.x, mouse.y);
+          ctx.lineTo(p.x, p.y);
+          ctx.strokeStyle =
+            `rgba(${CONFIG.glowColor},${
+              (1 - distance / (CONFIG.connectionDistance * 1.5)) * 0.3
+            })`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Animate click particles.
+    bursts = bursts.filter(b => b.life > 0);
+
+    for (const b of bursts) {
+      b.x += b.vx;
+      b.y += b.vy;
+      b.vx *= 0.98;
+      b.vy *= 0.98;
+      b.life -= b.decay;
+
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.radius * b.life, 0, Math.PI * 2);
+      ctx.fillStyle =
+        `rgba(105,195,255,${Math.max(0, b.life)})`;
+      ctx.fill();
+    }
+
+    if (!document.hidden) {
+      scheduleFrame();
+    }
+  }
+
+  function scheduleFrame() {
+    if (animationFrame === null && !document.hidden) {
+      animationFrame = requestAnimationFrame(draw);
+    }
+  }
+
+  // ------------------------------------------
+  // 7. POINTER INTERACTIONS
+  // ------------------------------------------
+
+  let pointerX = 0;
+  let pointerY = 0;
+  let glowX = 0;
+  let glowY = 0;
+  let glowFrame = null;
+
+  function updateGlow() {
+    glowFrame = null;
+
+    glowX += (pointerX - glowX) * 0.16;
+    glowY += (pointerY - glowY) * 0.16;
+
+    mouseGlow.style.left = glowX + "px";
+    mouseGlow.style.top = glowY + "px";
+
+    if (
+      Math.abs(pointerX - glowX) > 0.5 ||
+      Math.abs(pointerY - glowY) > 0.5
+    ) {
+      glowFrame = requestAnimationFrame(updateGlow);
+    }
+  }
+
+  window.addEventListener("pointermove", event => {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+
+    if (event.pointerType === "mouse") {
+      mouse.active = true;
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+
+      mouseGlow.style.opacity = "1";
+
+      if (glowFrame === null) {
+        glowFrame = requestAnimationFrame(updateGlow);
+      }
+    }
+  }, { passive: true });
+
+  window.addEventListener("pointerout", event => {
+    if (!event.relatedTarget) {
+      mouse.active = false;
+      mouseGlow.style.opacity = "0";
+    }
+  });
+
+  window.addEventListener("pointerdown", event => {
+    if (event.pointerType === "mouse") {
+      createBurst(event.clientX, event.clientY);
+    }
+  }, { passive: true });
+
+  // ------------------------------------------
+  // 8. CLICK RING EFFECT
+  // ------------------------------------------
+
+  document.addEventListener("click", event => {
+    if (reducedMotion) return;
+
+    // Avoid adding effects to every form interaction.
+    if (event.target.closest("input, textarea, select")) return;
+
+    const ring = document.createElement("span");
+    ring.className = "scott-click-ring";
+    ring.style.left = event.clientX + "px";
+    ring.style.top = event.clientY + "px";
+
+    document.body.appendChild(ring);
+
+    ring.addEventListener("animationend", () => ring.remove(), {
+      once: true
+    });
+
+    // Fallback cleanup.
+    setTimeout(() => ring.remove(), 900);
+  });
+
+  // ------------------------------------------
+  // 9. AUTOMATIC SCROLL REVEALS
+  // ------------------------------------------
+
+  function setupReveals() {
+    const selectors = [
+      "main > section",
+      ".hero-content",
+      ".project-card",
+      ".project",
+      ".card",
+      ".skill-card",
+      ".timeline-item",
+      ".contact-card",
+      "article"
+    ];
+
+    const elements = document.querySelectorAll(
+      selectors.join(",")
+    );
+
+    const uniqueElements = [...new Set(elements)];
+
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("scott-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -35px 0px"
+    });
+
+    uniqueElements.forEach((element, index) => {
+      // Skip elements that already have their own animation.
+      if (
+        element.closest("#scottcode-fx") ||
+        element.hasAttribute("data-no-reveal")
+      ) {
+        return;
+      }
+
+      element.classList.add("scott-reveal");
+
+      // Stagger only a little; don't make users wait.
+      element.style.setProperty(
+        "--scott-delay",
+        Math.min(index % 5, 4) * 70 + "ms"
+      );
+
+      observer.observe(element);
+    });
+  }
+
+  // ------------------------------------------
+  // 10. 3D TILT FOR PROJECT CARDS
+  // ------------------------------------------
+
+  function setupTilt() {
+    if (isMobile || reducedMotion) return;
+
+    const cards = document.querySelectorAll(
+      "[data-scott-tilt], .project-card, .skill-card"
+    );
+
+    cards.forEach(card => {
+      if (card.dataset.scottTiltReady) return;
+      card.dataset.scottTiltReady = "true";
+
+      card.addEventListener("pointermove", event => {
+        if (event.pointerType !== "mouse") return;
+
+        const rect = card.getBoundingClientRect();
+
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+
+        const rotateY = (x - 0.5) * 8;
+        const rotateX = (0.5 - y) * 8;
+
+        card.style.transform =
+          `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.transform = "";
+      });
+    });
+  }
+
+  // ------------------------------------------
+  // 11. LIVE TYPING EFFECT
+  // ------------------------------------------
+  // Add data-scott-typing to any element.
+  //
+  // Example:
+  // <span data-scott-typing="Developer,Builder,Creator"></span>
+  //
+  // ------------------------------------------
+
+  function setupTyping() {
+    const elements = document.querySelectorAll(
+      "[data-scott-typing]"
+    );
+
+    elements.forEach(element => {
+      if (element.dataset.scottTypingReady) return;
+      element.dataset.scottTypingReady = "true";
+
+      const phrases = element.dataset.scottTyping
+        .split(",")
+        .map(text => text.trim())
+        .filter(Boolean);
+
+      if (!phrases.length) return;
+
+      if (reducedMotion) {
+        element.textContent = phrases[0];
+        return;
+      }
+
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
+
+      function type() {
+        const phrase = phrases[phraseIndex];
+
+        if (!deleting) {
+          charIndex++;
+          element.textContent = phrase.slice(0, charIndex);
+
+          if (charIndex >= phrase.length) {
+            deleting = true;
+            setTimeout(type, 1400);
+            return;
+          }
+
+          setTimeout(type, 85);
+        } else {
+          charIndex--;
+          element.textContent = phrase.slice(0, charIndex);
+
+          if (charIndex <= 0) {
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(type, 350);
+            return;
+          }
+
+          setTimeout(type, 40);
+        }
+      }
+
+      type();
+    });
+  }
+
+  // ------------------------------------------
+  // 12. OPTIONAL BUTTON RIPPLE
+  // ------------------------------------------
+
+  function setupButtonEffects() {
+    document.querySelectorAll(
+      "button, .button, .btn, a.button, a.btn"
+    ).forEach(button => {
+      if (button.dataset.scottButtonReady) return;
+      button.dataset.scottButtonReady = "true";
+
+      button.addEventListener("pointerdown", event => {
+        if (reducedMotion || event.pointerType !== "mouse") return;
+
+        const rect = button.getBoundingClientRect();
+
+        const ripple = document.createElement("span");
+
+        Object.assign(ripple.style, {
+          position: "absolute",
+          left: (event.clientX - rect.left) + "px",
+          top: (event.clientY - rect.top) + "px",
+          width: "8px",
+          height: "8px",
+          borderRadius: "50%",
+          background: "rgba(100,190,255,.28)",
+          pointerEvents: "none",
+          transform: "translate(-50%,-50%) scale(1)",
+          transition: "transform .45s ease, opacity .45s ease",
+          opacity: "1"
+        });
+
+        const previousPosition = getComputedStyle(button).position;
+
+        if (previousPosition === "static") {
+          button.style.position = "relative";
+        }
+
+        if (getComputedStyle(button).overflow === "visible") {
+          button.style.overflow = "hidden";
+        }
+
+        button.appendChild(ripple);
+
+        requestAnimationFrame(() => {
+          ripple.style.transform = "translate(-50%,-50%) scale(22)";
+          ripple.style.opacity = "0";
+        });
+
+        setTimeout(() => ripple.remove(), 550);
+      });
+    });
+  }
+
+  // ------------------------------------------
+  // 13. HANDLE TAB VISIBILITY
+  // ------------------------------------------
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+
+      if (glowFrame !== null) {
+        cancelAnimationFrame(glowFrame);
+        glowFrame = null;
+      }
+    } else {
+      lastFrame = 0;
+      scheduleFrame();
+    }
+  });
+
+  // ------------------------------------------
+  // 14. INITIALIZE
+  // ------------------------------------------
+
+  resizeCanvas();
+
+  window.addEventListener("resize", resizeCanvas, {
+    passive: true
+  });
+
+  setupReveals();
+  setupTilt();
+  setupTyping();
+  setupButtonEffects();
+
+  scheduleFrame();
+
+  // Expose a small public API for debugging.
+  window.ScottCodeFX = {
+    burst: createBurst,
+
+    refresh() {
+      setupReveals();
+      setupTilt();
+      setupTyping();
+      setupButtonEffects();
+    },
+
+    destroy() {
+      if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      if (glowFrame !== null) {
+        cancelAnimationFrame(glowFrame);
+      }
+
+      fx.remove();
+      style.remove();
+
+      delete window.ScottCodeFX;
+      delete window.__SCOTTCODE_FX__;
+    }
+  };
+
+  console.log(
+    "%c SCOTTCODE FX ENGINE ONLINE ",
+    "background:#087cff;color:white;padding:8px 12px;border-radius:5px;font-weight:bold"
+  );
+
+})();
+  </script></body>
   </html>
