@@ -1,469 +1,1150 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#071426">  <title>Contact Scott — ScottCode</title>  <meta name="description" content="Contact Scott about software development, digital projects, collaborations, and ideas.">  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #071426;
-      --surface: #0d1d33;
-      --surface-2: #10243d;
-      --text: #edf5ff;
-      --muted: #a0b2ca;
-      --accent: #75baff;
-      --border: rgba(165, 198, 235, 0.16);
-      --input: #08172a;
-      --shadow: rgba(0, 0, 0, 0.2);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07101e">
+<meta name="description" content="Learn more about Scott — a curious mind exploring technology, software development, and digital creativity.">
+<title>About Me — ScottCode</title><style>
+:root {
+  --bg: #07101e;
+  --surface: rgba(15, 31, 53, .72);
+  --surface2: rgba(19, 42, 69, .62);
+  --text: #edf7ff;
+  --muted: #a3b7ce;
+  --blue: #74bfff;
+  --cyan: #77e5ff;
+  --border: rgba(148, 202, 255, .17);
+  --nav: rgba(7, 16, 30, .76);
+  --shadow: 0 20px 65px rgba(0, 0, 0, .2);
+}
 
-    [data-theme="light"] {
-      color-scheme: light;
-      --bg: #f2f7ff;
-      --surface: #ffffff;
-      --surface-2: #eaf2ff;
-      --text: #10213a;
-      --muted: #5d6f87;
-      --accent: #1769cf;
-      --border: rgba(31, 73, 125, 0.15);
-      --input: #f7faff;
-      --shadow: rgba(32, 66, 110, 0.08);
-    }
+body.light {
+  --bg: #eef7ff;
+  --surface: rgba(255, 255, 255, .78);
+  --surface2: rgba(222, 240, 255, .78);
+  --text: #10233b;
+  --muted: #536b86;
+  --blue: #237dd2;
+  --cyan: #078eae;
+  --border: rgba(49, 119, 181, .18);
+  --nav: rgba(238, 247, 255, .82);
+  --shadow: 0 20px 65px rgba(43, 100, 155, .1);
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    html {
-      scroll-behavior: auto;
-    }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      transition: background-color 0.2s, color 0.2s;
-    }
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  transition: background .35s, color .35s;
+}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
+button {
+  font: inherit;
+}
 
-    .container {
-      width: min(1100px, calc(100% - 40px));
-      margin: 0 auto;
-    }
+::selection {
+  background: rgba(90, 177, 255, .35);
+}
 
-    header {
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-    }
+/* Animated background */
 
-    .navbar {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+#stars {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -4;
+  pointer-events: none;
+}
 
-    .brand {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -0.6px;
-    }
+.background-glow {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: .17;
+  pointer-events: none;
+  z-index: -3;
+  animation: floatGlow 12s ease-in-out infinite alternate;
+}
 
-    .brand span {
-      color: var(--accent);
-    }
+.glow-one {
+  background: #087dff;
+  top: -180px;
+  left: -120px;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 18px;
-    }
+.glow-two {
+  background: #00d9ff;
+  right: -200px;
+  top: 35%;
+  animation-delay: -5s;
+}
 
-    nav a {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
+.glow-three {
+  width: 300px;
+  height: 300px;
+  background: #6655ff;
+  left: 25%;
+  bottom: -200px;
+  animation-delay: -8s;
+}
 
-    nav a:hover,
-    nav a.active {
-      color: var(--accent);
-    }
+@keyframes floatGlow {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(65px, 45px) scale(1.15); }
+}
 
-    .theme-button {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      background: var(--surface);
-      cursor: pointer;
-    }
+/* Navigation */
 
-    main {
-      padding: 65px 0 80px;
-    }
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 15px 6%;
+  background: var(--nav);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid var(--border);
+}
 
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: var(--accent);
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+.nav-inner {
+  max-width: 1180px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
 
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(2.5rem, 7vw, 4.5rem);
-      line-height: 1.08;
-      letter-spacing: -2px;
-    }
+.logo {
+  font-size: 1.35rem;
+  font-weight: 850;
+  letter-spacing: -.8px;
+  white-space: nowrap;
+}
 
-    .intro {
-      max-width: 650px;
-      margin-bottom: 38px;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
+.logo span {
+  color: var(--blue);
+}
 
-    .layout {
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 24px;
-      align-items: start;
-    }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
 
-    .card {
-      min-width: 0;
-      padding: 28px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: var(--surface);
-      box-shadow: 0 15px 40px var(--shadow);
-    }
+.nav-links a {
+  color: var(--muted);
+  font-size: .91rem;
+  transition: color .2s;
+}
 
-    .card h2 {
-      margin: 0 0 12px;
-      font-size: 1.35rem;
-    }
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--blue);
+}
 
-    .muted {
-      color: var(--muted);
-    }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .info-item {
-      margin-top: 22px;
-      padding: 17px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--surface-2);
-      overflow-wrap: anywhere;
-    }
+.icon-button,
+.menu-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 13px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .2s, border-color .2s;
+}
 
-    .info-item strong {
-      display: block;
-      margin-bottom: 4px;
-    }
+.icon-button:hover,
+.menu-button:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+}
 
-    .info-item p {
-      margin: 0;
-      color: var(--muted);
-    }
+.menu-button {
+  display: none;
+  font-size: 1.2rem;
+}
 
-    .info-item a {
-      color: var(--accent);
-    }
+/* Progress bar */
 
-    .field {
-      margin-bottom: 18px;
-    }
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 200;
+}
 
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 0.92rem;
-      font-weight: 650;
-    }
+#progress {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  box-shadow: 0 0 14px var(--blue);
+}
 
-    input,
-    textarea {
-      display: block;
-      width: 100%;
-      padding: 13px 14px;
-      color: var(--text);
-      background: var(--input);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      outline: none;
-    }
+/* Main layout */
 
-    input:focus,
-    textarea:focus {
-      border-color: var(--accent);
-    }
+.container {
+  width: min(1080px, 88%);
+  margin-inline: auto;
+}
 
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
+main {
+  padding-top: 105px;
+}
 
-    .submit-button {
-      display: inline-block;
-      width: 100%;
-      padding: 14px 20px;
-      border: 0;
-      border-radius: 11px;
-      background: var(--accent);
-      color: #061426;
-      font-weight: 800;
-      cursor: pointer;
-    }
+.hero {
+  padding: 82px 0 65px;
+  text-align: center;
+}
 
-    .submit-button:hover {
-      filter: brightness(1.06);
-    }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 15px;
+  background: var(--surface);
+  color: var(--blue);
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
 
-    .form-note {
-      margin: 13px 0 0;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #54e5a3;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(84, 229, 163, .8);
+  animation: pulse 2s infinite;
+}
 
-    .back-link {
-      display: inline-block;
-      margin-top: 28px;
-      color: var(--accent);
-    }
+@keyframes pulse {
+  50% { opacity: .45; transform: scale(.8); }
+}
 
-    footer {
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
+h1 {
+  margin: 25px auto 18px;
+  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  line-height: 1.06;
+  letter-spacing: -3px;
+  font-weight: 900;
+}
 
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+.gradient-text {
+  color: var(--blue);
+  background: linear-gradient(100deg, #78bfff, #79e8ff, #a5b9ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    @media (max-width: 760px) {
-      .navbar {
-        padding: 17px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
+.hero-description {
+  max-width: 670px;
+  margin: auto;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+}
 
-      nav {
-        justify-content: flex-start;
-        gap: 14px;
-      }
+.hero-buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
 
-      main {
-        padding-top: 42px;
-      }
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: 13px;
+  font-size: .94rem;
+  font-weight: 750;
+  border: 1px solid var(--border);
+  transition: transform .22s, box-shadow .22s, border-color .22s;
+}
 
-      .layout {
-        grid-template-columns: 1fr;
-      }
+.button:hover {
+  transform: translateY(-3px);
+}
 
-      .card {
-        padding: 22px;
-      }
+.button-primary {
+  color: #071526;
+  background: linear-gradient(110deg, #82c7ff, #82e9f6);
+  border-color: transparent;
+  box-shadow: 0 8px 28px rgba(75, 171, 255, .19);
+}
 
-      h1 {
-        letter-spacing: -1px;
-      }
-    }
-  </style></head><body>  <header>
-    <div class="container navbar">
-      <a class="brand" href="/">Scott<span>Code.</span></a>  <nav aria-label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/about/">About</a>
-    <a href="/projects/">Projects</a>
-    <a href="/contact/" class="active">Contact</a>
-    <button class="theme-button" id="theme" type="button">
-      ☀️ Light mode
-    </button>
-  </nav>
+.button-primary:hover {
+  box-shadow: 0 12px 35px rgba(75, 171, 255, .3);
+}
+
+.button-secondary {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.button-secondary:hover {
+  border-color: var(--blue);
+}
+
+/* Cards */
+
+.section {
+  padding: 35px 0 65px;
+}
+
+.section-heading {
+  margin-bottom: 24px;
+}
+
+.section-heading .label {
+  color: var(--blue);
+  text-transform: uppercase;
+  font-size: .77rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.section-heading h2 {
+  margin-top: 7px;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  margin-top: 10px;
+  max-width: 660px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 23px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform .25s, border-color .25s;
+}
+
+.card:hover {
+  border-color: rgba(116, 191, 255, .4);
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  letter-spacing: -.3px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: .97rem;
+}
+
+.card-icon {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface2);
+  font-size: 1.35rem;
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+.about-main {
+  padding: 34px;
+}
+
+.about-main p + p {
+  margin-top: 15px;
+}
+
+.about-main strong {
+  color: var(--text);
+}
+
+.side-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.side-card {
+  padding: 24px;
+}
+
+.fact-row {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.fact-row + .fact-row {
+  margin-top: 19px;
+}
+
+.fact-emoji {
+  font-size: 1.35rem;
+  line-height: 1.4;
+}
+
+.fact-row h3 {
+  font-size: .98rem;
+  margin-bottom: 3px;
+}
+
+.fact-row p {
+  font-size: .88rem;
+}
+
+/* Interests */
+
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.interest-card {
+  padding: 25px;
+}
+
+.interest-card h3 {
+  margin-bottom: 8px;
+}
+
+.interest-card p {
+  font-size: .92rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 24px;
+}
+
+.tag {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 6px 11px;
+  border-radius: 100px;
+  font-size: .8rem;
+}
+
+/* Principles */
+
+.principles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.principle {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 23px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+}
+
+.principle-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  height: 38px;
+  border-radius: 12px;
+  color: var(--blue);
+  background: var(--surface2);
+  font-weight: 850;
+}
+
+.principle h3 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.principle p {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+/* CTA */
+
+.cta {
+  margin: 15px 0 85px;
+  text-align: center;
+  padding: 48px 25px;
+  border-radius: 26px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(73, 164, 255, .14), transparent 65%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.cta h2 {
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.cta p {
+  max-width: 570px;
+  margin: 13px auto 24px;
+  color: var(--muted);
+}
+
+/* Footer */
+
+footer {
+  padding: 25px 6%;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.footer-inner {
+  max-width: 1080px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-copy {
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+.footer-links a:hover {
+  color: var(--blue);
+}
+
+/* Back to top */
+
+#backTop {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 50;
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: .25s;
+  backdrop-filter: blur(12px);
+}
+
+#backTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Scroll reveal */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 12px 5%;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 5%;
+    right: 5%;
+    padding: 15px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--nav);
+    backdrop-filter: blur(24px);
+    box-shadow: var(--shadow);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 11px 12px;
+    border-radius: 10px;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    background: var(--surface2);
+  }
+
+  .menu-button {
+    display: grid;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .interest-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero {
+    padding-top: 65px;
+  }
+
+  h1 {
+    letter-spacing: -2px;
+  }
+}
+
+@media (max-width: 540px) {
+  .container {
+    width: 90%;
+  }
+
+  main {
+    padding-top: 88px;
+  }
+
+  .hero {
+    padding: 55px 0 45px;
+  }
+
+  .interest-grid,
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .card,
+  .about-main {
+    padding: 23px;
+  }
+
+  .section {
+    padding: 25px 0 45px;
+  }
+
+  .cta {
+    margin-bottom: 55px;
+    padding: 35px 20px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-links {
+    gap: 16px;
+  }
+
+  .background-glow {
+    opacity: .12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style></head><body>
+<div class="progress-track"><div id="progress"></div></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="background-glow glow-one"></div>
+<div class="background-glow glow-two"></div>
+<div class="background-glow glow-three"></div><header class="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="/">Scott<span>Code</span></a><nav class="nav-links" id="navLinks" aria-label="Main navigation">
+  <a href="/">Home</a>
+  <a href="/projects/">Projects</a>
+  <a href="/about/" class="active" aria-current="page">About</a>
+  <a href="/contact/">Contact</a>
+</nav>
+
+<div class="nav-actions">
+  <button class="icon-button" id="themeToggle"
+    type="button" aria-label="Switch color theme" title="Switch theme">☀</button>
+  <button class="menu-button" id="menuToggle"
+    type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 </div>
 
-  </header>  <main class="container"><span class="eyebrow">Let's connect</span>
+  </div>
+</header><main>
+  <section class="hero container">
+    <div class="eyebrow"><span class="status-dot"></span> THE PERSON BEHIND THE CODE</div><h1>A little about<br><span class="gradient-text">me.</span></h1>
 
-<h1>Have an idea?<br>Let's talk.</h1>
-
-<p class="intro">
-  Have a question, an interesting project, or an idea you'd like to
-  discuss? Send me a message using the form below. I'd love to hear
-  from you.
+<p class="hero-description">
+  Hey, I'm Scott. I'm curious about how technology works, how ideas become
+  real products, and how a little creativity can turn something simple into
+  something meaningful.
 </p>
 
-<div class="layout">
-
-  <section class="card">
-    <h2>Get in touch</h2>
-
-    <p class="muted">
-      I'm interested in software, digital products, creative projects,
-      and learning new things.
-    </p>
-
-    <div class="info-item">
-      <strong>💻 Projects</strong>
-      <p>Have an idea or collaboration in mind?</p>
-    </div>
-
-    <div class="info-item">
-      <strong>🌐 Website</strong>
-      <p>
-        <a href="https://scottcode.fun/">scottcode.fun</a>
-      </p>
-    </div>
-
-    <div class="info-item">
-      <strong>✉️ Contact</strong>
-      <p>Use the message form to reach me.</p>
-    </div>
-
-    <a class="back-link" href="/">← Back to homepage</a>
-  </section>
-
-  <section class="card">
-    <h2>Send a message</h2>
-
-    <p class="muted">
-      Fill in the details below and I'll receive your message.
-    </p>
-
-    <form
-      action="https://formspree.io/f/xgaogqjo"
-      method="POST"
-    >
-
-      <input
-        type="hidden"
-        name="_next"
-        value="https://scottcode.fun/thanks/"
-      >
-
-      <div class="field">
-        <label for="name">Your name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Enter your name"
-          autocomplete="name"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="email">Your email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="subject">Subject</label>
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          placeholder="What is this about?"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="message">Your message</label>
-        <textarea
-          id="message"
-          name="message"
-          placeholder="Write your message here..."
-          required
-        ></textarea>
-      </div>
-
-      <button class="submit-button" type="submit">
-        Send Message →
-      </button>
-
-      <p class="form-note">
-        Your message will be submitted securely through Formspree.
-      </p>
-
-    </form>
-  </section>
-
+<div class="hero-buttons">
+  <a href="#my-story" class="button button-primary">Get to know me <span>↓</span></a>
+  <a href="/projects/" class="button button-secondary">Explore my projects <span>↗</span></a>
 </div>
 
-  </main>  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="year"></span> Scott. All rights reserved.</span>
-      <a href="/">Back to home ↑</a>
+  </section>  <section class="section container reveal" id="my-story">
+    <div class="section-heading">
+      <div class="label">01 / MY STORY</div>
+      <h2>Curiosity comes first.</h2>
+      <p>
+        I'm still learning, experimenting, and figuring out what I can create.
+        For me, that's part of the fun.
+      </p>
+    </div><div class="about-layout">
+  <article class="card about-main">
+    <div class="card-icon">✦</div>
+    <h3>I'm Scott — a work in progress.</h3>
+
+    <p>
+      Technology has a way of making me ask questions. How does a website
+      work? What makes an interface feel great to use? How can an idea
+      become something people can actually interact with?
+    </p>
+
+    <p>
+      Those questions are why I'm exploring <strong>web development,
+      software, and digital product design.</strong> I enjoy trying things,
+      solving problems, and learning by building rather than waiting until
+      I know everything.
+    </p>
+
+    <p>
+      ScottCode is my little corner of the internet: a place to share what
+      I'm working on, document my progress, and keep pushing myself to
+      learn something new.
+    </p>
+
+    <p>
+      I'm not here to pretend I've mastered everything. I'm here to get
+      better, one project and one experiment at a time.
+    </p>
+  </article>
+
+  <div class="side-stack">
+    <article class="card side-card">
+      <div class="fact-row">
+        <div class="fact-emoji">🧠</div>
+        <div>
+          <h3>Always learning</h3>
+          <p>Exploring new tools, concepts, and ways to solve problems.</p>
+        </div>
+      </div>
+
+      <div class="fact-row">
+        <div class="fact-emoji">🛠️</div>
+        <div>
+          <h3>Learning by building</h3>
+          <p>Turning ideas into small projects and improving them over time.</p>
+        </div>
+      </div>
+
+      <div class="fact-row">
+        <div class="fact-emoji">🌐</div>
+        <div>
+          <h3>Building on the web</h3>
+          <p>Experimenting with websites, interfaces, and online experiences.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="card side-card">
+      <div class="card-icon">💡</div>
+      <h3>My current mindset</h3>
+      <p>
+        Stay curious. Ask questions. Make things. Learn from what doesn't
+        work. Then try again with a little more knowledge.
+      </p>
+    </article>
+  </div>
+</div>
+
+  </section>  <section class="section container reveal" id="interests">
+    <div class="section-heading">
+      <div class="label">02 / WHAT I'M INTO</div>
+      <h2>Things that keep me curious.</h2>
+      <p>
+        A few areas I'm interested in exploring and getting better at.
+      </p>
+    </div><div class="interest-grid">
+  <article class="card interest-card">
+    <div class="card-icon">💻</div>
+    <h3>Web Development</h3>
+    <p>
+      Creating websites that feel modern, work well on different screens,
+      and are enjoyable to explore.
+    </p>
+    <div class="tag-list">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
     </div>
-  </footer>  <script>
-    const themeButton = document.getElementById("theme");
+  </article>
 
-    function applyTheme(theme) {
-      document.documentElement.dataset.theme = theme;
+  <article class="card interest-card">
+    <div class="card-icon">🎨</div>
+    <h3>Digital Design</h3>
+    <p>
+      Exploring layouts, typography, color, animation, and the details
+      that make an interface feel polished.
+    </p>
+    <div class="tag-list">
+      <span class="tag">UI</span>
+      <span class="tag">UX</span>
+      <span class="tag">Motion</span>
+    </div>
+  </article>
 
-      themeButton.textContent =
-        theme === "light" ? "🌙 Dark mode" : "☀️ Light mode";
-    }
+  <article class="card interest-card">
+    <div class="card-icon">🚀</div>
+    <h3>Creative Projects</h3>
+    <p>
+      Experimenting with ideas, learning new tools, and finding ways to
+      turn concepts into things people can use.
+    </p>
+    <div class="tag-list">
+      <span class="tag">Experiments</span>
+      <span class="tag">Ideas</span>
+      <span class="tag">Building</span>
+    </div>
+  </article>
+</div>
 
-    let savedTheme = "dark";
+  </section>  <section class="section container reveal" id="values">
+    <div class="section-heading">
+      <div class="label">03 / HOW I THINK</div>
+      <h2>Principles I try to follow.</h2>
+      <p>
+        I want every project to teach me something, even when things don't go
+        exactly as planned.
+      </p>
+    </div><div class="principles">
+  <article class="principle">
+    <div class="principle-number">01</div>
+    <div>
+      <h3>Stay curious</h3>
+      <p>Ask questions, explore how things work, and never stop learning.</p>
+    </div>
+  </article>
 
-    try {
-      savedTheme = localStorage.getItem("scottcode-theme") || "dark";
-    } catch (error) {
-      savedTheme = "dark";
-    }
+  <article class="principle">
+    <div class="principle-number">02</div>
+    <div>
+      <h3>Build, don't just imagine</h3>
+      <p>Start with what I know, create a first version, and improve it.</p>
+    </div>
+  </article>
 
-    applyTheme(savedTheme);
+  <article class="principle">
+    <div class="principle-number">03</div>
+    <div>
+      <h3>Keep it useful</h3>
+      <p>Good design should look good and make the experience easier to use.</p>
+    </div>
+  </article>
 
-    themeButton.addEventListener("click", function () {
-      const currentTheme =
-        document.documentElement.dataset.theme || "dark";
+  <article class="principle">
+    <div class="principle-number">04</div>
+    <div>
+      <h3>Progress over perfection</h3>
+      <p>Every attempt is a chance to learn something and do better next time.</p>
+    </div>
+  </article>
+</div>
 
-      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+  </section>  <section class="container reveal">
+    <div class="cta">
+      <div class="eyebrow">LET'S CONNECT</div>
+      <h2 style="margin-top:18px;">Have an idea? Let's talk.</h2>
+      <p>
+        Whether you want to talk about technology, share an idea, or just say
+        hello, I'd be happy to hear from you.
+      </p>
+      <div class="hero-buttons">
+        <a href="/contact/" class="button button-primary">Contact me <span>↗</span></a>
+        <a href="/" class="button button-secondary">Back to home <span>⌂</span></a>
+      </div>
+    </div>
+  </section>
+</main><footer>
+  <div class="footer-inner">
+    <div>
+      <a class="logo" href="/">Scott<span>Code</span></a>
+      <p class="footer-copy" style="margin-top:5px;">
+        © <span id="year"></span> Scott. Built with curiosity.
+      </p>
+    </div><div class="footer-links">
+  <a href="/">Home</a>
+  <a href="/projects/">Projects</a>
+  <a href="/about/">About</a>
+  <a href="/contact/">Contact</a>
+</div>
 
-      applyTheme(nextTheme);
+  </div>
+</footer><button id="backTop" type="button" aria-label="Back to top" title="Back to top">↑</button>
 
-      try {
-        localStorage.setItem("scottcode-theme", nextTheme);
-      } catch (error) {
-        // The theme still works if local storage is unavailable.
+<script>
+/* Theme toggle */
+const body = document.body;
+const themeToggle = document.getElementById("themeToggle");
+
+function setTheme(theme) {
+  body.classList.toggle("light", theme === "light");
+  themeToggle.textContent = theme === "light" ? "☾" : "☀";
+  themeToggle.setAttribute(
+    "aria-label",
+    theme === "light" ? "Switch to dark theme" : "Switch to light theme"
+  );
+
+  try {
+    localStorage.setItem("scottcode-theme", theme);
+  } catch (error) {}
+}
+
+let savedTheme = "dark";
+
+try {
+  savedTheme = localStorage.getItem("scottcode-theme") || "dark";
+} catch (error) {}
+
+setTheme(savedTheme);
+
+themeToggle.addEventListener("click", () => {
+  setTheme(body.classList.contains("light") ? "dark" : "light");
+});
+
+/* Mobile menu */
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.textContent = isOpen ? "✕" : "☰";
+});
+
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+  });
+});
+
+/* Scroll progress and back-to-top */
+const progress = document.getElementById("progress");
+const backTop = document.getElementById("backTop");
+
+function handleScroll() {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+
+  progress.style.width = percent + "%";
+  backTop.classList.toggle("visible", window.scrollY > 450);
+}
+
+window.addEventListener("scroll", handleScroll, { passive: true });
+handleScroll();
+
+backTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* Scroll reveal */
+const revealElements = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
       }
     });
+  }, { threshold: 0.12 });
 
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-  </script></body>
-  </html>
+  revealElements.forEach(element => observer.observe(element));
+} else {
+  revealElements.forEach(element => element.classList.add("visible"));
+}
+
+/* Footer year */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Animated starfield */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+let width = 0;
+let height = 0;
+let stars = [];
+let animationFrame;
+
+function resizeCanvas() {
+  const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  canvas.width = width * ratio;
+  canvas.height = height * ratio;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+  const count = Math.min(115, Math.floor((width * height) / 9500));
+
+  stars = Array.from({ length: count }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 1.5 + .3,
+    speed: Math.random() * .22 + .04,
+    alpha: Math.random() * .55 + .15,
+    phase: Math.random() * Math.PI * 2
+  }));
+}
+
+function drawStars(time) {
+  ctx.clearRect(0, 0, width, height);
+
+  const lightMode = body.classList.contains("light");
+
+  stars.forEach(star => {
+    const twinkle = .65 + Math.sin(time * .001 + star.phase) * .35;
+    const alpha = star.alpha * twinkle * (lightMode ? .55 : 1);
+
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${lightMode ? "43,116,183" : "170,218,255"},${alpha})`;
+    ctx.fill();
+
+    star.y -= star.speed;
+
+    if (star.y < -3) {
+      star.y = height + 3;
+      star.x = Math.random() * width;
+    }
+  });
+
+  animationFrame = requestAnimationFrame(drawStars);
+}
+
+resizeCanvas();
+animationFrame = requestAnimationFrame(drawStars);
+
+window.addEventListener("resize", resizeCanvas);
+
+/* Reduce background activity when the tab is hidden */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    cancelAnimationFrame(animationFrame);
+  } else {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = requestAnimationFrame(drawStars);
+  }
+});
+</script>
+<script src="/index.js"></script></body>
+</html>
