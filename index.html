@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050711">
+  <meta name="description" content="ScottCode — Personal developer portfolio, experiments, and projects.">
+
+  <title>ScottCode — Digital Playground</title>
+
+  <style>
+    :root {
+      --bg: #050711;
+      --panel: rgba(255,255,255,.045);
+      --border: rgba(255,255,255,.11);
+      --text: #f5f7ff;
+      --muted: #9299b0;
+      --blue: #7c9cff;
+      --cyan: #74e6ff;
+      --radius: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(67,92,210,.19), transparent 42%),
+        radial-gradient(ellipse at 85% 40%, rgba(25,168,210,.10), transparent 40%),
+        radial-gradient(ellipse at 50% 100%, rgba(105,70,220,.12), transparent 45%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    /* NAVIGATION */
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 0;
+      background: rgba(5,7,17,.76);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-cta {
+      border: 1px solid var(--border);
+      padding: 9px 15px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.055);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .menu-button {
+      display: none;
+      border: 1px solid var(--border);
+      color: white;
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      padding: 100px 0 110px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: #c9d1e8;
+      font-size: 12px;
+      margin-bottom: 30px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #6ef0ad;
+      box-shadow: 0 0 15px rgba(110,240,173,.6);
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 9vw, 94px);
+      line-height: 1.04;
+      letter-spacing: -5px;
+      font-weight: 900;
+      max-width: 950px;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(110deg, #fff 5%, #91aaff 45%, #6de5ff 90%);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero-description {
+      max-width: 590px;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: clamp(15px, 2vw, 18px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 14px;
+      padding: 13px 19px;
+      font-size: 14px;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      transition: transform .2s, background .2s, border-color .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+    }
+
+    .button-primary {
+      color: #07101f;
+      background: linear-gradient(120deg, #a9baff, #76e7ff);
+      border-color: transparent;
+    }
+
+    .button-secondary {
+      background: rgba(255,255,255,.04);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 65px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-meta strong {
+      display: block;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 85px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 5vw, 49px);
+      letter-spacing: -2px;
+      line-height: 1.15;
+    }
+
+    .section-description {
+      max-width: 400px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* PROJECTS */
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .project-card {
+      position: relative;
+      min-height: 290px;
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
+      overflow: hidden;
+      transition: transform .25s, border-color .25s;
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      right: -70px;
+      top: -70px;
+      background: rgba(103,139,255,.12);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(145,170,255,.4);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .project-icon {
+      width: 47px;
+      height: 47px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      font-size: 22px;
+    }
+
+    .project-number {
+      color: #707992;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .project-card h3 {
+      font-size: 23px;
+      letter-spacing: -.7px;
+      margin-bottom: 10px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 440px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 23px;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      border-radius: 8px;
+      color: #c5cce0;
+      background: rgba(255,255,255,.025);
+      font-size: 11px;
+    }
+
+    /* ABOUT */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+    }
+
+    .glass-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      padding: 30px;
+    }
+
+    .about-copy {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 18px;
+    }
+
+    .about-copy + .about-copy {
+      margin-top: 14px;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .skill {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      font-size: 12px;
+      color: #d6def3;
+      background: rgba(255,255,255,.035);
+    }
+
+    .fact {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fact:last-child {
+      border-bottom: 0;
+    }
+
+    .fact small {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+    }
+
+    .fact p {
+      font-size: 17px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    /* CONTACT */
+
+    .contact-panel {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 60px 28px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(100,132,255,.18), transparent 60%),
+        rgba(255,255,255,.035);
+    }
+
+    .contact-panel h2 {
+      font-size: clamp(32px, 6vw, 55px);
+      letter-spacing: -2px;
+      line-height: 1.15;
+    }
+
+    .contact-panel p {
+      max-width: 500px;
+      margin: 20px auto 25px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .contact-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #858da4;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px 0;
+      border-top: 1px solid rgba(255,255,255,.07);
+      margin-top: 75px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* REVEAL ANIMATIONS */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 30px, 1120px);
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 15px;
+        right: 15px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #0b1020;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 12px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 95px 0 70px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2.8px;
+      }
+
+      .hero-meta {
+        margin-top: 45px;
+        gap: 25px;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .projects-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card {
+        min-height: 260px;
+        padding: 23px;
+      }
+
+      .glass-panel {
+        padding: 23px;
+      }
+
+      .contact-panel {
+        padding: 45px 20px;
+      }
+
+      footer {
+        margin-top: 45px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <div class="nav-wrap">
+    <nav class="container" aria-label="Main navigation">
+
+      <a class="logo" href="#home">Scott<span>Code.</span></a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <a class="nav-cta" href="#projects">Explore my work ↗</a>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >☰</button>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero container" id="home">
+      <div class="hero-content">
+
+        <div class="availability">
+          <span class="status-dot"></span>
+          PERSONAL DEVELOPER PORTFOLIO
+        </div>
+
+        <h1>
+          I build things<br>
+          <span class="gradient-text">for the internet.</span>
+        </h1>
+
+        <p class="hero-description">
+          Welcome to my corner of the internet.
+          This is where I experiment with code, explore ideas,
+          build projects, and turn random thoughts into digital things.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">
+            Explore projects <span>↗</span>
+          </a>
+
+          <a class="button button-secondary" href="#about">
+            Get to know me
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <div>
+            <strong>01</strong>
+            One creative mind
+          </div>
+
+          <div>
+            <strong>∞</strong>
+            Ideas to explore
+          </div>
+
+          <div>
+            <strong>24/7</strong>
+            Curiosity mode
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+
+    <section id="projects">
+      <div class="container">
+
+        <div class="section-heading reveal">
+          <div>
+            <div class="eyebrow">Selected work</div>
+            <h2>Things I'm building.</h2>
+          </div>
+
+          <p class="section-description">
+            A collection of projects, experiments, and ideas.
+            I'll add more here as I build them.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="project-icon">⌘</div>
+              <span class="project-number">PROJECT 01</span>
+            </div>
+
+            <h3>ScottCode Website</h3>
+
+            <p>
+              My personal home on the internet.
+              A place to showcase my work, share ideas,
+              and experiment with web design.
+            </p>
+
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="project-icon">◈</div>
+              <span class="project-number">PROJECT 02</span>
+            </div>
+
+            <h3>Future Experiments</h3>
+
+            <p>
+              A space for future web applications,
+              interactive experiences, useful tools,
+              and whatever interesting idea comes next.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Experiments</span>
+              <span class="tag">Web</span>
+              <span class="tag">Coming soon</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="project-icon">⌁</div>
+              <span class="project-number">PROJECT 03</span>
+            </div>
+
+            <h3>Digital Playground</h3>
+
+            <p>
+              Small projects made for learning,
+              trying new techniques, and discovering
+              what is possible with code.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Learning</span>
+              <span class="tag">Creative coding</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="project-icon">✳</div>
+              <span class="project-number">PROJECT 04</span>
+            </div>
+
+            <h3>More coming soon</h3>
+
+            <p>
+              This portfolio is a work in progress.
+              New projects will appear here as they
+              become ready to share.
+            </p>
+
+            <div class="tags">
+              <span class="tag">In progress</span>
+              <span class="tag">Stay tuned</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about">
+      <div class="container">
+
+        <div class="section-heading reveal">
+          <div>
+            <div class="eyebrow">A little about me</div>
+            <h2>Curious by default.</h2>
+          </div>
+        </div>
+
+        <div class="about-grid">
+
+          <article class="glass-panel reveal">
+            <h3>Hey, I'm Scott. 👋</h3>
+
+            <p class="about-copy">
+              I'm interested in technology, web development,
+              creative projects, and discovering how things work.
+            </p>
+
+            <p class="about-copy">
+              ScottCode is my personal space to learn by building,
+              test ideas, and share my journey on the internet.
+              There's always something new to explore.
+            </p>
+
+            <div class="skill-list">
+              <span class="skill">💻 Technology</span>
+              <span class="skill">🌐 Web development</span>
+              <span class="skill">🎨 Design</span>
+              <span class="skill">🧪 Experimentation</span>
+              <span class="skill">🚀 Learning</span>
+            </div>
+          </article>
+
+          <aside class="glass-panel reveal">
+
+            <div class="fact">
+              <small>Current focus</small>
+              <p>Learning and building</p>
+            </div>
+
+            <div class="fact">
+              <small>Favorite environment</small>
+              <p>The internet 🌐</p>
+            </div>
+
+            <div class="fact">
+              <small>My philosophy</small>
+              <p>Build. Learn. Improve.</p>
+            </div>
+
+            <div class="fact">
+              <small>Website</small>
+              <p>ScottCode.fun</p>
+            </div>
+
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+
+    <section id="contact">
+      <div class="container">
+
+        <div class="contact-panel reveal">
+          <div class="eyebrow">Get in touch</div>
+
+          <h2>Have an idea?<br>
+            <span class="gradient-text">Let's connect.</span>
+          </h2>
+
+          <p>
+            Thanks for visiting my website!
+            I'm still setting up my contact system.
+            Check back later for more ways to reach me.
+          </p>
+
+          <a class="button button-primary" href="#home">
+            Back to the top ↑
+          </a>
+
+          <div class="contact-note">
+            Contact form coming soon. No messages are sent from this page.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+
+  <footer>
+    <div class="container footer-inner">
+
+      <a class="logo" href="#home">Scott<span>Code.</span></a>
+
+      <p>
+        © <span id="year"></span> ScottCode.
+        Built with curiosity.
+      </p>
+
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // Automatically update the copyright year.
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // Mobile navigation.
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // Close the mobile menu after selecting a link.
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.textContent = "☰";
+      });
+    });
+
+    // Reveal sections as they enter the viewport.
+    const revealElements = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12
+      });
+
+      revealElements.forEach(element => observer.observe(element));
+    } else {
+      revealElements.forEach(element => element.classList.add("visible"));
+    }
+  </script>
+
+</body>
+</html>
