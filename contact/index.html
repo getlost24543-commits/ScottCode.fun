@@ -1,61 +1,435 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#071426">
 <meta name="description" content="Contact ScottCode. Send a message, share an idea, or get in touch.">
-<title>Contact — ScottCode</title><style>
-:root{color-scheme:dark;--bg:#07101e;--surface:rgba(17,33,56,.76);--field:rgba(4,13,27,.6);--text:#f2f7ff;--muted:#99abc5;--blue:#74beff;--border:rgba(148,190,255,.16)}
-body.light{color-scheme:light;--bg:#f5f8ff;--surface:rgba(255,255,255,.85);--field:#f7f9ff;--text:#10203a;--muted:#65758e;--blue:#187be9;--border:rgba(48,87,144,.15)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .3s,color .3s}
-a{color:inherit;text-decoration:none}
-button,input,textarea{font:inherit}
-.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(41,111,255,.16),transparent 45%),radial-gradient(ellipse at 85% 65%,rgba(0,198,255,.08),transparent 40%)}
-.wrap{width:min(1050px,calc(100% - 36px));margin:auto}
-header{position:sticky;top:12px;z-index:10;margin:12px auto 0;width:min(1050px,calc(100% - 24px));padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--border);border-radius:18px;background:var(--surface);backdrop-filter:blur(20px)}
-.brand{font-weight:850;white-space:nowrap}
-.brand span{display:inline-grid;place-items:center;width:32px;height:32px;margin-right:7px;border-radius:10px;background:linear-gradient(135deg,#58bdff,#5265ff);color:white}
-nav{display:flex;align-items:center;gap:5px}
-nav a,.theme{padding:10px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:650}
-nav a:hover,nav a.active,.theme:hover{background:rgba(100,155,255,.12);color:var(--text)}
-.theme{cursor:pointer;font-size:17px}
-main{padding:85px 0 100px}
-.eyebrow{color:var(--blue);font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
-h1{margin:19px 0;font-size:clamp(43px,7vw,70px);line-height:1.04;letter-spacing:-3.5px}
-.gradient{color:transparent;background:linear-gradient(110deg,#79c5ff,#7e93ff,#5ee4ff);background-clip:text;-webkit-background-clip:text}
-.lead{max-width:600px;color:var(--muted);font-size:15px;line-height:1.9}
-.layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:25px;align-items:start;margin-top:43px}
-.info{padding:30px 8px 20px 0}
-.info h2{font-size:24px;letter-spacing:-.5px}
-.info>p{color:var(--muted);font-size:13px;line-height:1.9}
-.info-card{display:flex;align-items:flex-start;gap:14px;margin-top:25px;padding:17px;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
-.info-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:rgba(100,155,255,.12)}
-.info-card b{display:block;margin:2px 0 6px;font-size:13px}
-.info-card span{display:block;color:var(--muted);font-size:12px;line-height:1.7;overflow-wrap:anywhere}
-.form-card{padding:30px;border:1px solid var(--border);border-radius:25px;background:var(--surface);box-shadow:0 20px 70px rgba(0,0,0,.13)}
-.form-card h2{margin:0 0 9px;font-size:25px;letter-spacing:-.7px}
-.form-description{margin:0 0 25px;color:var(--muted);font-size:13px;line-height:1.8}
-form{display:flex;flex-direction:column;gap:9px}
-label{margin-top:9px;color:var(--muted);font-size:12px;font-weight:750}
-input,textarea{width:100%;padding:14px 15px;border:1px solid var(--border);border-radius:12px;background:var(--field);color:var(--text);outline:none;font-size:13px;transition:border-color .2s,box-shadow .2s}
-input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(80,150,255,.12)}
-input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
-textarea{min-height:145px;resize:vertical;line-height:1.7}
-.submit{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:17px;padding:15px;border:0;border-radius:13px;background:linear-gradient(120deg,#438fff,#5367ff);color:white;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 9px 28px rgba(65,125,255,.2);transition:transform .2s,box-shadow .2s}
-.submit:hover{transform:translateY(-2px);box-shadow:0 13px 35px rgba(65,125,255,.3)}
-.privacy-note{margin:15px 0 0;text-align:center;color:var(--muted);font-size:10px;line-height:1.8}
-.back{display:inline-flex;gap:8px;margin-top:25px;color:var(--blue);font-size:12px;font-weight:750}
-footer{border-top:1px solid var(--border);padding:25px 0 35px;color:var(--muted);font-size:11px}
-.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.footer-links{display:flex;gap:15px}
-footer a:hover{color:var(--blue)}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.info{padding:0}.info-card{margin-top:13px}.form-card{padding:23px}main{padding-top:65px}}
-@media(max-width:650px){header{flex-wrap:wrap}nav{order:3;width:100%;justify-content:space-between}nav a{padding:9px 7px;font-size:11px}h1{letter-spacing:-2.5px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style></head><body>
-<div class="bg"></div><header>
+<title>Contact — ScottCode</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #07101e;
+  --surface: rgba(17,33,56,.76);
+  --field: rgba(4,13,27,.6);
+  --text: #f2f7ff;
+  --muted: #99abc5;
+  --blue: #74beff;
+  --border: rgba(148,190,255,.16);
+}
+
+body.light {
+  color-scheme: light;
+  --bg: #f5f8ff;
+  --surface: rgba(255,255,255,.85);
+  --field: #f7f9ff;
+  --text: #10203a;
+  --muted: #65758e;
+  --blue: #187be9;
+  --border: rgba(48,87,144,.15);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background .3s, color .3s;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; }
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 12% 10%,rgba(41,111,255,.16),transparent 45%),
+    radial-gradient(ellipse at 85% 65%,rgba(0,198,255,.08),transparent 40%);
+}
+
+.wrap {
+  width: min(1050px,calc(100% - 36px));
+  margin: auto;
+}
+
+header {
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  margin: 12px auto 0;
+  width: min(1050px,calc(100% - 24px));
+  padding: 12px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+}
+
+.brand { font-weight: 850; white-space: nowrap; }
+
+.brand span {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 7px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#58bdff,#5265ff);
+  color: white;
+}
+
+nav { display: flex; align-items: center; gap: 5px; }
+
+nav a, .theme {
+  padding: 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+nav a:hover, nav a.active, .theme:hover {
+  background: rgba(100,155,255,.12);
+  color: var(--text);
+}
+
+.theme { cursor: pointer; font-size: 17px; }
+
+main { padding: 85px 0 100px; }
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 19px 0;
+  font-size: clamp(43px,7vw,70px);
+  line-height: 1.04;
+  letter-spacing: -3.5px;
+}
+
+.gradient {
+  color: transparent;
+  background: linear-gradient(110deg,#79c5ff,#7e93ff,#5ee4ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.lead {
+  max-width: 600px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 25px;
+  align-items: start;
+  margin-top: 43px;
+}
+
+.info { padding: 30px 8px 20px 0; }
+.info h2 { font-size: 24px; letter-spacing: -.5px; }
+
+.info > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 25px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(100,155,255,.12);
+}
+
+.info-card b { display: block; margin: 2px 0 6px; font-size: 13px; }
+
+.info-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.form-card {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  background: var(--surface);
+  box-shadow: 0 20px 70px rgba(0,0,0,.13);
+}
+
+.form-card h2 { margin: 0 0 9px; font-size: 25px; letter-spacing: -.7px; }
+
+.form-description {
+  margin: 0 0 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+form { display: flex; flex-direction: column; gap: 9px; }
+
+label {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--field);
+  color: var(--text);
+  outline: none;
+  font-size: 13px;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(80,150,255,.12);
+}
+
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: .75; }
+
+textarea { min-height: 145px; resize: vertical; line-height: 1.7; }
+
+.submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 17px;
+  padding: 15px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(120deg,#438fff,#5367ff);
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 9px 28px rgba(65,125,255,.2);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 35px rgba(65,125,255,.3);
+}
+
+.privacy-note {
+  margin: 15px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.back {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 25px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 25px 0 35px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-links { display: flex; gap: 15px; }
+footer a:hover { color: var(--blue); }
+
+/* ANIMATION LAYER */
+
+#scott-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#scott-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#scott-glow {
+  position: fixed;
+  z-index: 0;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle,rgba(55,145,255,.13),transparent 70%);
+  transform: translate(-50%,-50%);
+}
+
+.scott-orb {
+  position: fixed;
+  z-index: 0;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: .14;
+  pointer-events: none;
+  animation: orbFloat 17s ease-in-out infinite alternate;
+}
+
+.orb-a { top: 8%; left: -120px; background: #087cff; }
+.orb-b { top: 48%; right: -130px; background: #654bff; animation-delay: -6s; }
+.orb-c { bottom: -170px; left: 30%; background: #00c8ff; animation-delay: -10s; }
+
+@keyframes orbFloat {
+  0% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(60px,40px) scale(1.2); }
+  100% { transform: translate(-25px,85px) scale(.9); }
+}
+
+/* Keep website content above the animation. */
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+.scott-reveal {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity .75s ease, transform .75s ease;
+}
+
+.scott-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-card, .form-card {
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+
+.info-card:hover, .form-card:hover {
+  border-color: rgba(100,180,255,.35);
+  box-shadow: 0 18px 50px rgba(30,100,255,.09);
+}
+
+.info-card:hover { transform: translateY(-4px); }
+
+#scott-cursor-ring {
+  position: fixed;
+  z-index: 9999;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #74beff;
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+  animation: ringExpand .65s ease-out forwards;
+}
+
+@keyframes ringExpand {
+  to { opacity: 0; transform: translate(-50%,-50%) scale(5); }
+}
+
+@media(max-width:760px) {
+  .layout { grid-template-columns: 1fr; }
+  .info { padding: 0; }
+  .info-card { margin-top: 13px; }
+  .form-card { padding: 23px; }
+  main { padding-top: 65px; }
+}
+
+@media(max-width:650px) {
+  header { flex-wrap: wrap; }
+  nav { order: 3; width: 100%; justify-content: space-between; }
+  nav a { padding: 9px 7px; font-size: 11px; }
+  h1 { letter-spacing: -2.5px; }
+  .scott-orb { width: 180px; height: 180px; filter: blur(60px); }
+  #scott-glow { display: none; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .scott-reveal { opacity: 1; transform: none; }
+  #scott-glow { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div id="scott-fx" aria-hidden="true">
+  <canvas id="scott-canvas"></canvas>
+</div>
+<div id="scott-glow" aria-hidden="true"></div>
+<div class="scott-orb orb-a" aria-hidden="true"></div>
+<div class="scott-orb orb-b" aria-hidden="true"></div>
+<div class="scott-orb orb-c" aria-hidden="true"></div>
+
+<header>
   <a href="/" class="brand"><span>S.</span>ScottCode.</a>
   <nav aria-label="Main navigation">
     <a href="/">Home</a>
@@ -64,117 +438,118 @@ footer a:hover{color:var(--blue)}
     <a href="/contact" class="active" aria-current="page">Contact</a>
   </nav>
   <button class="theme" id="theme" type="button" aria-label="Toggle theme">☀</button>
-</header><main class="wrap">
-  <div class="eyebrow">LET'S START A CONVERSATION</div>  <h1>Have something<br><span class="gradient">on your mind?</span></h1>  <p class="lead">
+</header>
+
+<main class="wrap">
+  <div class="eyebrow scott-reveal">LET'S START A CONVERSATION</div>
+
+  <h1 class="scott-reveal">
+    Have something<br>
+    <span class="gradient">on your mind?</span>
+  </h1>
+
+  <p class="lead scott-reveal">
     Have a question, an idea, some feedback, or just want to say hello?
     Send me a message using the form below.
-  </p>  <div class="layout">
-    <aside class="info">
-      <h2>Let's connect.</h2>
-      <p>
-        Every interesting project starts with a conversation.
-        Tell me what you're thinking, and I'll get back to you when I can.
-      </p>  <div class="info-card">
-    <div class="info-icon">✉</div>
-    <div>
-      <b>Send a message</b>
-      <span>Use the contact form to share your question or idea.</span>
-    </div>
-  </div>
-
-  <div class="info-card">
-    <div class="info-icon">✧</div>
-    <div>
-      <b>Got a suggestion?</b>
-      <span>Feedback and new ideas are always welcome.</span>
-    </div>
-  </div>
-
-  <a href="/" class="back">← Back to homepage</a>
-</aside>
-
-<section class="form-card">
-  <h2>Send me a message</h2>
-  <p class="form-description">
-    Fill in the details below. All fields are required.
   </p>
 
-  <form action="https://formspree.io/f/xgaogqjo" method="POST">
+  <div class="layout">
+    <aside class="info">
+      <h2 class="scott-reveal">Let's connect.</h2>
 
-    <input type="hidden" name="_next" value="https://scottcode.fun/thanks">
+      <p class="scott-reveal">
+        Every interesting project starts with a conversation.
+        Tell me what you're thinking, and I'll get back to you when I can.
+      </p>
 
-    <label for="name">Your name</label>
-    <input
-      id="name"
-      type="text"
-      name="name"
-      placeholder="What should I call you?"
-      autocomplete="name"
-      maxlength="100"
-      required
-    >
+      <div class="info-card scott-reveal">
+        <div class="info-icon">✉</div>
+        <div>
+          <b>Send a message</b>
+          <span>Use the contact form to share your question or idea.</span>
+        </div>
+      </div>
 
-    <label for="email">Email address</label>
-    <input
-      id="email"
-      type="email"
-      name="email"
-      placeholder="you@example.com"
-      autocomplete="email"
-      maxlength="254"
-      required
-    >
+      <div class="info-card scott-reveal">
+        <div class="info-icon">✧</div>
+        <div>
+          <b>Got a suggestion?</b>
+          <span>Feedback and new ideas are always welcome.</span>
+        </div>
+      </div>
 
-    <label for="subject">Subject</label>
-    <input
-      id="subject"
-      type="text"
-      name="subject"
-      placeholder="What's this about?"
-      maxlength="150"
-      required
-    >
+      <a href="/" class="back scott-reveal">← Back to homepage</a>
+    </aside>
 
-    <label for="message">Your message</label>
-    <textarea
-      id="message"
-      name="message"
-      placeholder="Tell me what's on your mind..."
-      maxlength="10000"
-      required
-    ></textarea>
+    <section class="form-card scott-reveal">
+      <h2>Send me a message</h2>
+      <p class="form-description">
+        Fill in the details below. All fields are required.
+      </p>
 
-    <button class="submit" type="submit">
-      Send Message <span>↗</span>
-    </button>
+      <form action="https://formspree.io/f/xgaogqjo" method="POST">
+        <input type="hidden" name="_next" value="https://scottcode.fun/thanks">
 
-    <p class="privacy-note">
-      Your message will be submitted through Formspree.
-    </p>
-  </form>
-</section>
+        <label for="name">Your name</label>
+        <input id="name" type="text" name="name"
+          placeholder="What should I call you?"
+          autocomplete="name" maxlength="100" required>
 
+        <label for="email">Email address</label>
+        <input id="email" type="email" name="email"
+          placeholder="you@example.com"
+          autocomplete="email" maxlength="254" required>
+
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" name="subject"
+          placeholder="What's this about?"
+          maxlength="150" required>
+
+        <label for="message">Your message</label>
+        <textarea id="message" name="message"
+          placeholder="Tell me what's on your mind..."
+          maxlength="10000" required></textarea>
+
+        <button class="submit" type="submit">
+          Send Message <span>↗</span>
+        </button>
+
+        <p class="privacy-note">
+          Your message will be submitted through Formspree.
+        </p>
+      </form>
+    </section>
   </div>
-</main><footer>
+</main>
+
+<footer>
   <div class="wrap footer-inner">
     <span>© <span id="year"></span> ScottCode.</span>
     <div class="footer-links">
-      <a href="/">Home</a><a href="/projects">Projects</a><a href="/about">About</a>
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/about">About</a>
     </div>
   </div>
-</footer><script>
+</footer>
+
+<script>
+/* THEME TOGGLE */
 const themeButton = document.getElementById("theme");
 
 function applyTheme(value) {
   document.body.classList.toggle("light", value === "light");
   themeButton.textContent = value === "light" ? "☾" : "☀";
-  try { localStorage.setItem("scottcode-theme", value); } catch(e) {}
+  try {
+    localStorage.setItem("scottcode-theme", value);
+  } catch (e) {}
 }
 
 let initialTheme = "dark";
 try {
   initialTheme = localStorage.getItem("scottcode-theme") || "dark";
-} catch(e) {}
+} catch (e) {}
+
 applyTheme(initialTheme);
 
 themeButton.addEventListener("click", () => {
@@ -182,854 +557,270 @@ themeButton.addEventListener("click", () => {
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-<script>
+
+
+/* SCOTTCODE INTERACTIVE ANIMATION ENGINE */
 (() => {
-  "use strict";
+  const canvas = document.getElementById("scott-canvas");
+  const ctx = canvas.getContext("2d");
+  const glow = document.getElementById("scott-glow");
 
-  // ==========================================
-  // SCOTTCODE FX ENGINE v1.0
-  // Interactive canvas, particles, lighting,
-  // 3D cards, scroll reveals and click effects.
-  // No libraries required.
-  // ==========================================
-
-  if (window.__SCOTTCODE_FX__) return;
-  window.__SCOTTCODE_FX__ = true;
-
-  const reducedMotion = window.matchMedia(
+  const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  const isMobile = matchMedia("(pointer: coarse)").matches;
-  const isSmallScreen = matchMedia("(max-width: 700px)").matches;
+  const mobile = window.matchMedia("(max-width: 650px)").matches;
 
-  const CONFIG = {
-    particleCount: isSmallScreen ? 42 : 85,
-    particleSpeed: reducedMotion ? 0 : 0.42,
-    connectionDistance: isSmallScreen ? 105 : 145,
-    mouseRadius: 170,
-    clickBurstCount: 20,
-    glowColor: "90, 180, 255"
-  };
-
-  // ------------------------------------------
-  // 1. CREATE THE EFFECTS LAYER
-  // ------------------------------------------
-
-  const fx = document.createElement("div");
-  fx.id = "scottcode-fx";
-
-  fx.innerHTML = `
-    <canvas id="scottcode-canvas"
-      aria-hidden="true"></canvas>
-
-    <div class="scott-orb scott-orb-one"></div>
-    <div class="scott-orb scott-orb-two"></div>
-    <div class="scott-orb scott-orb-three"></div>
-
-    <div id="scott-mouse-glow"></div>
-  `;
-
-  document.body.prepend(fx);
-
-  const canvas = fx.querySelector("canvas");
-  const ctx = canvas.getContext("2d", {
-    alpha: true,
-    desynchronized: true
-  });
-
-  const mouseGlow = document.getElementById(
-    "scott-mouse-glow"
-  );
-
-  // ------------------------------------------
-  // 2. INJECT THE ANIMATION STYLES
-  // ------------------------------------------
-
-  const style = document.createElement("style");
-
-  style.textContent = `
-    #scottcode-fx {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-      contain: strict;
-      isolation: isolate;
-    }
-
-    #scottcode-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.82;
-    }
-
-    #scott-mouse-glow {
-      position: absolute;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(45, 145, 255, 0.13) 0%,
-        rgba(45, 145, 255, 0.055) 36%,
-        transparent 70%
-      );
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 350ms ease;
-      will-change: left, top;
-    }
-
-    .scott-orb {
-      position: absolute;
-      width: 330px;
-      height: 330px;
-      border-radius: 50%;
-      filter: blur(95px);
-      opacity: 0.12;
-      will-change: transform;
-      animation: scottFloat 18s ease-in-out infinite alternate;
-    }
-
-    .scott-orb-one {
-      background: #087cff;
-      top: -150px;
-      left: -100px;
-    }
-
-    .scott-orb-two {
-      background: #6045ff;
-      right: -160px;
-      top: 32%;
-      animation-delay: -7s;
-      animation-duration: 23s;
-    }
-
-    .scott-orb-three {
-      background: #00c8ff;
-      bottom: -200px;
-      left: 30%;
-      animation-delay: -11s;
-      animation-duration: 26s;
-    }
-
-    @keyframes scottFloat {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-
-      50% {
-        transform: translate3d(70px, 45px, 0) scale(1.15);
-      }
-
-      100% {
-        transform: translate3d(-35px, 95px, 0) scale(.92);
-      }
-    }
-
-    /* Keep normal website content above the FX layer. */
-    body > :not(#scottcode-fx) {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Scroll reveal animations */
-    .scott-reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition:
-        opacity 750ms cubic-bezier(.2,.7,.2,1),
-        transform 750ms cubic-bezier(.2,.7,.2,1);
-      transition-delay: var(--scott-delay, 0ms);
-    }
-
-    .scott-reveal.scott-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Optional hover tilt */
-    [data-scott-tilt] {
-      transform-style: preserve-3d;
-      transition:
-        transform 180ms ease,
-        border-color 250ms ease,
-        box-shadow 250ms ease;
-      will-change: transform;
-    }
-
-    [data-scott-tilt]:hover {
-      border-color: rgba(90, 180, 255, 0.5);
-      box-shadow:
-        0 18px 45px rgba(0, 110, 255, 0.12),
-        0 0 24px rgba(0, 145, 255, 0.055);
-    }
-
-    /* Click burst */
-    .scott-click-ring {
-      position: fixed;
-      z-index: 99999;
-      width: 12px;
-      height: 12px;
-      border: 2px solid rgba(100, 190, 255, 0.85);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%) scale(.2);
-      animation: scottRing 650ms ease-out forwards;
-    }
-
-    @keyframes scottRing {
-      to {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(5);
-      }
-    }
-
-    /* Keyboard accessibility */
-    a:focus-visible,
-    button:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible {
-      outline: 2px solid #65baff;
-      outline-offset: 4px;
-    }
-
-    @media (max-width: 700px) {
-      .scott-orb {
-        width: 220px;
-        height: 220px;
-        filter: blur(70px);
-      }
-
-      #scott-mouse-glow {
-        display: none;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scott-orb {
-        animation: none !important;
-      }
-
-      .scott-reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-
-      [data-scott-tilt] {
-        transform: none !important;
-        transition: none !important;
-      }
-
-      .scott-click-ring {
-        display: none;
-      }
-    }
-  `;
-
-  document.head.appendChild(style);
-
-  // ------------------------------------------
-  // 3. CANVAS SETUP
-  // ------------------------------------------
-
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
+  let w = 0, h = 0, dpr = 1;
   let particles = [];
   let bursts = [];
-  let animationFrame = null;
-  let lastFrame = 0;
+  let frame = null;
+  let lastTime = 0;
 
-  const mouse = {
-    x: -10000,
-    y: -10000,
-    active: false
-  };
+  const pointer = { x: -1000, y: -1000, active: false };
 
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-
-    // Limit pixel density for performance.
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    createParticles();
-  }
-
-  // ------------------------------------------
-  // 4. PARTICLE SYSTEM
-  // ------------------------------------------
-
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function createParticles() {
-    const areaFactor = Math.min(
-      1,
-      (width * height) / (1440 * 900)
-    );
-
     const count = Math.max(
-      20,
-      Math.round(CONFIG.particleCount * areaFactor)
+      22,
+      Math.min(mobile ? 38 : 78, Math.round(w * h / 16000))
     );
 
     particles = Array.from({ length: count }, () => ({
-      x: random(0, width),
-      y: random(0, height),
-      vx: random(-0.35, 0.35) * CONFIG.particleSpeed,
-      vy: random(-0.35, 0.35) * CONFIG.particleSpeed,
-      radius: random(0.8, 2.1),
-      phase: random(0, Math.PI * 2),
-      brightness: random(0.35, 0.95)
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: reduceMotion ? 0 : (Math.random() - .5) * .45,
+      vy: reduceMotion ? 0 : (Math.random() - .5) * .45,
+      r: Math.random() * 1.6 + .6,
+      phase: Math.random() * 6.28
     }));
   }
 
-  // ------------------------------------------
-  // 5. INTERACTIVE CLICK BURSTS
-  // ------------------------------------------
+  function burst(x, y) {
+    if (reduceMotion) return;
 
-  function createBurst(x, y) {
-    if (reducedMotion) return;
-
-    for (let i = 0; i < CONFIG.clickBurstCount; i++) {
+    for (let i = 0; i < 17; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = random(0.8, 3.5);
+      const speed = 0.8 + Math.random() * 3;
 
       bursts.push({
-        x,
-        y,
+        x, y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: 1,
-        decay: random(0.018, 0.035),
-        radius: random(1, 3)
+        r: Math.random() * 2 + 1
       });
     }
 
-    // Prevent too many effects accumulating.
-    if (bursts.length > 240) {
-      bursts.splice(0, bursts.length - 240);
-    }
+    if (bursts.length > 200) bursts.splice(0, 50);
   }
 
-  // ------------------------------------------
-  // 6. ANIMATION LOOP
-  // ------------------------------------------
+  function draw(time = 0) {
+    frame = null;
 
-  function draw(timestamp = 0) {
-    animationFrame = null;
-
-    // Cap animation frequency.
-    if (timestamp - lastFrame < 30) {
-      scheduleFrame();
+    if (time - lastTime < 30) {
+      schedule();
       return;
     }
 
-    lastFrame = timestamp;
+    lastTime = time;
+    ctx.clearRect(0, 0, w, h);
 
-    ctx.clearRect(0, 0, width, height);
-
-    // Update and draw particles.
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      if (!reducedMotion) {
+      if (!reduceMotion) {
         p.x += p.vx;
         p.y += p.vy;
 
-        // Mouse interaction: gentle repulsion.
-        if (mouse.active) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const distance = Math.hypot(dx, dy);
+        if (pointer.active) {
+          const dx = p.x - pointer.x;
+          const dy = p.y - pointer.y;
+          const dist = Math.hypot(dx, dy);
 
-          if (distance > 0 && distance < CONFIG.mouseRadius) {
-            const force =
-              (1 - distance / CONFIG.mouseRadius) * 0.8;
-
-            p.x += (dx / distance) * force;
-            p.y += (dy / distance) * force;
+          if (dist > 0 && dist < 145) {
+            const force = (1 - dist / 145) * .7;
+            p.x += dx / dist * force;
+            p.y += dy / dist * force;
           }
         }
 
-        // Wrap particles around the screen.
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
-        if (p.y < -10) p.y = height + 10;
-        if (p.y > height + 10) p.y = -10;
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
       }
 
-      const pulse = reducedMotion
+      const pulse = reduceMotion
         ? 1
-        : 0.75 + Math.sin(timestamp * 0.0015 + p.phase) * 0.25;
+        : .7 + Math.sin(time * .0015 + p.phase) * .3;
 
-      const radius = p.radius * pulse;
-
-      // Draw particle.
       ctx.beginPath();
-      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-      ctx.fillStyle =
-        `rgba(${CONFIG.glowColor},${p.brightness * 0.8})`;
+      ctx.arc(p.x, p.y, p.r * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(116,190,255,.8)";
       ctx.fill();
 
-      // Connect nearby particles.
       for (let j = i + 1; j < particles.length; j++) {
         const q = particles[j];
         const dx = p.x - q.x;
         const dy = p.y - q.y;
-        const distanceSquared = dx * dx + dy * dy;
-        const maxDistance = CONFIG.connectionDistance;
+        const dist = Math.hypot(dx, dy);
 
-        if (distanceSquared < maxDistance * maxDistance) {
-          const distance = Math.sqrt(distanceSquared);
-          const alpha = (1 - distance / maxDistance) * 0.2;
-
+        if (dist < 125) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
           ctx.strokeStyle =
-            `rgba(${CONFIG.glowColor},${alpha})`;
-          ctx.lineWidth = 0.7;
+            `rgba(90,170,255,${(1 - dist / 125) * .22})`;
+          ctx.lineWidth = .7;
           ctx.stroke();
         }
       }
-    }
 
-    // Draw mouse connection field.
-    if (mouse.active && !reducedMotion) {
-      for (const p of particles) {
-        const distance = Math.hypot(
-          p.x - mouse.x,
-          p.y - mouse.y
-        );
+      if (pointer.active && !mobile) {
+        const dist = Math.hypot(p.x - pointer.x, p.y - pointer.y);
 
-        if (distance < CONFIG.connectionDistance * 1.5) {
+        if (dist < 155) {
           ctx.beginPath();
-          ctx.moveTo(mouse.x, mouse.y);
+          ctx.moveTo(pointer.x, pointer.y);
           ctx.lineTo(p.x, p.y);
           ctx.strokeStyle =
-            `rgba(${CONFIG.glowColor},${
-              (1 - distance / (CONFIG.connectionDistance * 1.5)) * 0.3
-            })`;
-          ctx.lineWidth = 0.8;
+            `rgba(100,190,255,${(1 - dist / 155) * .3})`;
           ctx.stroke();
         }
       }
     }
 
-    // Animate click particles.
     bursts = bursts.filter(b => b.life > 0);
 
     for (const b of bursts) {
       b.x += b.vx;
       b.y += b.vy;
-      b.vx *= 0.98;
-      b.vy *= 0.98;
-      b.life -= b.decay;
+      b.vx *= .98;
+      b.vy *= .98;
+      b.life -= .025;
 
       ctx.beginPath();
-      ctx.arc(b.x, b.y, b.radius * b.life, 0, Math.PI * 2);
-      ctx.fillStyle =
-        `rgba(105,195,255,${Math.max(0, b.life)})`;
+      ctx.arc(b.x, b.y, b.r * b.life, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(115,205,255,${Math.max(0,b.life)})`;
       ctx.fill();
     }
 
-    if (!document.hidden) {
-      scheduleFrame();
+    schedule();
+  }
+
+  function schedule() {
+    if (frame === null && !document.hidden) {
+      frame = requestAnimationFrame(draw);
     }
   }
 
-  function scheduleFrame() {
-    if (animationFrame === null && !document.hidden) {
-      animationFrame = requestAnimationFrame(draw);
-    }
-  }
-
-  // ------------------------------------------
-  // 7. POINTER INTERACTIONS
-  // ------------------------------------------
-
-  let pointerX = 0;
-  let pointerY = 0;
-  let glowX = 0;
-  let glowY = 0;
-  let glowFrame = null;
-
-  function updateGlow() {
-    glowFrame = null;
-
-    glowX += (pointerX - glowX) * 0.16;
-    glowY += (pointerY - glowY) * 0.16;
-
-    mouseGlow.style.left = glowX + "px";
-    mouseGlow.style.top = glowY + "px";
-
-    if (
-      Math.abs(pointerX - glowX) > 0.5 ||
-      Math.abs(pointerY - glowY) > 0.5
-    ) {
-      glowFrame = requestAnimationFrame(updateGlow);
-    }
-  }
+  window.addEventListener("resize", resize, { passive: true });
 
   window.addEventListener("pointermove", event => {
-    pointerX = event.clientX;
-    pointerY = event.clientY;
+    if (event.pointerType !== "mouse") return;
 
-    if (event.pointerType === "mouse") {
-      mouse.active = true;
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
 
-      mouseGlow.style.opacity = "1";
-
-      if (glowFrame === null) {
-        glowFrame = requestAnimationFrame(updateGlow);
-      }
-    }
+    glow.style.left = event.clientX + "px";
+    glow.style.top = event.clientY + "px";
+    glow.style.opacity = ".85";
   }, { passive: true });
 
   window.addEventListener("pointerout", event => {
     if (!event.relatedTarget) {
-      mouse.active = false;
-      mouseGlow.style.opacity = "0";
+      pointer.active = false;
+      glow.style.opacity = "0";
     }
   });
 
-  window.addEventListener("pointerdown", event => {
+  document.addEventListener("pointerdown", event => {
     if (event.pointerType === "mouse") {
-      createBurst(event.clientX, event.clientY);
+      burst(event.clientX, event.clientY);
     }
   }, { passive: true });
 
-  // ------------------------------------------
-  // 8. CLICK RING EFFECT
-  // ------------------------------------------
-
   document.addEventListener("click", event => {
-    if (reducedMotion) return;
-
-    // Avoid adding effects to every form interaction.
-    if (event.target.closest("input, textarea, select")) return;
+    if (reduceMotion || event.target.closest("input,textarea")) return;
 
     const ring = document.createElement("span");
-    ring.className = "scott-click-ring";
+    ring.id = "scott-cursor-ring";
     ring.style.left = event.clientX + "px";
     ring.style.top = event.clientY + "px";
-
     document.body.appendChild(ring);
 
     ring.addEventListener("animationend", () => ring.remove(), {
       once: true
     });
 
-    // Fallback cleanup.
-    setTimeout(() => ring.remove(), 900);
+    setTimeout(() => ring.remove(), 800);
   });
 
-  // ------------------------------------------
-  // 9. AUTOMATIC SCROLL REVEALS
-  // ------------------------------------------
-
-  function setupReveals() {
-    const selectors = [
-      "main > section",
-      ".hero-content",
-      ".project-card",
-      ".project",
-      ".card",
-      ".skill-card",
-      ".timeline-item",
-      ".contact-card",
-      "article"
-    ];
-
-    const elements = document.querySelectorAll(
-      selectors.join(",")
-    );
-
-    const uniqueElements = [...new Set(elements)];
-
-    if (reducedMotion || !("IntersectionObserver" in window)) {
-      return;
-    }
-
+  /* Scroll reveals */
+  if (!reduceMotion && "IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("scott-visible");
+          entry.target.classList.add("visible");
           observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.12,
-      rootMargin: "0px 0px -35px 0px"
-    });
+    }, { threshold: .12 });
 
-    uniqueElements.forEach((element, index) => {
-      // Skip elements that already have their own animation.
-      if (
-        element.closest("#scottcode-fx") ||
-        element.hasAttribute("data-no-reveal")
-      ) {
-        return;
-      }
-
-      element.classList.add("scott-reveal");
-
-      // Stagger only a little; don't make users wait.
-      element.style.setProperty(
-        "--scott-delay",
-        Math.min(index % 5, 4) * 70 + "ms"
-      );
-
+    document.querySelectorAll(
+      ".eyebrow,.lead,.info h2,.info>p,.info-card,.back,.form-card"
+    ).forEach((element, index) => {
+      element.style.transitionDelay = (index % 4) * 80 + "ms";
       observer.observe(element);
     });
-  }
-
-  // ------------------------------------------
-  // 10. 3D TILT FOR PROJECT CARDS
-  // ------------------------------------------
-
-  function setupTilt() {
-    if (isMobile || reducedMotion) return;
-
-    const cards = document.querySelectorAll(
-      "[data-scott-tilt], .project-card, .skill-card"
-    );
-
-    cards.forEach(card => {
-      if (card.dataset.scottTiltReady) return;
-      card.dataset.scottTiltReady = "true";
-
-      card.addEventListener("pointermove", event => {
-        if (event.pointerType !== "mouse") return;
-
-        const rect = card.getBoundingClientRect();
-
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-
-        const rotateY = (x - 0.5) * 8;
-        const rotateX = (0.5 - y) * 8;
-
-        card.style.transform =
-          `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
-      });
-
-      card.addEventListener("pointerleave", () => {
-        card.style.transform = "";
-      });
+  } else {
+    document.querySelectorAll(".scott-reveal").forEach(element => {
+      element.classList.add("visible");
     });
   }
 
-  // ------------------------------------------
-  // 11. LIVE TYPING EFFECT
-  // ------------------------------------------
-  // Add data-scott-typing to any element.
-  //
-  // Example:
-  // <span data-scott-typing="Developer,Builder,Creator"></span>
-  //
-  // ------------------------------------------
+  /* 3D tilt on the form card for desktop */
+  const formCard = document.querySelector(".form-card");
 
-  function setupTyping() {
-    const elements = document.querySelectorAll(
-      "[data-scott-typing]"
-    );
+  if (formCard && !mobile && !reduceMotion) {
+    formCard.addEventListener("pointermove", event => {
+      if (event.pointerType !== "mouse") return;
 
-    elements.forEach(element => {
-      if (element.dataset.scottTypingReady) return;
-      element.dataset.scottTypingReady = "true";
+      const rect = formCard.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
 
-      const phrases = element.dataset.scottTyping
-        .split(",")
-        .map(text => text.trim())
-        .filter(Boolean);
+      formCard.style.transform =
+        `perspective(1000px) rotateX(${(0.5-y)*2}deg) rotateY(${(x-.5)*2}deg)`;
+    });
 
-      if (!phrases.length) return;
-
-      if (reducedMotion) {
-        element.textContent = phrases[0];
-        return;
-      }
-
-      let phraseIndex = 0;
-      let charIndex = 0;
-      let deleting = false;
-
-      function type() {
-        const phrase = phrases[phraseIndex];
-
-        if (!deleting) {
-          charIndex++;
-          element.textContent = phrase.slice(0, charIndex);
-
-          if (charIndex >= phrase.length) {
-            deleting = true;
-            setTimeout(type, 1400);
-            return;
-          }
-
-          setTimeout(type, 85);
-        } else {
-          charIndex--;
-          element.textContent = phrase.slice(0, charIndex);
-
-          if (charIndex <= 0) {
-            deleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length;
-            setTimeout(type, 350);
-            return;
-          }
-
-          setTimeout(type, 40);
-        }
-      }
-
-      type();
+    formCard.addEventListener("pointerleave", () => {
+      formCard.style.transform = "";
     });
   }
-
-  // ------------------------------------------
-  // 12. OPTIONAL BUTTON RIPPLE
-  // ------------------------------------------
-
-  function setupButtonEffects() {
-    document.querySelectorAll(
-      "button, .button, .btn, a.button, a.btn"
-    ).forEach(button => {
-      if (button.dataset.scottButtonReady) return;
-      button.dataset.scottButtonReady = "true";
-
-      button.addEventListener("pointerdown", event => {
-        if (reducedMotion || event.pointerType !== "mouse") return;
-
-        const rect = button.getBoundingClientRect();
-
-        const ripple = document.createElement("span");
-
-        Object.assign(ripple.style, {
-          position: "absolute",
-          left: (event.clientX - rect.left) + "px",
-          top: (event.clientY - rect.top) + "px",
-          width: "8px",
-          height: "8px",
-          borderRadius: "50%",
-          background: "rgba(100,190,255,.28)",
-          pointerEvents: "none",
-          transform: "translate(-50%,-50%) scale(1)",
-          transition: "transform .45s ease, opacity .45s ease",
-          opacity: "1"
-        });
-
-        const previousPosition = getComputedStyle(button).position;
-
-        if (previousPosition === "static") {
-          button.style.position = "relative";
-        }
-
-        if (getComputedStyle(button).overflow === "visible") {
-          button.style.overflow = "hidden";
-        }
-
-        button.appendChild(ripple);
-
-        requestAnimationFrame(() => {
-          ripple.style.transform = "translate(-50%,-50%) scale(22)";
-          ripple.style.opacity = "0";
-        });
-
-        setTimeout(() => ripple.remove(), 550);
-      });
-    });
-  }
-
-  // ------------------------------------------
-  // 13. HANDLE TAB VISIBILITY
-  // ------------------------------------------
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      if (animationFrame !== null) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = null;
-      }
-
-      if (glowFrame !== null) {
-        cancelAnimationFrame(glowFrame);
-        glowFrame = null;
-      }
+    if (document.hidden && frame !== null) {
+      cancelAnimationFrame(frame);
+      frame = null;
     } else {
-      lastFrame = 0;
-      scheduleFrame();
+      schedule();
     }
   });
 
-  // ------------------------------------------
-  // 14. INITIALIZE
-  // ------------------------------------------
-
-  resizeCanvas();
-
-  window.addEventListener("resize", resizeCanvas, {
-    passive: true
-  });
-
-  setupReveals();
-  setupTilt();
-  setupTyping();
-  setupButtonEffects();
-
-  scheduleFrame();
-
-  // Expose a small public API for debugging.
-  window.ScottCodeFX = {
-    burst: createBurst,
-
-    refresh() {
-      setupReveals();
-      setupTilt();
-      setupTyping();
-      setupButtonEffects();
-    },
-
-    destroy() {
-      if (animationFrame !== null) {
-        cancelAnimationFrame(animationFrame);
-      }
-
-      if (glowFrame !== null) {
-        cancelAnimationFrame(glowFrame);
-      }
-
-      fx.remove();
-      style.remove();
-
-      delete window.ScottCodeFX;
-      delete window.__SCOTTCODE_FX__;
-    }
-  };
-
-  console.log(
-    "%c SCOTTCODE FX ENGINE ONLINE ",
-    "background:#087cff;color:white;padding:8px 12px;border-radius:5px;font-weight:bold"
-  );
-
+  resize();
+  schedule();
 })();
-  </script></body>
+</script>
+
+</body>
   </html>
