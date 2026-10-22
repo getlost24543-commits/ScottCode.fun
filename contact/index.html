@@ -1,1 +1,186 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="Contact ScottCode. Send a message, share an idea, or get in touch.">
+<title>Contact — ScottCode</title><style>
+:root{color-scheme:dark;--bg:#07101e;--surface:rgba(17,33,56,.76);--field:rgba(4,13,27,.6);--text:#f2f7ff;--muted:#99abc5;--blue:#74beff;--border:rgba(148,190,255,.16)}
+body.light{color-scheme:light;--bg:#f5f8ff;--surface:rgba(255,255,255,.85);--field:#f7f9ff;--text:#10203a;--muted:#65758e;--blue:#187be9;--border:rgba(48,87,144,.15)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(41,111,255,.16),transparent 45%),radial-gradient(ellipse at 85% 65%,rgba(0,198,255,.08),transparent 40%)}
+.wrap{width:min(1050px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:12px;z-index:10;margin:12px auto 0;width:min(1050px,calc(100% - 24px));padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--border);border-radius:18px;background:var(--surface);backdrop-filter:blur(20px)}
+.brand{font-weight:850;white-space:nowrap}
+.brand span{display:inline-grid;place-items:center;width:32px;height:32px;margin-right:7px;border-radius:10px;background:linear-gradient(135deg,#58bdff,#5265ff);color:white}
+nav{display:flex;align-items:center;gap:5px}
+nav a,.theme{padding:10px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:650}
+nav a:hover,nav a.active,.theme:hover{background:rgba(100,155,255,.12);color:var(--text)}
+.theme{cursor:pointer;font-size:17px}
+main{padding:85px 0 100px}
+.eyebrow{color:var(--blue);font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+h1{margin:19px 0;font-size:clamp(43px,7vw,70px);line-height:1.04;letter-spacing:-3.5px}
+.gradient{color:transparent;background:linear-gradient(110deg,#79c5ff,#7e93ff,#5ee4ff);background-clip:text;-webkit-background-clip:text}
+.lead{max-width:600px;color:var(--muted);font-size:15px;line-height:1.9}
+.layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:25px;align-items:start;margin-top:43px}
+.info{padding:30px 8px 20px 0}
+.info h2{font-size:24px;letter-spacing:-.5px}
+.info>p{color:var(--muted);font-size:13px;line-height:1.9}
+.info-card{display:flex;align-items:flex-start;gap:14px;margin-top:25px;padding:17px;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+.info-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:rgba(100,155,255,.12)}
+.info-card b{display:block;margin:2px 0 6px;font-size:13px}
+.info-card span{display:block;color:var(--muted);font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.form-card{padding:30px;border:1px solid var(--border);border-radius:25px;background:var(--surface);box-shadow:0 20px 70px rgba(0,0,0,.13)}
+.form-card h2{margin:0 0 9px;font-size:25px;letter-spacing:-.7px}
+.form-description{margin:0 0 25px;color:var(--muted);font-size:13px;line-height:1.8}
+form{display:flex;flex-direction:column;gap:9px}
+label{margin-top:9px;color:var(--muted);font-size:12px;font-weight:750}
+input,textarea{width:100%;padding:14px 15px;border:1px solid var(--border);border-radius:12px;background:var(--field);color:var(--text);outline:none;font-size:13px;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(80,150,255,.12)}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
+textarea{min-height:145px;resize:vertical;line-height:1.7}
+.submit{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:17px;padding:15px;border:0;border-radius:13px;background:linear-gradient(120deg,#438fff,#5367ff);color:white;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 9px 28px rgba(65,125,255,.2);transition:transform .2s,box-shadow .2s}
+.submit:hover{transform:translateY(-2px);box-shadow:0 13px 35px rgba(65,125,255,.3)}
+.privacy-note{margin:15px 0 0;text-align:center;color:var(--muted);font-size:10px;line-height:1.8}
+.back{display:inline-flex;gap:8px;margin-top:25px;color:var(--blue);font-size:12px;font-weight:750}
+footer{border-top:1px solid var(--border);padding:25px 0 35px;color:var(--muted);font-size:11px}
+.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.footer-links{display:flex;gap:15px}
+footer a:hover{color:var(--blue)}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.info{padding:0}.info-card{margin-top:13px}.form-card{padding:23px}main{padding-top:65px}}
+@media(max-width:650px){header{flex-wrap:wrap}nav{order:3;width:100%;justify-content:space-between}nav a{padding:9px 7px;font-size:11px}h1{letter-spacing:-2.5px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body>
+<div class="bg"></div><header>
+  <a href="/" class="brand"><span>S.</span>ScottCode.</a>
+  <nav aria-label="Main navigation">
+    <a href="/">Home</a>
+    <a href="/projects">Projects</a>
+    <a href="/about">About</a>
+    <a href="/contact" class="active" aria-current="page">Contact</a>
+  </nav>
+  <button class="theme" id="theme" type="button" aria-label="Toggle theme">☀</button>
+</header><main class="wrap">
+  <div class="eyebrow">LET'S START A CONVERSATION</div>  <h1>Have something<br><span class="gradient">on your mind?</span></h1>  <p class="lead">
+    Have a question, an idea, some feedback, or just want to say hello?
+    Send me a message using the form below.
+  </p>  <div class="layout">
+    <aside class="info">
+      <h2>Let's connect.</h2>
+      <p>
+        Every interesting project starts with a conversation.
+        Tell me what you're thinking, and I'll get back to you when I can.
+      </p>  <div class="info-card">
+    <div class="info-icon">✉</div>
+    <div>
+      <b>Send a message</b>
+      <span>Use the contact form to share your question or idea.</span>
+    </div>
+  </div>
 
+  <div class="info-card">
+    <div class="info-icon">✧</div>
+    <div>
+      <b>Got a suggestion?</b>
+      <span>Feedback and new ideas are always welcome.</span>
+    </div>
+  </div>
+
+  <a href="/" class="back">← Back to homepage</a>
+</aside>
+
+<section class="form-card">
+  <h2>Send me a message</h2>
+  <p class="form-description">
+    Fill in the details below. All fields are required.
+  </p>
+
+  <form action="https://formspree.io/f/xgaogqjo" method="POST">
+
+    <input type="hidden" name="_next" value="https://scottcode.fun/thanks">
+
+    <label for="name">Your name</label>
+    <input
+      id="name"
+      type="text"
+      name="name"
+      placeholder="What should I call you?"
+      autocomplete="name"
+      maxlength="100"
+      required
+    >
+
+    <label for="email">Email address</label>
+    <input
+      id="email"
+      type="email"
+      name="email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      maxlength="254"
+      required
+    >
+
+    <label for="subject">Subject</label>
+    <input
+      id="subject"
+      type="text"
+      name="subject"
+      placeholder="What's this about?"
+      maxlength="150"
+      required
+    >
+
+    <label for="message">Your message</label>
+    <textarea
+      id="message"
+      name="message"
+      placeholder="Tell me what's on your mind..."
+      maxlength="10000"
+      required
+    ></textarea>
+
+    <button class="submit" type="submit">
+      Send Message <span>↗</span>
+    </button>
+
+    <p class="privacy-note">
+      Your message will be submitted through Formspree.
+    </p>
+  </form>
+</section>
+
+  </div>
+</main><footer>
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> ScottCode.</span>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/projects">Projects</a><a href="/about">About</a>
+    </div>
+  </div>
+</footer><script>
+const themeButton = document.getElementById("theme");
+
+function applyTheme(value) {
+  document.body.classList.toggle("light", value === "light");
+  themeButton.textContent = value === "light" ? "☾" : "☀";
+  try { localStorage.setItem("scottcode-theme", value); } catch(e) {}
+}
+
+let initialTheme = "dark";
+try {
+  initialTheme = localStorage.getItem("scottcode-theme") || "dark";
+} catch(e) {}
+applyTheme(initialTheme);
+
+themeButton.addEventListener("click", () => {
+  applyTheme(document.body.classList.contains("light") ? "dark" : "light");
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script></body>
+  </html>
