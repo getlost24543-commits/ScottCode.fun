@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#eaf7ff">
+<title>ScottCode Arcade</title>
+<style>
+:root {
+  --blue:#168bd0;
+  --cyan:#69dce9;
+  --text:#15334a;
+  --muted:#658198;
+  --border:#cceafa;
+  --panel:rgba(255,255,255,.82);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 5%,#c8f0ff,transparent 35%),
+    radial-gradient(circle at 90% 35%,#c9f8f4,transparent 35%),
+    linear-gradient(135deg,#f4fbff,#e3f5ff);
+}
+header{
+  position:sticky;top:0;z-index:5;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:14px 4%;
+  background:#f5fbffdf;backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.logo{font-size:1.2rem;font-weight:900}
+.logo span,h1 span{color:var(--blue)}
+button,input{font:inherit}
+button{
+  cursor:pointer;border:1px solid var(--border);
+  border-radius:12px;padding:10px 14px;
+  background:white;color:var(--text);font-weight:750;
+  transition:transform .15s;
+}
+button:hover{transform:translateY(-2px)}
+button:active{transform:scale(.97)}
+.primary{
+  background:linear-gradient(110deg,#78caff,#75e3e9);
+  border:0;color:#08314a
+}
+main{width:min(1050px,94%);margin:auto;padding:25px 0 50px}
+.hero{text-align:center;padding:25px 0}
+.eyebrow{color:var(--blue);font-size:.76rem;letter-spacing:3px;font-weight:900}
+h1{font-size:clamp(2.6rem,8vw,5rem);line-height:1.02;letter-spacing:-3px;margin:12px 0}
+.subtitle{color:var(--muted);max-width:600px;margin:12px auto 22px}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}
+.stat{padding:10px 20px;border:1px solid var(--border);border-radius:15px;background:#ffffffb5}
+.stat strong{display:block;font-size:1.4rem}
+.card{
+  background:var(--panel);border:1px solid #fff;border-radius:22px;
+  padding:20px;box-shadow:0 15px 45px #75bde422;
+  backdrop-filter:blur(15px)
+}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:15px}
+.game-card{transition:transform .2s}
+.game-card:hover{transform:translateY(-4px)}
+.icon{font-size:2.3rem}
+.game-card h3{margin:8px 0}
+.game-card p{color:var(--muted);min-height:42px;font-size:.92rem}
+.game-card button{width:100%}
+.section-title{margin:28px 0 15px}
+.game-area{display:none;margin-top:22px;scroll-margin-top:85px}
+.game-area.active{display:block;animation:appear .2s ease}
+@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.game-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.game-head h2{margin:0}
+.status{text-align:center;min-height:27px;margin:13px 0;color:#167ab3;font-weight:700}
+.muted{color:var(--muted)}
+.center{text-align:center}
+.row{display:flex;gap:9px;justify-content:center;align-items:center;flex-wrap:wrap}
+canvas{display:block;width:min(100%,420px);height:auto;margin:15px auto;border:1px solid var(--border);border-radius:15px;background:#f7fcff;touch-action:none}
+.board{display:grid;gap:8px;margin:15px auto;max-width:330px}
+.tic{grid-template-columns:repeat(3,1fr)}
+.cell{aspect-ratio:1;font-size:2.5rem;font-weight:900;background:#f5fbff}
+.memory{grid-template-columns:repeat(4,1fr);max-width:380px}
+.mem{aspect-ratio:1;padding:3px;font-size:clamp(1.2rem,5vw,2rem)}
+.click-zone{width:100%;min-height:160px;font-size:1.25rem;background:#eaf6ff}
+.click-zone.wait{background:#ffe5e9}
+.click-zone.ready{background:#d8fff0}
+.big{font-size:2rem;font-weight:900}
+input{width:min(100%,280px);padding:12px;border:1px solid var(--border);border-radius:12px;background:white}
+footer{text-align:center;color:var(--muted);padding:25px 0;font-size:.85rem}
+@media(max-width:500px){
+  header{padding:12px 3%}
+  main{padding-top:16px}
+  h1{letter-spacing:-1.5px}
+  .card{padding:15px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Scott<span>Code</span> Arcade</div>
+  <div class="row">
+    <span id="accountStatus" class="muted">Checking account…</span>
+    <button onclick="showHome()">⌂ Home</button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="eyebrow">SCOTTCODE.FUN / ARCADE</div>
+  <h1>Small games.<br><span>Big fun.</span></h1>
+  <p class="subtitle">Seven browser games, one lightweight arcade. Play on your phone or computer, beat your records, and have fun.</p>
+  <div class="stats">
+    <div class="stat">Games<strong>7</strong></div>
+    <div class="stat">Records<strong id="recordCount">0</strong></div>
+    <div class="stat">Total plays<strong id="playCount">0</strong></div>
+  </div>
+</section>
+
+<h2 class="section-title">🎮 Choose your game</h2>
+<section class="grid" id="gameGrid">
+  <article class="card game-card"><div class="icon">🐍</div><h3>Snake</h3><p>Eat, grow, and avoid hitting yourself.</p><button class="primary" onclick="openGame('snake')">Play Snake →</button></article>
+  <article class="card game-card"><div class="icon">⭕</div><h3>Tic-Tac-Toe</h3><p>Challenge the computer to a classic match.</p><button class="primary" onclick="openGame('tic')">Play Tic-Tac-Toe →</button></article>
+  <article class="card game-card"><div class="icon">🧠</div><h3>Memory Match</h3><p>Find matching emoji pairs with fewer moves.</p><button class="primary" onclick="openGame('memory')">Play Memory →</button></article>
+  <article class="card game-card"><div class="icon">✊</div><h3>Rock Paper Scissors</h3><p>Choose your move and beat the computer.</p><button class="primary" onclick="openGame('rps')">Play RPS →</button></article>
+  <article class="card game-card"><div class="icon">⚡</div><h3>Reaction Test</h3><p>Wait for green, then tap as quickly as possible.</p><button class="primary" onclick="openGame('reaction')">Test Reaction →</button></article>
+  <article class="card game-card"><div class="icon">🎯</div><h3>Click Challenge</h3><p>Get as many clicks as possible in ten seconds.</p><button class="primary" onclick="openGame('clicker')">Start Challenge →</button></article>
+  <article class="card game-card"><div class="icon">🔢</div><h3>Number Guess</h3><p>Find the secret number between 1 and 100.</p><button class="primary" onclick="openGame('guess')">Guess Number →</button></article>
+</section>
+
+<section class="game-area card" id="g-snake">
+<div class="game-head"><h2>🐍 Snake</h2><button onclick="showHome()">← Games</button></div>
+<p class="muted center">Use arrow keys, WASD, swipe, or touch buttons.</p>
+<div class="stats"><div class="stat">Score<strong id="snakeScore">0</strong></div><div class="stat">Best<strong id="snakeBest">0</strong></div></div>
+<canvas id="snakeCanvas" width="360" height="360"></canvas>
+<div class="status" id="snakeStatus">Press Start to play.</div>
+<div class="row"><button class="primary" onclick="startSnake()">▶ Start / Restart</button></div>
+<div class="board" style="grid-template-columns:repeat(3,60px)">
+<span></span><button onclick="snakeDir('up')">▲</button><span></span>
+<button onclick="snakeDir('left')">◀</button><button onclick="snakeDir('down')">▼</button><button onclick="snakeDir('right')">▶</button>
+</div>
+</section>
+
+<section class="game-area card" id="g-tic">
+<div class="game-head"><h2>⭕ Tic-Tac-Toe</h2><button onclick="showHome()">← Games</button></div>
+<p class="muted center">You are X. The computer is O.</p>
+<div id="ticBoard" class="board tic"></div>
+<div id="ticStatus" class="status">Your turn!</div>
+<div class="row"><button class="primary" onclick="startTic()">New game</button></div>
+</section>
+
+<section class="game-area card" id="g-memory">
+<div class="game-head"><h2>🧠 Memory Match</h2><button onclick="showHome()">← Games</button></div>
+<div class="stats"><div class="stat">Moves<strong id="memMoves">0</strong></div><div class="stat">Pairs<strong id="memPairs">0/8</strong></div></div>
+<div id="memoryBoard" class="board memory"></div>
+<div id="memStatus" class="status">Find all eight pairs!</div>
+<div class="row"><button class="primary" onclick="startMemory()">Shuffle & Restart</button></div>
+</section>
+
+<section class="game-area card" id="g-rps">
+<div class="game-head"><h2>✊ Rock Paper Scissors</h2><button onclick="showHome()">← Games</button></div>
+<div class="stats"><div class="stat">Wins<strong id="rpsWins">0</strong></div><div class="stat">Losses<strong id="rpsLosses">0</strong></div></div>
+<div id="rpsResult" class="status">Choose your move.</div>
+<div class="row"><button onclick="playRPS('rock')">✊ Rock</button><button onclick="playRPS('paper')">✋ Paper</button><button onclick="playRPS('scissors')">✌️ Scissors</button></div>
+<div id="rpsScore" class="center muted"></div>
+</section>
+
+<section class="game-area card" id="g-reaction">
+<div class="game-head"><h2>⚡ Reaction Test</h2><button onclick="showHome()">← Games</button></div>
+<p class="muted center">Tap the box when it turns green. Don't tap too early!</p>
+<div class="stats"><div class="stat">Last time<strong id="reactLast">—</strong></div><div class="stat">Best<strong id="reactBest">—</strong></div></div>
+<button id="reactZone" class="click-zone" onclick="reactionTap()">Tap to start</button>
+<div id="reactStatus" class="status">Ready?</div>
+</section>
+
+<section class="game-area card" id="g-clicker">
+<div class="game-head"><h2>🎯 Click Challenge</h2><button onclick="showHome()">← Games</button></div>
+<div class="stats"><div class="stat">Clicks<strong id="clickScore">0</strong></div><div class="stat">Time left<strong id="clickTime">10</strong></div><div class="stat">Best<strong id="clickBest">0</strong></div></div>
+<button id="clickZone" class="click-zone" onclick="clickHit()">Press Start first!</button>
+<div id="clickStatus" class="status">Ten seconds. How many clicks?</div>
+<div class="row"><button class="primary" onclick="startClicker()">Start challenge</button></div>
+</section>
+
+<section class="game-area card" id="g-guess">
+<div class="game-head"><h2>🔢 Number Guess</h2><button onclick="showHome()">← Games</button></div>
+<p class="muted center">I'm thinking of a number from 1 to 100.</p>
+<div class="center"><input id="guessInput" type="number" min="1" max="100" placeholder="Enter a number"></div>
+<div id="guessStatus" class="status">Make your first guess!</div>
+<div class="center big" id="guessAttempts">Attempts: 0</div>
+<div class="row"><button class="primary" onclick="makeGuess()">Guess</button><button onclick="startGuess()">New number</button></div>
+</section>
+
+<footer>ScottCode Arcade · Made for fun ✨</footer>
+</main>
+
+<script>
+/* ACCOUNT CONNECTION */
+const API_BASE="https://scottcode-api.getlost24543.workers.dev";
+const TOKEN_KEY="scottArcadeTokenV2";
+
+const Account={
+ token(){return localStorage.getItem(TOKEN_KEY)},
+ async request(path,options={}){
+  const headers={"Content-Type":"application/json",...(options.headers||{})};
+  if(this.token())headers.Authorization="Bearer "+this.token();
+  const res=await fetch(API_BASE+path,{...options,headers});
+  let data={};try{data=await res.json()}catch{}
+  if(!res.ok)throw Error(data.error||"Request failed");
+  return data;
+ },
+ async me(){
+  if(!this.token())return null;
+  try{return await this.request("/api/me")}catch{return null}
+ },
+ async save(gameId,score){
+  if(!this.token())return false;
+  try{
+   await this.request("/api/scores",{method:"POST",body:JSON.stringify({gameId,score:Math.floor(score)})});
+   return true;
+  }catch(e){console.warn("Online score save failed:",e);return false}
+ }
+};
+
+async function refreshAccount(){
+ const el=document.getElementById("accountStatus");
+ const user=await Account.me();
+ el.textContent=user?"👤 Account connected":"🔐 Local play";
+}
+function bestFor(id){return Number(localStorage.getItem("scott_arcade_best_"+id)||0)}
+function saveRecord(id,score){
+ const key="scott_arcade_best_"+id,old=bestFor(id);
+ if(score>old)localStorage.setItem(key,String(score));
+ Account.save(id,score);
+ updateStats();
+}
+function updateStats(){
+ const ids=["snake","tic","memory","rps","reaction","clicker","guess"];
+ document.getElementById("recordCount").textContent=ids.filter(id=>bestFor(id)>0).length;
+ document.getElementById("playCount").textContent=Number(localStorage.getItem("scott_arcade_plays")||0);
+ document.getElementById("snakeBest").textContent=bestFor("snake");
+ document.getElementById("clickBest").textContent=bestFor("clicker");
+ document.getElementById("reactBest").textContent=bestFor("reaction")?bestFor("reaction")+" ms":"—";
+}
+function countPlay(){
+ localStorage.setItem("scott_arcade_plays",String(Number(localStorage.getItem("scott_arcade_plays")||0)+1));
+ updateStats();
+}
+function openGame(id){
+ document.getElementById("home").style.display="none";
+ document.getElementById("gameGrid").style.display="none";
+ document.querySelectorAll(".game-area").forEach(e=>e.classList.remove("active"));
+ document.getElementById("g-"+id).classList.add("active");
+ countPlay();
+ if(id==="snake")drawSnake();
+ if(id==="tic")startTic();
+ if(id==="memory")startMemory();
+ if(id==="guess")startGuess();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function showHome(){
+ document.getElementById("home").style.display="";
+ document.getElementById("gameGrid").style.display="grid";
+ document.querySelectorAll(".game-area").forEach(e=>e.classList.remove("active"));
+ stopSnake();stopClicker();stopReaction();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* SNAKE */
+const snakeCanvas=document.getElementById("snakeCanvas"),sctx=snakeCanvas.getContext("2d");
+const SZ=18,NUM=20;
+let snake=[],food={x:12,y:10},sdir={x:1,y:0},snext={x:1,y:0},snakeScore=0,snakeTimer=null,snakeRunning=false;
+function snakeFood(){
+ let p;do{p={x:Math.floor(Math.random()*NUM),y:Math.floor(Math.random()*NUM)}}while(snake.some(q=>q.x===p.x&&q.y===p.y));return p;
+}
+function drawSnake(){
+ sctx.clearRect(0,0,360,360);sctx.strokeStyle="#e5f3fb";
+ for(let i=0;i<=NUM;i++){
+  sctx.beginPath();sctx.moveTo(i*SZ,0);sctx.lineTo(i*SZ,360);sctx.stroke();
+  sctx.beginPath();sctx.moveTo(0,i*SZ);sctx.lineTo(360,i*SZ);sctx.stroke();
+ }
+ function cell(p,c){sctx.fillStyle=c;sctx.beginPath();sctx.roundRect(p.x*SZ+2,p.y*SZ+2,SZ-4,SZ-4,4);sctx.fill()}
+ if(food)cell(food,"#ff6384");
+ snake.forEach((p,i)=>cell(p,i===0?"#087dbb":"#45b9e8"));
+}
+function startSnake(){
+ stopSnake();snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+ sdir={x:1,y:0};snext={x:1,y:0};snakeScore=0;food=snakeFood();snakeRunning=true;
+ document.getElementById("snakeScore").textContent="0";
+ document.getElementById("snakeStatus").textContent="Good luck!";
+ snakeTimer=setInterval(snakeTick,115);drawSnake();
+}
+function stopSnake(){if(snakeTimer)clearInterval(snakeTimer);snakeTimer=null;snakeRunning=false}
+function snakeDir(d){
+ const dirs={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+ const v=dirs[d];if(!v)return;
+ if(v.x===-sdir.x&&v.y===-sdir.y)return;snext=v;
+}
+function snakeTick(){
+ sdir=snext;const head={x:snake[0].x+sdir.x,y:snake[0].y+sdir.y};
+ const eating=head.x===food.x&&head.y===food.y;
+ const body=eating?snake:snake.slice(0,-1);
+ if(head.x<0||head.y<0||head.x>=NUM||head.y>=NUM||body.some(p=>p.x===head.x&&p.y===head.y)){
+  stopSnake();document.getElementById("snakeStatus").textContent="Game over! Score: "+snakeScore;
+  saveRecord("snake",snakeScore);return;
+ }
+ snake.unshift(head);
+ if(eating){
+  snakeScore+=10;document.getElementById("snakeScore").textContent=snakeScore;food=snakeFood();
+  if(snake.length===NUM*NUM){stopSnake();document.getElementById("snakeStatus").textContent="You filled the board!";saveRecord("snake",snakeScore)}
+ }else snake.pop();
+ drawSnake();
+}
+document.addEventListener("keydown",e=>{
+ const keys={ArrowUp:"up",w:"up",W:"up",ArrowDown:"down",s:"down",S:"down",ArrowLeft:"left",a:"left",A:"left",ArrowRight:"right",d:"right",D:"right"};
+ if(keys[e.key]&&document.getElementById("g-snake").classList.contains("active")){e.preventDefault();snakeDir(keys[e.key])}
+});
+let swipeStart=null;
+snakeCanvas.addEventListener("touchstart",e=>{const t=e.changedTouches[0];swipeStart={x:t.clientX,y:t.clientY}},{passive:true});
+snakeCanvas.addEventListener("touchend",e=>{
+ if(!swipeStart)return;const t=e.changedTouches[0],dx=t.clientX-swipeStart.x,dy=t.clientY-swipeStart.y;
+ if(Math.max(Math.abs(dx),Math.abs(dy))>20)snakeDir(Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up"));
+ swipeStart=null;
+},{passive:true});
+
+/* TIC-TAC-TOE */
+let ticCells=[],ticOver=false;
+function startTic(){
+ ticCells=Array(9).fill("");ticOver=false;
+ document.getElementById("ticStatus").textContent="Your turn — X";
+ const board=document.getElementById("ticBoard");board.innerHTML="";
+ ticCells.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.onclick=()=>ticMove(i);board.appendChild(b)});
+}
+function ticWinner(a){
+ const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+ for(const l of lines)if(a[l[0]]&&a[l[0]]===a[l[1]]&&a[l[1]]===a[l[2]])return a[l[0]];
+ return a.every(Boolean)?"draw":null;
+}
+function ticPaint(){[...document.getElementById("ticBoard").children].forEach((b,i)=>b.textContent=ticCells[i])}
+function ticMove(i){
+ if(ticOver||ticCells[i])return;
+ ticCells[i]="X";ticPaint();let result=ticWinner(ticCells);
+ if(result){ticFinish(result);return}
+ document.getElementById("ticStatus").textContent="Computer thinking…";
+ setTimeout(()=>{
+  if(ticOver)return;
+  const choices=ticCells.map((v,i)=>v?null:i).filter(v=>v!==null);let pick=null;
+  for(const mark of ["O","X"]){
+   for(const c of choices){const a=ticCells.slice();a[c]=mark;if(ticWinner(a)===mark){pick=c;break}}
+   if(pick!==null)break;
+  }
+  if(pick===null&&ticCells[4]==="")pick=4;
+  if(pick===null)pick=choices[Math.floor(Math.random()*choices.length)];
+  if(pick!==undefined&&pick!==null)ticCells[pick]="O";
+  ticPaint();result=ticWinner(ticCells);
+  if(result)ticFinish(result);else document.getElementById("ticStatus").textContent="Your turn — X";
+ },250);
+}
+function ticFinish(r){
+ ticOver=true;const el=document.getElementById("ticStatus");
+ if(r==="X"){el.textContent="You win! 🎉";saveRecord("tic",bestFor("tic")+1)}
+ else if(r==="O")el.textContent="Computer wins. Try again!";
+ else el.textContent="It's a draw!";
+}
+
+/* MEMORY MATCH */
+const emojis=["🐶","🐱","🦊","🐼","🐸","🐵","🦄","🐙"];
+let memCards=[],memOpen=[],memMatched=[],memMoves=0,memLock=false;
+function startMemory(){
+ memCards=[...emojis,...emojis].sort(()=>Math.random()-.5);
+ memOpen=[];memMatched=[];memMoves=0;memLock=false;
+ document.getElementById("memMoves").textContent="0";
+ document.getElementById("memPairs").textContent="0/8";
+ document.getElementById("memStatus").textContent="Find all eight pairs!";
+ const board=document.getElementById("memoryBoard");board.innerHTML="";
+ memCards.forEach((emoji,i)=>{const b=document.createElement("button");b.className="mem";b.textContent="❔";b.onclick=()=>flipMemory(i,b);board.appendChild(b)});
+}
+function flipMemory(i,b){
+ if(memLock||memOpen.includes(i)||memMatched.includes(i))return;
+ b.textContent=memCards[i];memOpen.push(i);
+ if(memOpen.length===2){
+  memMoves++;document.getElementById("memMoves").textContent=memMoves;
+  const buttons=document.getElementById("memoryBoard").children;
+  if(memCards[memOpen[0]]===memCards[memOpen[1]]){
+   memMatched.push(...memOpen);memOpen=[];
+   document.getElementById("memPairs").textContent=(memMatched.length/2)+"/8";
+   if(memMatched.length===16){
+    document.getElementById("memStatus").textContent="Completed in "+memMoves+" moves!";
+    saveRecord("memory",Math.max(1,100-memMoves));
+   }
+  }else{
+   memLock=true;const pair=memOpen.slice();memOpen=[];
+   setTimeout(()=>{pair.forEach(n=>{if(!memMatched.includes(n))buttons[n].textContent="❔"});memLock=false},650);
+  }
+ }
+}
+
+/* ROCK PAPER SCISSORS */
+let rpsW=0,rpsL=0,rpsT=0;
+function playRPS(move){
+ const opts=["rock","paper","scissors"],computer=opts[Math.floor(Math.random()*3)];
+ const win=(move==="rock"&&computer==="scissors")||(move==="paper"&&computer==="rock")||(move==="scissors"&&computer==="paper");
+ const draw=move===computer;
+ const result=draw?"Draw!":win?"You win! 🎉":"Computer wins!";
+ if(draw)rpsT++;else if(win)rpsW++;else rpsL++;
+ document.getElementById("rpsResult").textContent="You: "+move+" · Computer: "+computer+" · "+result;
+ document.getElementById("rpsWins").textContent=rpsW;
+ document.getElementById("rpsLosses").textContent=rpsL;
+ document.getElementById("rpsScore").textContent="Draws: "+rpsT;
+ saveRecord("rps",rpsW);
+}
+
+/* REACTION TEST */
+let reactState="idle",reactTimer=null,reactStart=0;
+function stopReaction(){if(reactTimer)clearTimeout(reactTimer);reactTimer=null;if(reactState==="waiting")reactState="idle"}
+function reactionTap(){
+ const zone=document.getElementById("reactZone"),status=document.getElementById("reactStatus");
+ if(reactState==="idle"){
+  reactState="waiting";zone.className="click-zone wait";zone.textContent="Wait for green…";status.textContent="Don't tap yet!";
+  reactTimer=setTimeout(()=>{reactState="ready";reactStart=performance.now();zone.className="click-zone ready";zone.textContent="TAP NOW!";status.textContent="GO!"},1000+Math.random()*3000);
+ }else if(reactState==="waiting"){
+  clearTimeout(reactTimer);reactTimer=null;reactState="idle";zone.className="click-zone";zone.textContent="Too early! Tap to retry";status.textContent="Wait until green.";
+ }else if(reactState==="ready"){
+  const ms=Math.round(performance.now()-reactStart);reactState="idle";
+  zone.className="click-zone";zone.textContent="Tap to try again";
+  document.getElementById("reactLast").textContent=ms+" ms";
+  status.textContent=ms<220?"Lightning fast! ⚡":ms<350?"Nice reaction!":"Try to be faster!";
+  const old=bestFor("reaction");
+  if(!old||ms<old)localStorage.setItem("scott_arcade_best_reaction",String(ms));
+  Account.save("reaction",Math.max(0,1000-ms));updateStats();
+ }
+}
+
+/* CLICK CHALLENGE */
+let clickRunning=false,clickNum=0,clickRemaining=10,clickTimer=null;
+function stopClicker(){if(clickTimer)clearInterval(clickTimer);clickTimer=null;clickRunning=false}
+function startClicker(){
+ stopClicker();clickNum=0;clickRemaining=10;clickRunning=true;
+ document.getElementById("clickScore").textContent="0";document.getElementById("clickTime").textContent="10";
+ document.getElementById("clickZone").textContent="TAP AS FAST AS YOU CAN!";
+ document.getElementById("clickStatus").textContent="Go go go!";
+ clickTimer=setInterval(()=>{
+  clickRemaining--;document.getElementById("clickTime").textContent=clickRemaining;
+  if(clickRemaining<=0){
+   stopClicker();document.getElementById("clickZone").textContent="Time's up!";
+   document.getElementById("clickStatus").textContent="You scored "+clickNum+" clicks!";
+   saveRecord("clicker",clickNum);
+  }
+ },1000);
+}
+function clickHit(){if(clickRunning){clickNum++;document.getElementById("clickScore").textContent=clickNum}}
+
+/* NUMBER GUESS */
+let secret=0,guessCount=0,guessDone=false;
+function startGuess(){
+ secret=Math.floor(Math.random()*100)+1;guessCount=0;guessDone=false;
+ document.getElementById("guessInput").value="";
+ document.getElementById("guessInput").disabled=false;
+ document.getElementById("guessStatus").textContent="Make your first guess!";
+ document.getElementById("guessAttempts").textContent="Attempts: 0";
+}
+function makeGuess(){
+ if(guessDone)return;
+ const input=document.getElementById("guessInput"),n=Number(input.value);
+ if(!Number.isInteger(n)||n<1||n>100){document.getElementById("guessStatus").textContent="Enter a whole number from 1 to 100.";return}
+ guessCount++;document.getElementById("guessAttempts").textContent="Attempts: "+guessCount;
+ if(n===secret){
+  guessDone=true;input.disabled=true;
+  document.getElementById("guessStatus").textContent="Correct! 🎉 The number was "+secret+".";
+  saveRecord("guess",Math.max(1,101-guessCount));return;
+ }
+ document.getElementById("guessStatus").textContent=n<secret?"Too low! Try higher.":"Too high! Try lower.";
+ input.select();
+}
+document.getElementById("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter")makeGuess()});
+
+refreshAccount();updateStats();drawSnake();startTic();startMemory();startGuess();
+</script>
+</body>
+  </html>
