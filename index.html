@@ -2,1460 +2,1528 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#071426">
-<meta name="description" content="Scott — software engineer, digital creator, and browser game developer.">
-<title>ScottCode — Digital Playground</title>
+<meta name="description" content="Scott — software engineer, developer and digital creator.">
+<title>ScottCode.fun — Scott's Digital World</title>
 
 <style>
-:root {
+:root{
   --bg:#071426;
-  --panel:rgba(16,36,59,.78);
-  --panel2:#10243b;
+  --panel:rgba(17,39,67,.72);
+  --panel2:rgba(25,53,86,.72);
+  --line:rgba(155,207,255,.17);
   --text:#edf7ff;
-  --muted:#9db5d0;
-  --blue:#7dc7ff;
-  --cyan:#7ce9f4;
-  --border:rgba(125,199,255,.20);
-  --shadow:0 20px 70px #0003;
+  --muted:#9eb7d0;
+  --blue:#80c9ff;
+  --cyan:#65f0ff;
+  --purple:#b5a1ff;
+  --green:#8dffce;
+  --red:#ff9da9;
+  --radius:22px;
+  --max:1150px;
 }
-* {box-sizing:border-box}
-html {scroll-behavior:smooth;scroll-padding-top:100px}
-body {
-  margin:0;min-height:100vh;overflow-x:hidden;
-  background:var(--bg);color:var(--text);
-  font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:95px}
+body{
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
 }
-body.light {
-  --bg:#eef7ff;--panel:rgba(255,255,255,.84);
-  --panel2:#fff;--text:#10233b;--muted:#58718b;
-  --blue:#187be9;--cyan:#008eaa;
-  --border:rgba(48,112,180,.19);
-  --shadow:0 20px 60px #356ca018;
-}
-a {color:inherit;text-decoration:none}
-button,input,textarea,select {font:inherit}
-button,a { -webkit-tap-highlight-color:transparent }
-button {color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible,
-textarea:focus-visible {outline:2px solid var(--blue);outline-offset:3px}
-button:disabled {opacity:.55;cursor:not-allowed}
-::selection {background:#7dc7ff55}
+button,input,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer}
+::selection{background:#65d4ff;color:#071426}
 
-.background {
- position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;
- background:
- radial-gradient(ellipse at 10% 5%,#1765bb30,transparent 45%),
- radial-gradient(ellipse at 90% 45%,#00c9d520,transparent 42%);
+#stars{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:-3;
 }
-.orb {
- position:absolute;width:340px;height:340px;border-radius:50%;
- filter:blur(95px);opacity:.19;background:#167bff;
- animation:float 15s ease-in-out infinite alternate;
+.background-glow{
+  position:fixed;inset:0;pointer-events:none;z-index:-2;
+  background:
+    radial-gradient(ellipse at 10% 10%,rgba(30,125,220,.20),transparent 43%),
+    radial-gradient(ellipse at 90% 35%,rgba(90,80,220,.13),transparent 40%),
+    radial-gradient(ellipse at 50% 100%,rgba(30,180,220,.10),transparent 45%);
 }
-.orb:nth-child(1){top:-180px;left:-100px}
-.orb:nth-child(2){right:-180px;top:38%;background:#00d9ff;animation-delay:-6s}
-.orb:nth-child(3){bottom:-220px;left:25%;background:#6955ff;animation-delay:-9s}
-@keyframes float {
- from{transform:translate(0,0) scale(1)}
- to{transform:translate(65px,45px) scale(1.18)}
+.container{width:min(var(--max),calc(100% - 36px));margin:auto}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.gradient-text{
+  background:linear-gradient(110deg,#fff,#8ad8ff,#a9a2ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-#stars {position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-
-.wrap {width:min(1120px,calc(100% - 34px));margin:auto}
+.eyebrow{
+  color:var(--cyan);font-size:.77rem;font-weight:800;
+  letter-spacing:.19em;text-transform:uppercase;
+}
+.section{padding:90px 0}
+.section-heading{margin-bottom:34px}
+.section-heading h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin:8px 0}
+.section-heading p{color:var(--muted);max-width:650px}
+.panel{
+  background:linear-gradient(145deg,rgba(23,48,79,.82),rgba(9,24,44,.82));
+  border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 18px 55px rgba(0,0,0,.16);
+  backdrop-filter:blur(18px);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid var(--line);border-radius:13px;padding:12px 18px;
+  color:var(--text);font-weight:750;background:rgba(255,255,255,.055);
+  transition:transform .2s,border-color .2s,background .2s;
+}
+.btn:hover{transform:translateY(-2px);border-color:rgba(125,213,255,.6)}
+.btn-primary{
+  color:#071426;border:0;
+  background:linear-gradient(115deg,#8ddcff,#a9c6ff,#b8adff);
+  box-shadow:0 8px 25px rgba(99,177,255,.15);
+}
+.btn-danger{color:var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 11px;border:1px solid var(--line);
+  border-radius:100px;color:#c5e5ff;font-size:.78rem;
+  background:rgba(120,190,255,.07);
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
 
 /* NAVIGATION */
-
-header {
- position:sticky;top:10px;z-index:100;
- width:min(1120px,calc(100% - 20px));margin:10px auto 0;
- padding:10px 14px;display:flex;align-items:center;
- justify-content:space-between;gap:12px;
- border:1px solid var(--border);border-radius:18px;
- background:var(--panel);backdrop-filter:blur(22px);
- box-shadow:var(--shadow);
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(5,16,31,.83);
+  border-bottom:1px solid rgba(150,200,255,.12);
+  backdrop-filter:blur(22px);
 }
-.brand {display:flex;align-items:center;gap:9px;font-weight:900;white-space:nowrap}
-.brand-icon {
- width:35px;height:35px;border-radius:11px;display:grid;place-items:center;
- background:linear-gradient(135deg,#75caff,#6375ff);color:#071426;
- font-weight:950;
+.nav{
+  min-height:75px;display:flex;align-items:center;
+  justify-content:space-between;gap:20px;
 }
-.brand b {color:var(--blue)}
-.navlinks {display:flex;align-items:center;gap:4px}
-.navlinks a,.iconbtn {
- padding:9px 11px;border:0;border-radius:10px;background:transparent;
- color:var(--muted);font-size:13px;font-weight:750;cursor:pointer;
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.04em}
+.brand-icon{
+  width:39px;height:39px;border-radius:13px;display:grid;place-items:center;
+  color:#061426;background:linear-gradient(135deg,#8de4ff,#b8a5ff);
+  box-shadow:0 5px 25px rgba(104,196,255,.2);font-weight:1000;
 }
-.navlinks a:hover,.navlinks a.active,.iconbtn:hover {
- background:#7dc7ff19;color:var(--text)
+.brand span:last-child{font-size:1.05rem}
+.nav-links{display:flex;align-items:center;gap:5px}
+.nav-links a{
+  padding:9px 12px;border-radius:10px;font-size:.88rem;
+  font-weight:700;color:#afc4da;transition:.2s;
 }
-.navtools {display:flex;align-items:center;gap:4px}
-.menu-toggle {display:none}
-@media(max-width:760px) {
- header {flex-wrap:wrap}
- .menu-toggle {display:block}
- .navlinks {
-  display:none;flex-basis:100%;flex-direction:column;align-items:stretch;
-  gap:4px;padding:8px 0 3px;
- }
- .navlinks.open {display:flex}
- .navlinks a {padding:12px}
- .navlinks a.active {background:#7dc7ff19}
+.nav-links a:hover,.nav-links a.active{
+  color:#fff;background:rgba(125,197,255,.12);
 }
-
-/* COMMON */
-
-main {min-height:70vh}
-.page {display:none;animation:appear .35s ease both}
-.page.active {display:block}
-@keyframes appear {
- from{opacity:0;transform:translateY(9px)}
- to{opacity:1;transform:translateY(0)}
+.nav-actions{display:flex;align-items:center;gap:9px}
+.menu-toggle{
+  display:none;width:44px;height:44px;border-radius:12px;
+  border:1px solid var(--line);background:var(--panel);color:white;font-size:1.3rem;
 }
-.hero {padding:88px 0 60px}
-.eyebrow {
- color:var(--cyan);font-size:11px;font-weight:900;
- letter-spacing:2.2px;text-transform:uppercase
-}
-h1,h2,h3,p {overflow-wrap:anywhere}
-h1 {font-size:clamp(43px,8vw,82px);line-height:1.03;letter-spacing:-3.8px;margin:17px 0}
-h2 {font-size:clamp(30px,5vw,48px);line-height:1.12;letter-spacing:-1.7px;margin:8px 0 15px}
-h3 {line-height:1.3}
-.gradient {
- color:transparent;background:linear-gradient(110deg,#80caff,#9a9dff,#68edf2);
- background-clip:text;-webkit-background-clip:text
-}
-.lead {max-width:680px;color:var(--muted);font-size:16px;line-height:1.9}
-.section {padding:65px 0}
-.sectionhead {margin-bottom:25px}
-.sectionhead p {max-width:650px;color:var(--muted)}
-.grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.two {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
-.card {
- min-width:0;padding:22px;border-radius:21px;border:1px solid var(--border);
- background:var(--panel);box-shadow:var(--shadow);
- transition:transform .22s,border-color .22s;
-}
-.card:hover {transform:translateY(-3px);border-color:#7dc7ff75}
-.card p {color:var(--muted);line-height:1.8}
-.card-icon {
- width:47px;height:47px;border-radius:15px;background:#7dc7ff18;
- display:grid;place-items:center;font-size:23px;margin-bottom:15px
-}
-.btn {
- display:inline-flex;align-items:center;justify-content:center;gap:8px;
- border:1px solid var(--border);border-radius:12px;padding:11px 16px;
- background:var(--panel);font-weight:800;font-size:13px;cursor:pointer;
- transition:transform .2s,border-color .2s;
-}
-.btn:hover {transform:translateY(-2px);border-color:var(--blue)}
-.btn.primary {background:linear-gradient(110deg,#83caff,#82e8f1);color:#071426;border:0}
-.btnrow {display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
-.tagrow {display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
-.tag {
- display:inline-block;padding:6px 10px;border-radius:99px;
- border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:750
-}
-.muted {color:var(--muted)}
-.status {min-height:22px;color:var(--cyan);font-size:13px;margin-top:8px}
-.field {margin:0 0 15px}
-.field label {
- display:block;font-size:11px;font-weight:850;letter-spacing:1px;
- color:var(--muted);margin-bottom:7px
-}
-.field input,.field textarea,.field select {
- display:block;width:100%;padding:13px 14px;border-radius:12px;
- border:1px solid var(--border);background:var(--bg);color:var(--text);
-}
-.field textarea {min-height:140px;resize:vertical}
-footer {margin-top:50px;border-top:1px solid var(--border);padding:26px 0;color:var(--muted);font-size:12px}
-.footerinner {display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 /* HOME */
+.hero{min-height:calc(90vh - 75px);display:flex;align-items:center;padding:75px 0 60px}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:55px}
+.hero h1{font-size:clamp(3rem,8vw,6.4rem);line-height:.99;letter-spacing:-.075em;margin:22px 0}
+.hero h1 .second{display:block}
+.hero-copy{font-size:1.08rem;color:#afc4da;max-width:610px}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:26px}
+.hero-art{position:relative;min-height:390px;display:grid;place-items:center}
+.orbit{
+  position:absolute;width:310px;height:310px;border-radius:50%;
+  border:1px solid rgba(121,207,255,.2);
+  animation:spin 24s linear infinite;
+}
+.orbit:before,.orbit:after{
+  content:"";position:absolute;width:12px;height:12px;border-radius:50%;
+  background:#81dfff;box-shadow:0 0 25px #66d5ff;
+}
+.orbit:before{top:22px;left:70px}
+.orbit:after{bottom:36px;right:30px;background:#b4a1ff}
+.orbit.two{width:235px;height:235px;animation-direction:reverse;animation-duration:18s}
+.orbit.two:before{background:#b4a1ff;top:35px;right:20px;left:auto}
+.orbit.two:after{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-core{
+  width:180px;height:180px;display:grid;place-items:center;
+  border-radius:42px;transform:rotate(-8deg);
+  background:linear-gradient(145deg,rgba(113,203,255,.2),rgba(155,130,255,.12));
+  border:1px solid rgba(159,219,255,.4);
+  box-shadow:0 0 85px rgba(77,171,255,.17),inset 0 0 35px rgba(130,190,255,.08);
+}
+.hero-core span{font-size:5rem;font-weight:1000;letter-spacing:-.1em;color:#c6edff}
+.floating-card{
+  position:absolute;padding:12px 16px;border-radius:15px;
+  background:rgba(13,34,57,.92);border:1px solid var(--line);
+  box-shadow:0 12px 40px rgba(0,0,0,.2);font-size:.82rem;
+}
+.float-one{top:30px;right:0}
+.float-two{bottom:32px;left:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:45px}
+.stat{padding:19px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.stat strong{display:block;font-size:1.5rem}
+.stat span{color:var(--muted);font-size:.8rem}
 
-.stats {display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px;max-width:670px}
-.stat {padding:17px;border:1px solid var(--border);background:var(--panel);border-radius:16px}
-.stat strong {display:block;font-size:24px;color:var(--blue)}
-.stat span {font-size:12px;color:var(--muted)}
-.home-feature {margin-top:30px}
-.home-feature .card {display:flex;gap:14px;align-items:flex-start}
-.home-feature .card-icon {flex-shrink:0}
-
-/* ABOUT */
-
-.skillgrid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.skill {padding:17px;border:1px solid var(--border);border-radius:15px;background:var(--panel)}
-.skill strong {display:block;color:var(--blue);margin-bottom:4px}
-.skill small {color:var(--muted)}
-
-/* PROJECTS */
-
-.projecttop {display:flex;justify-content:space-between;align-items:center;gap:10px}
-.projecttop .card-icon {margin:0}
-.project-link {display:inline-block;color:var(--blue);font-weight:800;font-size:13px;margin-top:12px}
-
-/* CONTACT */
-
-.contact-layout {display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
-.contact-layout .card {align-self:start}
+/* CONTENT */
+.grid{display:grid;gap:17px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{padding:24px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:rgba(125,210,255,.38)}
+.card-icon{font-size:1.7rem;margin-bottom:14px}
+.card h3{margin:0 0 8px;font-size:1.12rem}
+.card p{margin:0;color:var(--muted);font-size:.94rem}
+.tag-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
+.tag{font-size:.74rem;padding:4px 9px;border-radius:8px;background:rgba(120,185,255,.09);color:#b9dfff}
+.about-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
+.profile-card{padding:30px;text-align:center}
+.avatar{
+  width:105px;height:105px;border-radius:30px;margin:0 auto 20px;
+  display:grid;place-items:center;font-size:3rem;font-weight:900;color:#081729;
+  background:linear-gradient(135deg,#8de5ff,#b7a5ff);
+}
+.profile-card h3{margin:0;font-size:1.5rem}
+.profile-card .pill{margin-top:12px}
+.about-text{padding:30px}
+.about-text p{color:var(--muted)}
+.skill-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+.project-card{display:flex;flex-direction:column;min-height:240px}
+.project-card .project-bottom{margin-top:auto;padding-top:22px}
+.project-link{color:var(--cyan);font-weight:800;font-size:.9rem}
+.project-link:hover{text-decoration:underline}
+.status-line{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.8rem}
 
 /* ARCADE */
+.arcade-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.arcade-layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.game-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.game-choice{
+  padding:18px;text-align:left;border-radius:16px;
+  border:1px solid var(--line);color:var(--text);
+  background:rgba(255,255,255,.025);transition:.2s;
+}
+.game-choice:hover,.game-choice.selected{background:rgba(95,180,255,.12);border-color:#7ecbff}
+.game-choice strong{display:block;font-size:1rem;margin:5px 0}
+.game-choice span{color:var(--muted);font-size:.8rem}
+.game-panel{padding:24px;margin-top:16px;min-height:310px}
+.game-panel h3{margin-top:0}
+.game-message{min-height:26px;color:var(--cyan);font-size:.9rem}
+.game-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.game-display{display:flex;flex-direction:column;align-items:center;gap:15px;margin:20px 0}
+.board{display:grid;gap:7px;max-width:100%}
+.board button{
+  border:1px solid var(--line);background:rgba(255,255,255,.05);
+  color:var(--text);border-radius:12px;font-weight:900;
+}
+.ttt-board{grid-template-columns:repeat(3,76px)}
+.ttt-board button{width:76px;height:76px;font-size:2rem}
+.memory-board{grid-template-columns:repeat(4,58px)}
+.memory-board button{width:58px;height:66px;font-size:1.4rem}
+.game-number{font-size:2rem;font-weight:900}
+#snakeCanvas{
+  display:block;max-width:100%;width:320px;height:320px;
+  border-radius:14px;border:1px solid var(--line);background:#07111f;
+}
+.dpad{display:grid;grid-template-columns:repeat(3,48px);gap:5px}
+.dpad button{height:42px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:white}
+.dpad button:nth-child(1){grid-column:2}
+.dpad button:nth-child(2){grid-column:1;grid-row:2}
+.dpad button:nth-child(3){grid-column:2;grid-row:2}
+.dpad button:nth-child(4){grid-column:3;grid-row:2}
+.side-panel{padding:22px}
+.side-panel h3{margin-top:0}
+.leaderboard-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.87rem}
+.leaderboard-row:last-child{border:0}
+.rank{color:var(--cyan);font-weight:900}
+.auth-box{padding:22px;margin-top:18px}
+.auth-box h3{margin-top:0}
+.form-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.form-field label{font-size:.84rem;color:#c6d9eb;font-weight:700}
+.form-field input,.form-field textarea{
+  width:100%;padding:12px 13px;color:var(--text);
+  background:rgba(1,12,24,.52);border:1px solid var(--line);
+  border-radius:11px;outline:none;
+}
+.form-field input:focus,.form-field textarea:focus{border-color:#7ccfff;box-shadow:0 0 0 3px rgba(100,185,255,.08)}
+.form-field textarea{min-height:145px;resize:vertical}
+.auth-switch{display:flex;gap:12px;margin:13px 0}
+.auth-switch button{flex:1}
+.notice{padding:12px 14px;border-radius:12px;font-size:.86rem;margin:12px 0;background:rgba(125,190,255,.08);border:1px solid var(--line);overflow-wrap:anywhere}
+.notice.error{color:#ffb5bf;border-color:rgba(255,120,140,.3)}
+.notice.success{color:#a4ffd6;border-color:rgba(100,255,190,.25)}
+.hidden{display:none!important}
 
-.arcade-layout {display:grid;grid-template-columns:270px minmax(0,1fr);gap:17px;align-items:start}
-.game-tabs {display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
-.tab {padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--muted);cursor:pointer;font-weight:750;font-size:12px}
-.tab.active {background:#7dc7ff20;border-color:var(--blue);color:var(--text)}
-.game {display:none}
-.game.active {display:block}
-.game h3 {margin-top:0}
-.gamebox {padding:14px;border:1px solid var(--border);border-radius:16px;background:#0610200c;margin-top:15px}
-.gamebutton {
- min-height:58px;min-width:58px;border:1px solid var(--border);
- border-radius:12px;background:var(--panel2);font-weight:900;font-size:20px;
- cursor:pointer;
+/* CONTACT / FOOTER */
+.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
+.contact-info{padding:27px}
+.contact-form{padding:27px}
+.contact-info a{color:var(--cyan)}
+footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.back-top{position:fixed;right:17px;bottom:17px;z-index:50;border-radius:14px;box-shadow:0 8px 30px #0005}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);
+  z-index:200;max-width:calc(100% - 30px);padding:13px 18px;
+  border-radius:13px;background:#173655;border:1px solid var(--line);
+  opacity:0;pointer-events:none;transition:.25s;
 }
-.board {display:grid;gap:7px;margin:15px auto;max-width:340px}
-.ticboard {grid-template-columns:repeat(3,1fr)}
-.memoryboard {grid-template-columns:repeat(4,minmax(0,1fr))}
-.gamebutton:hover {border-color:var(--blue)}
-.gamebutton:disabled {cursor:default}
-.gamecanvas {display:block;width:100%;max-width:440px;margin:12px auto;background:#061020;border:1px solid var(--border);border-radius:12px;touch-action:none}
-.game-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.account-card {margin-bottom:14px}
-.small {font-size:12px}
-.account-name {font-size:19px;font-weight:900;overflow-wrap:anywhere}
-.hidden {display:none!important}
-.scoreline {display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.scorechip {padding:8px 11px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--muted)}
-.leaderboard {padding-left:23px;color:var(--muted);font-size:13px}
-.leaderboard li {padding:5px}
-kbd {padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-size:11px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+hr{border:0;border-top:1px solid var(--line);margin:20px 0}
 
-@media(max-width:800px) {
- .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
- .arcade-layout {grid-template-columns:1fr}
- .contact-layout {grid-template-columns:1fr}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{min-height:320px;max-width:450px;width:100%;margin:auto}
+  .hero{min-height:auto}
+  .arcade-layout{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .about-layout{grid-template-columns:1fr}
+  .contact-layout{grid-template-columns:1fr}
 }
-@media(max-width:520px) {
- .wrap {width:calc(100% - 24px)}
- .hero {padding:60px 0 35px}
- h1 {letter-spacing:-2.5px}
- .section {padding:40px 0}
- .grid,.two,.skillgrid {grid-template-columns:1fr}
- .stats {gap:7px}
- .stat {padding:12px}
- .stat strong {font-size:20px}
- .card {padding:18px}
- .memoryboard {gap:5px}
- .gamebutton {min-width:0;min-height:55px}
+@media(max-width:760px){
+  .nav{min-height:68px}
+  .menu-toggle{display:grid;place-items:center}
+  .nav-actions .login-nav{display:none}
+  .nav-links{
+    display:none;position:absolute;top:68px;left:12px;right:12px;
+    padding:12px;flex-direction:column;align-items:stretch;gap:4px;
+    background:rgba(5,17,32,.98);border:1px solid var(--line);
+    border-radius:17px;box-shadow:0 18px 45px #0007;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 14px}
+  .hero{padding:58px 0 35px}
+  .hero h1{font-size:clamp(3rem,14vw,5rem)}
+  .hero-art{min-height:280px}
+  .orbit{width:245px;height:245px}
+  .orbit.two{width:190px;height:190px}
+  .hero-core{width:145px;height:145px;border-radius:34px}
+  .hero-core span{font-size:4rem}
+  .float-one{right:0;top:12px}
+  .float-two{left:0;bottom:10px}
+  .stats{gap:8px}
+  .stat{padding:13px}
+  .stat strong{font-size:1.2rem}
+  .section{padding:65px 0}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .game-list{grid-template-columns:1fr 1fr}
+  .game-choice{padding:13px}
+  .game-panel{padding:17px}
+  .ttt-board{grid-template-columns:repeat(3,min(22vw,76px))}
+  .ttt-board button{width:min(22vw,76px);height:min(22vw,76px)}
+  .memory-board{grid-template-columns:repeat(4,min(15vw,58px))}
+  .memory-board button{width:min(15vw,58px);height:58px}
+  .contact-form,.contact-info{padding:20px}
 }
-@media(prefers-reduced-motion:reduce) {
- *,*::before,*::after {animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
 </style>
 </head>
 
 <body>
-<div class="background" aria-hidden="true">
- <div class="orb"></div><div class="orb"></div><div class="orb"></div>
-</div>
 <canvas id="stars" aria-hidden="true"></canvas>
+<div class="background-glow" aria-hidden="true"></div>
 
 <header>
- <a class="brand" href="#home" data-route="home">
-  <span class="brand-icon">S</span>
-  <span>Scott<b>Code</b><span class="muted">.fun</span></span>
- </a>
+  <div class="container nav">
+    <a href="#home" class="brand" aria-label="ScottCode home">
+      <span class="brand-icon">S</span>
+      <span>ScottCode<span class="gradient-text">.fun</span></span>
+    </a>
 
- <nav class="navlinks" id="navlinks" aria-label="Main navigation">
-  <a href="#home" data-route="home">Home</a>
-  <a href="#about" data-route="about">About</a>
-  <a href="#projects" data-route="projects">Projects</a>
-  <a href="#arcade" data-route="arcade">Arcade 🎮</a>
-  <a href="#contact" data-route="contact">Contact</a>
- </nav>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="#home" data-section="home" class="active">Home</a>
+      <a href="#about" data-section="about">About</a>
+      <a href="#projects" data-section="projects">Projects</a>
+      <a href="#arcade" data-section="arcade">Arcade 🎮</a>
+      <a href="#contact" data-section="contact">Contact</a>
+    </nav>
 
- <div class="navtools">
-  <button class="iconbtn" id="themeButton" type="button" aria-label="Toggle theme">☼</button>
-  <button class="iconbtn menu-toggle" id="menuButton" type="button"
-   aria-label="Open navigation" aria-expanded="false">☰</button>
- </div>
+    <div class="nav-actions">
+      <button class="btn login-nav" id="navAccountBtn" type="button">Sign in</button>
+      <button class="menu-toggle" id="menuToggle" type="button"
+        aria-label="Open navigation menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
 </header>
 
-<main class="wrap">
-
+<main>
 <!-- HOME -->
-<section class="page active" id="home">
- <div class="hero">
-  <div class="eyebrow">WELCOME TO MY DIGITAL WORLD</div>
-  <h1>Hey, I'm Scott.<br><span class="gradient">I build things<br>for the web.</span></h1>
-  <p class="lead">
-   A curious mind exploring software, web development, and digital creativity.
-   This is my little corner of the internet — projects, experiments, and games,
-   all in one place.
-  </p>
-  <div class="btnrow">
-   <a class="btn primary" href="#projects" data-route="projects">Explore projects ↗</a>
-   <a class="btn" href="#arcade" data-route="arcade">Play the arcade 🎮</a>
-   <a class="btn" href="#contact" data-route="contact">Contact me</a>
-  </div>
-  <div class="stats">
-   <div class="stat"><strong>01</strong><span>Curious creator</span></div>
-   <div class="stat"><strong>HTML</strong><span>Browser-powered</span></div>
-   <div class="stat"><strong>∞</strong><span>Ideas to explore</span></div>
-  </div>
- </div>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <span class="pill"><span class="dot"></span> Welcome to my digital world</span>
+      <div class="eyebrow" style="margin-top:26px">Developer · Creator · Learner</div>
+      <h1>Building my<br><span class="second gradient-text">own universe.</span></h1>
+      <p class="hero-copy">
+        Hey, I'm Scott. I build websites, experiment with code, explore technology,
+        and turn ideas into things people can actually use.
+      </p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">Explore my projects ↗</a>
+        <a href="#arcade" class="btn">🎮 Play some games</a>
+      </div>
+      <div class="hero-tags">
+        <span class="pill">💻 Web development</span>
+        <span class="pill">✨ Creative experiments</span>
+        <span class="pill">🚀 Always learning</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>01</strong><span>Curiosity first</span></div>
+        <div class="stat"><strong>∞</strong><span>Ideas to explore</span></div>
+        <div class="stat"><strong>24/7</strong><span>Internet energy</span></div>
+      </div>
+    </div>
 
- <div class="section">
-  <div class="sectionhead">
-   <div class="eyebrow">EXPLORE</div>
-   <h2>One website. <span class="gradient">Everything connected.</span></h2>
-   <p>Jump between my projects, learn about me, send a message, or take a break with a game.</p>
+    <div class="hero-art" aria-hidden="true">
+      <div class="orbit"></div>
+      <div class="orbit two"></div>
+      <div class="hero-core"><span>S.</span></div>
+      <div class="floating-card float-one">⚡ <b>Building</b> the future</div>
+      <div class="floating-card float-two">🌐 One idea at a time</div>
+    </div>
   </div>
-  <div class="grid">
-   <article class="card">
-    <div class="card-icon">👤</div><h3>About Scott</h3>
-    <p>Learn about my interests, skills, and what I'm learning.</p>
-    <a class="project-link" href="#about" data-route="about">Meet Scott ↗</a>
-   </article>
-   <article class="card">
-    <div class="card-icon">🚀</div><h3>Projects</h3>
-    <p>Explore the websites, experiments, and tools I'm working on.</p>
-    <a class="project-link" href="#projects" data-route="projects">Explore projects ↗</a>
-   </article>
-   <article class="card">
-    <div class="card-icon">🎮</div><h3>Arcade</h3>
-    <p>Play mini-games directly in your browser. No downloads required.</p>
-    <a class="project-link" href="#arcade" data-route="arcade">Enter arcade ↗</a>
-   </article>
-  </div>
- </div>
 </section>
 
 <!-- ABOUT -->
-<section class="page" id="about">
- <div class="hero">
-  <div class="eyebrow">01 / ABOUT ME</div>
-  <h1>Curious by nature.<br><span class="gradient">Creative by choice.</span></h1>
-  <p class="lead">Hey, I'm Scott. I enjoy exploring technology, building websites,
-   learning how digital things work, and turning ideas into projects.</p>
-  <div class="btnrow">
-   <a class="btn primary" href="#projects" data-route="projects">See my projects ↗</a>
-   <a class="btn" href="#contact" data-route="contact">Get in touch</a>
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">A little about me</div>
+      <h2>Meet <span class="gradient-text">Scott.</span></h2>
+      <p>A personal corner of the internet for my interests, experiments, and projects.</p>
+    </div>
+
+    <div class="about-layout">
+      <div class="panel profile-card">
+        <div class="avatar">S.</div>
+        <h3>Scott</h3>
+        <p class="muted">Developer & Digital Creator</p>
+        <span class="pill"><span class="dot"></span> Learning and building</span>
+        <hr>
+        <p class="small muted">Curious about technology, websites, games, and the things we can create with code.</p>
+        <a href="#contact" class="btn" style="margin-top:10px">Get in touch ↗</a>
+      </div>
+
+      <div class="panel about-text">
+        <div class="eyebrow">My story</div>
+        <h3 style="font-size:1.5rem">Curiosity turns into creation.</h3>
+        <p>
+          I enjoy exploring technology and learning how digital products work.
+          This website is my space to experiment, share projects, and keep improving
+          my skills as I go.
+        </p>
+        <p>
+          From web design to browser games, I like projects that combine creativity,
+          problem-solving, and a little bit of fun.
+        </p>
+        <h3 style="margin-top:24px">Things I'm interested in</h3>
+        <div class="skill-row">
+          <span class="tag">HTML & CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Web design</span>
+          <span class="tag">Cloudflare</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Gaming</span>
+          <span class="tag">Digital creation</span>
+        </div>
+      </div>
+    </div>
   </div>
- </div>
- <div class="two">
-  <article class="card">
-   <div class="card-icon">⌘</div>
-   <h2>A little about me</h2>
-   <p>I'm exploring web development and digital creativity. I like experimenting,
-    figuring out how things work, and improving my skills by building real projects.</p>
-   <p>ScottCode is where I bring my ideas together — a portfolio, a place to
-    experiment, and a small arcade built with browser technology.</p>
-  </article>
-  <article class="card">
-   <div class="card-icon">🧰</div>
-   <h2>My toolkit</h2>
-   <p>Technologies and areas I'm learning and exploring.</p>
-   <div class="tagrow">
-    <span class="tag">HTML</span><span class="tag">CSS</span>
-    <span class="tag">JavaScript</span><span class="tag">GitHub</span>
-    <span class="tag">Cloudflare Workers</span><span class="tag">Web Design</span>
-    <span class="tag">Browser Games</span>
-   </div>
-  </article>
- </div>
- <div class="section">
-  <div class="sectionhead"><div class="eyebrow">CURRENT FOCUS</div><h2>Always learning.</h2></div>
-  <div class="skillgrid">
-   <div class="skill"><strong>01 / Structure</strong><small>Building pages with HTML.</small></div>
-   <div class="skill"><strong>02 / Design</strong><small>Creating responsive interfaces with CSS.</small></div>
-   <div class="skill"><strong>03 / Interaction</strong><small>Making websites work with JavaScript.</small></div>
-  </div>
- </div>
 </section>
 
 <!-- PROJECTS -->
-<section class="page" id="projects">
- <div class="hero">
-  <div class="eyebrow">02 / SELECTED WORK</div>
-  <h1>Small ideas.<br><span class="gradient">Big possibilities.</span></h1>
-  <p class="lead">A growing collection of projects, experiments, and things I'm building.
-   Replace or expand these cards as your real projects grow.</p>
- </div>
- <div class="grid">
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">🌐</div><span class="tag">LIVE SITE</span></div>
-   <h3>ScottCode.fun</h3>
-   <p>A personal website that brings my portfolio, contact page, and browser arcade together.</p>
-   <a class="project-link" href="#home" data-route="home">Back to home ↗</a>
-  </article>
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">🎮</div><span class="tag">PLAYABLE</span></div>
-   <h3>ScottCode Arcade</h3>
-   <p>A collection of small browser games made with HTML, CSS, and JavaScript.</p>
-   <a class="project-link" href="#arcade" data-route="arcade">Play games ↗</a>
-  </article>
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">✉️</div><span class="tag">CONTACT</span></div>
-   <h3>Contact system</h3>
-   <p>A contact form powered by Formspree, with a custom thank-you page.</p>
-   <a class="project-link" href="#contact" data-route="contact">Send a message ↗</a>
-  </article>
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">🔐</div><span class="tag">ACCOUNT API</span></div>
-   <h3>Arcade accounts</h3>
-   <p>Username-based login and online score saving through a Cloudflare Worker.</p>
-   <a class="project-link" href="#arcade" data-route="arcade">Open arcade ↗</a>
-  </article>
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">💡</div><span class="tag">EXPERIMENT</span></div>
-   <h3>Useful little tools</h3>
-   <p>A space for future experiments, utilities, and web development projects.</p>
-   <a class="project-link" href="#contact" data-route="contact">Suggest an idea ↗</a>
-  </article>
-  <article class="card">
-   <div class="projecttop"><div class="card-icon">✨</div><span class="tag">IN PROGRESS</span></div>
-   <h3>What's next?</h3>
-   <p>New ideas become new projects. This collection will grow as I build more.</p>
-   <a class="project-link" href="#about" data-route="about">About my journey ↗</a>
-  </article>
- </div>
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">Things I've been working on</div>
+      <h2>My <span class="gradient-text">projects.</span></h2>
+      <p>A collection of experiments and digital projects. You can edit these cards to add your real project links.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="panel card project-card">
+        <div class="card-icon">🌐</div>
+        <h3>ScottCode.fun</h3>
+        <p>My personal website, built to bring my projects, profile, and browser arcade together.</p>
+        <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        <div class="project-bottom"><a class="project-link" href="#home">You're here ↗</a></div>
+      </article>
+
+      <article class="panel card project-card">
+        <div class="card-icon">🎮</div>
+        <h3>Browser Arcade</h3>
+        <p>Small browser games that run directly on this website, without separate game pages.</p>
+        <div class="tag-list"><span class="tag">Games</span><span class="tag">JavaScript</span></div>
+        <div class="project-bottom"><a class="project-link" href="#arcade">Play games ↗</a></div>
+      </article>
+
+      <article class="panel card project-card">
+        <div class="card-icon">☁️</div>
+        <h3>Cloud Experiments</h3>
+        <p>Exploring APIs, online accounts, and ways to connect browser interfaces to a backend.</p>
+        <div class="tag-list"><span class="tag">Cloudflare Workers</span><span class="tag">APIs</span></div>
+        <div class="project-bottom"><a class="project-link" href="#arcade">Try the arcade ↗</a></div>
+      </article>
+
+      <article class="panel card project-card">
+        <div class="card-icon">🧪</div>
+        <h3>Web Experiments</h3>
+        <p>A space for interactive interfaces, design tests, and new things I want to learn.</p>
+        <div class="tag-list"><span class="tag">Experiments</span><span class="tag">Creative coding</span></div>
+        <div class="project-bottom"><a class="project-link" href="#contact">Say hello ↗</a></div>
+      </article>
+
+      <article class="panel card project-card">
+        <div class="card-icon">✨</div>
+        <h3>Future Projects</h3>
+        <p>More ideas are on the way. This section can grow as I build and publish new things.</p>
+        <div class="tag-list"><span class="tag">In progress</span></div>
+        <div class="project-bottom"><a class="project-link" href="#contact">Contact me ↗</a></div>
+      </article>
+
+      <article class="panel card project-card">
+        <div class="card-icon">💡</div>
+        <h3>Have an idea?</h3>
+        <p>Have a suggestion or want to talk about a project? Send me a message.</p>
+        <div class="project-bottom"><a class="project-link" href="#contact">Let's talk ↗</a></div>
+      </article>
+    </div>
+  </div>
 </section>
 
 <!-- ARCADE -->
-<section class="page" id="arcade">
- <div class="hero">
-  <div class="eyebrow">03 / SCOTTCODE ARCADE</div>
-  <h1>Little games.<br><span class="gradient">Big fun.</span></h1>
-  <p class="lead">Play instantly in your browser. No game engine or downloads needed.
-   Sign in to sync scores through the ScottCode API.</p>
- </div>
+<section class="section" id="arcade">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">Play right here</div>
+      <h2>Scott's <span class="gradient-text">Arcade.</span></h2>
+      <p>Choose a game and play directly on this page. No separate game URLs are needed.</p>
+    </div>
 
- <div class="arcade-layout">
-  <aside>
-   <div class="card account-card">
-    <div class="eyebrow">PLAYER ACCOUNT</div>
-    <div id="signedOut">
-     <h3 id="authTitle">Log in to ScottCode</h3>
-     <p class="muted small">Use the same account on supported devices.</p>
-     <form id="authForm">
-      <div class="field">
-       <label for="username">USERNAME</label>
-       <input id="username" name="username" autocomplete="username"
-        minlength="3" maxlength="20" pattern="[A-Za-z0-9_]{3,20}"
-        placeholder="YourUsername" required>
+    <div class="arcade-top">
+      <span class="pill">🎮 4 playable games</span>
+      <span class="status-line" id="arcadeUserStatus"><span class="dot"></span> Guest mode — sign in to submit online scores</span>
+    </div>
+
+    <div class="arcade-layout" style="margin-top:22px">
+      <div>
+        <div class="game-list">
+          <button class="game-choice selected" data-game="snake">
+            <span>🐍 Classic arcade</span><strong>Snake</strong><span>Eat, grow, and don't crash.</span>
+          </button>
+          <button class="game-choice" data-game="ttt">
+            <span>⭕ Strategy</span><strong>Tic-Tac-Toe</strong><span>Challenge the computer.</span>
+          </button>
+          <button class="game-choice" data-game="memory">
+            <span>🧠 Brain training</span><strong>Memory Match</strong><span>Find all matching pairs.</span>
+          </button>
+          <button class="game-choice" data-game="clicker">
+            <span>⚡ Quick challenge</span><strong>Click Rush</strong><span>Score as many clicks as you can.</span>
+          </button>
+        </div>
+
+        <div class="panel game-panel">
+          <h3 id="gameTitle">🐍 Snake</h3>
+          <p class="muted small" id="gameDescription">Use the arrow keys or touch controls. Collect food and avoid hitting yourself.</p>
+          <div class="game-message" id="gameMessage" role="status">Press Start to play.</div>
+
+          <div id="snakeGame" class="game-display">
+            <div class="pill">Score: <b id="snakeScore">0</b></div>
+            <canvas id="snakeCanvas" width="320" height="320" aria-label="Snake game board"></canvas>
+            <div class="dpad" aria-label="Snake touch controls">
+              <button type="button" data-dir="up" aria-label="Up">▲</button>
+              <button type="button" data-dir="left" aria-label="Left">◀</button>
+              <button type="button" data-dir="down" aria-label="Down">▼</button>
+              <button type="button" data-dir="right" aria-label="Right">▶</button>
+            </div>
+          </div>
+
+          <div id="tttGame" class="game-display hidden">
+            <div class="pill">You: X · Computer: O</div>
+            <div id="tttBoard" class="board ttt-board" aria-label="Tic-Tac-Toe board"></div>
+          </div>
+
+          <div id="memoryGame" class="game-display hidden">
+            <div class="pill">Moves: <b id="memoryMoves">0</b> · Pairs: <b id="memoryPairs">0</b>/8</div>
+            <div id="memoryBoard" class="board memory-board" aria-label="Memory game board"></div>
+          </div>
+
+          <div id="clickerGame" class="game-display hidden">
+            <div class="pill">Time: <b id="clickTime">10</b>s · Score: <b id="clickScore">0</b></div>
+            <button type="button" class="btn btn-primary" id="bigClick" style="width:min(100%,250px);min-height:110px;font-size:1.35rem">⚡ CLICK!</button>
+          </div>
+
+          <div class="game-buttons">
+            <button class="btn btn-primary" type="button" id="startGame">▶ Start / Restart</button>
+            <button class="btn" type="button" id="pauseGame">Ⅱ Pause</button>
+          </div>
+          <p class="small muted" id="gameHelp">Your game runs in this page. Sign in if you want to submit scores to the online leaderboard.</p>
+        </div>
       </div>
-      <div class="field">
-       <label for="password">PASSWORD</label>
-       <input id="password" name="password" type="password"
-        autocomplete="current-password" minlength="8" maxlength="128"
-        placeholder="At least 8 characters" required>
-      </div>
-      <button class="btn primary" id="authSubmit" type="submit" style="width:100%">Log in</button>
-     </form>
-     <button class="btn" id="authSwitch" type="button" style="width:100%;margin-top:9px">Create an account</button>
-     <div class="status" id="authStatus" role="status"></div>
-    </div>
-    <div id="signedIn" class="hidden">
-     <p class="muted small">SIGNED IN AS</p>
-     <div class="account-name" id="accountName"></div>
-     <p class="muted small">Your online scores are associated with your account.</p>
-     <button class="btn" id="logoutButton" type="button">Log out</button>
-     <div class="status" id="profileStatus" role="status"></div>
-    </div>
-   </div>
 
-   <div class="card">
-    <div class="eyebrow">YOUR STATS</div>
-    <div class="scoreline">
-     <div class="scorechip">Games: <strong id="gamesPlayed">0</strong></div>
-     <div class="scorechip">Best: <strong id="bestScore">0</strong></div>
-    </div>
-    <p class="muted small">Local stats are kept on this device. Sign in to sync supported online scores.</p>
-   </div>
+      <aside>
+        <div class="panel side-panel">
+          <h3>🏆 Leaderboard</h3>
+          <p class="muted small">Online scores from the connected backend.</p>
+          <div class="form-field">
+            <label for="leaderGame">Choose game</label>
+            <select id="leaderGame" style="padding:11px;background:#0b1b30;color:white;border:1px solid var(--line);border-radius:10px">
+              <option value="snake">Snake</option>
+              <option value="ttt">Tic-Tac-Toe</option>
+              <option value="memory">Memory Match</option>
+              <option value="clicker">Click Rush</option>
+            </select>
+          </div>
+          <button class="btn" id="refreshLeaderboard" type="button" style="width:100%">↻ Refresh scores</button>
+          <div id="leaderboard" style="margin-top:12px" aria-live="polite">
+            <p class="muted small">Loading scores…</p>
+          </div>
+          <p class="muted small" style="margin-bottom:0">If the backend does not support score endpoints, the leaderboard will show an error instead of inventing scores.</p>
+        </div>
 
-   <div class="card" style="margin-top:14px">
-    <div class="eyebrow">LEADERBOARD</div>
-    <div class="field" style="margin-top:12px">
-     <label for="leaderboardGame">GAME</label>
-     <select id="leaderboardGame">
-      <option value="snake">Snake</option>
-      <option value="tictactoe">Tic-Tac-Toe</option>
-      <option value="memory">Memory Match</option>
-      <option value="clicker">Click Challenge</option>
-     </select>
+        <div class="panel auth-box" id="account">
+          <h3>🔐 Your account</h3>
+          <p class="muted small">Sign in to connect to the online account service.</p>
+          <div id="loggedOut">
+            <div class="auth-switch">
+              <button class="btn btn-primary" id="showLogin" type="button">Login</button>
+              <button class="btn" id="showRegister" type="button">Register</button>
+            </div>
+            <form id="authForm">
+              <div class="form-field">
+                <label for="username">Username</label>
+                <input id="username" name="username" autocomplete="username" minlength="3" maxlength="32" required placeholder="Your username">
+              </div>
+              <div class="form-field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
+              </div>
+              <button class="btn btn-primary" id="authSubmit" type="submit" style="width:100%">Login</button>
+              <div id="authMessage" class="notice hidden" role="status"></div>
+            </form>
+          </div>
+          <div id="loggedIn" class="hidden">
+            <p class="muted small">Signed in as</p>
+            <h3 id="accountUsername" style="overflow-wrap:anywhere"></h3>
+            <div class="notice success">Your API session is active on this browser.</div>
+            <button class="btn btn-danger" id="logoutBtn" type="button" style="width:100%">Log out</button>
+          </div>
+          <p class="muted small">Account access depends on the Cloudflare Worker API being configured correctly.</p>
+        </div>
+      </aside>
     </div>
-    <button class="btn" id="refreshLeaderboard" type="button">Refresh scores ↻</button>
-    <ol class="leaderboard" id="leaderboardList"><li>Sign in or refresh to load scores.</li></ol>
-    <div class="status" id="leaderboardStatus" role="status"></div>
-   </div>
-  </aside>
-
-  <div>
-   <div class="game-tabs" role="tablist" aria-label="Choose a game">
-    <button class="tab active" data-game="snake" type="button">🐍 Snake</button>
-    <button class="tab" data-game="tictactoe" type="button">⭕ Tic-Tac-Toe</button>
-    <button class="tab" data-game="memory" type="button">🧠 Memory</button>
-    <button class="tab" data-game="clicker" type="button">⚡ Click</button>
-   </div>
-
-   <!-- SNAKE -->
-   <article class="card game active" id="game-snake">
-    <h3>🐍 Snake</h3>
-    <p class="muted">Collect food. Avoid the walls and yourself. Use arrow keys or the buttons.</p>
-    <div class="scoreline"><div class="scorechip">Score: <strong id="snakeScore">0</strong></div></div>
-    <canvas class="gamecanvas" id="snakeCanvas" width="360" height="360" aria-label="Snake game board"></canvas>
-    <div class="game-actions" style="justify-content:center">
-     <button class="btn" data-dir="up" type="button">↑</button>
-    </div>
-    <div class="game-actions" style="justify-content:center">
-     <button class="btn" data-dir="left" type="button">←</button>
-     <button class="btn" data-dir="down" type="button">↓</button>
-     <button class="btn" data-dir="right" type="button">→</button>
-    </div>
-    <div class="game-actions">
-     <button class="btn primary" id="snakeStart" type="button">Start / Restart</button>
-    </div>
-    <div class="status" id="snakeStatus" role="status">Press Start to play.</div>
-   </article>
-
-   <!-- TIC TAC TOE -->
-   <article class="card game" id="game-tictactoe">
-    <h3>⭕ Tic-Tac-Toe</h3>
-    <p class="muted">Play against the computer. Get three in a row to win.</p>
-    <div class="scoreline"><div class="scorechip">Wins: <strong id="ticWins">0</strong></div><div class="scorechip">Draws: <strong id="ticDraws">0</strong></div></div>
-    <div class="board ticboard" id="ticBoard" aria-label="Tic-Tac-Toe board"></div>
-    <div class="status" id="ticStatus" role="status">Your turn — X.</div>
-    <div class="game-actions"><button class="btn primary" id="ticReset" type="button">New game</button></div>
-   </article>
-
-   <!-- MEMORY -->
-   <article class="card game" id="game-memory">
-    <h3>🧠 Memory Match</h3>
-    <p class="muted">Find all matching pairs. Fewer moves is better.</p>
-    <div class="scoreline"><div class="scorechip">Moves: <strong id="memoryMoves">0</strong></div><div class="scorechip">Pairs: <strong id="memoryPairs">0</strong>/8</div></div>
-    <div class="board memoryboard" id="memoryBoard"></div>
-    <div class="status" id="memoryStatus" role="status">Flip two cards to begin.</div>
-    <div class="game-actions"><button class="btn primary" id="memoryReset" type="button">Shuffle & restart</button></div>
-   </article>
-
-   <!-- CLICKER -->
-   <article class="card game" id="game-clicker">
-    <h3>⚡ Click Challenge</h3>
-    <p class="muted">Click as many times as you can in 10 seconds.</p>
-    <div class="scoreline"><div class="scorechip">Clicks: <strong id="clickScore">0</strong></div><div class="scorechip">Time: <strong id="clickTime">10</strong>s</div></div>
-    <div class="gamebox" style="text-align:center;padding:28px 12px">
-     <button class="btn primary" id="clickTarget" type="button" style="min-width:180px;min-height:90px;font-size:22px">START!</button>
-    </div>
-    <div class="status" id="clickStatus" role="status">Ready? Start when you're ready.</div>
-    <div class="game-actions"><button class="btn" id="clickReset" type="button">Reset</button></div>
-   </article>
   </div>
- </div>
 </section>
 
 <!-- CONTACT -->
-<section class="page" id="contact">
- <div class="hero">
-  <div class="eyebrow">04 / CONTACT</div>
-  <h1>Have an idea?<br><span class="gradient">Let's talk.</span></h1>
-  <p class="lead">Have a question, suggestion, or project idea? Send me a message through the form.</p>
- </div>
- <div class="contact-layout">
-  <article class="card">
-   <div class="card-icon">✉️</div>
-   <h2>Start a conversation.</h2>
-   <p>I'm interested in technology, creative ideas, websites, and interesting projects.</p>
-   <p class="muted">Website: scottcode.fun</p>
-   <a class="btn" href="https://github.com/getlost24543-commits" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
-  </article>
-  <form class="card" id="contactForm" action="https://formspree.io/f/xgaogqjo" method="POST">
-   <div class="field">
-    <label for="contactName">YOUR NAME</label>
-    <input id="contactName" name="name" autocomplete="name" maxlength="100" placeholder="Your name" required>
-   </div>
-   <div class="field">
-    <label for="contactEmail">YOUR EMAIL</label>
-    <input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="200" placeholder="you@example.com" required>
-   </div>
-   <div class="field">
-    <label for="contactMessage">YOUR MESSAGE</label>
-    <textarea id="contactMessage" name="message" maxlength="5000" placeholder="Tell me what's on your mind..." required></textarea>
-   </div>
-   <input type="hidden" name="_subject" value="New message from ScottCode.fun">
-   <button class="btn primary" id="contactSubmit" type="submit">Send message ↗</button>
-   <div class="status" id="contactStatus" role="status"></div>
-   <p class="muted small">After Formspree confirms successful delivery, you'll be redirected to the thank-you page.</p>
-  </form>
- </div>
-</section>
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">Let's connect</div>
+      <h2>Send me a <span class="gradient-text">message.</span></h2>
+      <p>Have a question, idea, or suggestion? Use the form to reach out.</p>
+    </div>
 
+    <div class="contact-layout">
+      <div class="panel contact-info">
+        <div class="card-icon">✉️</div>
+        <h3>Get in touch</h3>
+        <p class="muted">I'm always interested in hearing about ideas, projects, and useful feedback.</p>
+        <hr>
+        <p><strong>Website</strong><br><a href="#home">scottcode.fun</a></p>
+        <p><strong>Response</strong><br><span class="muted">I'll reply when I can.</span></p>
+        <div class="notice">Please don't include passwords or sensitive personal information in your message.</div>
+      </div>
+
+      <form class="panel contact-form" id="contactForm" action="https://formspree.io/f/xgaogqjo" method="POST">
+        <div class="form-field">
+          <label for="contactName">Your name</label>
+          <input id="contactName" name="name" required maxlength="100" placeholder="What should I call you?">
+        </div>
+        <div class="form-field">
+          <label for="contactEmail">Your email</label>
+          <input id="contactEmail" name="email" type="email" required maxlength="254" placeholder="you@example.com">
+        </div>
+        <div class="form-field">
+          <label for="contactSubject">Subject</label>
+          <input id="contactSubject" name="subject" required maxlength="150" placeholder="What's this about?">
+        </div>
+        <div class="form-field">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" required maxlength="5000" placeholder="Write your message here…"></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="New message from ScottCode.fun">
+        <input type="hidden" name="_next" value="https://scottcode.fun/thanks/">
+        <button class="btn btn-primary" id="contactSubmit" type="submit" style="width:100%">Send message ↗</button>
+        <div id="contactStatus" class="notice hidden" role="status"></div>
+        <p class="muted small">Submitting sends this message to your configured Formspree form. A successful submission redirects to your existing thanks page.</p>
+      </form>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
- <div class="wrap footerinner">
-  <span>© <span id="year"></span> ScottCode · Built with curiosity.</span>
-  <span>
-   <a href="#home" data-route="home">Home</a> ·
-   <a href="#about" data-route="about">About</a> ·
-   <a href="#projects" data-route="projects">Projects</a> ·
-   <a href="#arcade" data-route="arcade">Arcade</a> ·
-   <a href="#contact" data-route="contact">Contact</a>
-  </span>
- </div>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> <strong>ScottCode.fun</strong> · Made with curiosity.</div>
+    <div><a href="#home">Home ↑</a> &nbsp;·&nbsp; <a href="#projects">Projects</a> &nbsp;·&nbsp; <a href="#arcade">Arcade</a></div>
+  </div>
 </footer>
+
+<button class="btn back-top hidden" id="backTop" type="button" aria-label="Back to top">↑</button>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 "use strict";
 
-/* ======================================================
-   SCOTTCODE CONFIGURATION
-====================================================== */
-
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
 const API_BASE = "https://scottcode-api.getlost24543.workers.dev";
+const API = {
+  register: "/api/register",
+  login: "/api/login",
+  me: "/api/me",
+  logout: "/api/logout",
+  scores: "/api/scores"
+};
 const THANKS_URL = "https://scottcode.fun/thanks/";
-const TOKEN_KEY = "scottcode_api_token";
-const USER_KEY = "scottcode_api_username";
 
-const $ = selector => document.querySelector(selector);
-const $$ = selector => [...document.querySelectorAll(selector)];
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-let authMode = "login";
-let currentUser = null;
-let apiToken = localStorage.getItem(TOKEN_KEY) || "";
-let requestSequence = 0;
-
-/* ======================================================
-   NAVIGATION: ALL SECTIONS SHARE ONE ROUTER
-====================================================== */
-
-const validPages = ["home","about","projects","arcade","contact"];
-
-function navigate(page, updateHash = true) {
- if (!validPages.includes(page)) page = "home";
-
- $$(".page").forEach(section => {
-  section.classList.toggle("active", section.id === page);
- });
-
- $$("[data-route]").forEach(link => {
-  const active = link.dataset.route === page;
-  link.classList.toggle("active", active);
-  if (link.closest("nav")) {
-   if (active) link.setAttribute("aria-current","page");
-   else link.removeAttribute("aria-current");
-  }
- });
-
- $("#navlinks").classList.remove("open");
- $("#menuButton").setAttribute("aria-expanded","false");
- $("#menuButton").setAttribute("aria-label","Open navigation");
- $("#menuButton").textContent = "☰";
-
- if (updateHash && location.hash !== "#" + page) {
-  history.pushState({page}, "", "#" + page);
- }
-
- window.scrollTo({top:0,behavior:"smooth"});
-
- if (page === "arcade") {
-  drawSnake();
- }
+function showToast(message) {
+  const el = $("#toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => el.classList.remove("show"), 2800);
 }
 
-document.addEventListener("click", event => {
- const link = event.target.closest("[data-route]");
- if (!link) return;
-
- event.preventDefault();
- navigate(link.dataset.route);
-});
-
-window.addEventListener("popstate", () => {
- navigate(location.hash.slice(1), false);
-});
-
-window.addEventListener("hashchange", () => {
- const page = location.hash.slice(1);
- if (validPages.includes(page)) navigate(page, false);
-});
-
-$("#menuButton").addEventListener("click", () => {
- const opened = $("#navlinks").classList.toggle("open");
- $("#menuButton").setAttribute("aria-expanded",String(opened));
- $("#menuButton").setAttribute("aria-label",opened ? "Close navigation" : "Open navigation");
- $("#menuButton").textContent = opened ? "✕" : "☰";
-});
-
-/* ======================================================
-   THEME
-====================================================== */
-
-const savedTheme = localStorage.getItem("scottcode-theme");
-if (savedTheme === "light") document.body.classList.add("light");
-
-function updateThemeButton() {
- $("#themeButton").textContent = document.body.classList.contains("light") ? "☾" : "☼";
+function showNotice(el, message, type = "") {
+  el.textContent = message;
+  el.className = "notice" + (type ? " " + type : "");
+  el.classList.remove("hidden");
 }
-updateThemeButton();
 
-$("#themeButton").addEventListener("click", () => {
- document.body.classList.toggle("light");
- const theme = document.body.classList.contains("light") ? "light" : "dark";
- localStorage.setItem("scottcode-theme",theme);
- updateThemeButton();
+function hideNotice(el) {
+  el.classList.add("hidden");
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = new Headers(options.headers || {});
+  headers.set("Accept", "application/json");
+
+  if (options.body && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  if (apiToken) headers.set("Authorization", "Bearer " + apiToken);
+
+  let response;
+  try {
+    response = await fetch(API_BASE + path, {
+      ...options,
+      headers,
+      mode: "cors"
+    });
+  } catch (error) {
+    throw new Error("Could not connect to the account server. Check the Worker URL and CORS settings.");
+  }
+
+  const raw = await response.text();
+  let data = {};
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch {
+    data = { message: raw || "The server returned an unexpected response." };
+  }
+
+  if (!response.ok) {
+    throw new Error(data.message || data.error || ("Server error (" + response.status + ")"));
+  }
+
+  return data;
+}
+
+/* =========================================================
+   MOBILE NAVIGATION — ALL LINKS STAY ON THIS PAGE
+   ========================================================= */
+const navLinks = $("#navLinks");
+const menuToggle = $("#menuToggle");
+
+function closeMenu() {
+  navLinks.classList.remove("open");
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open navigation menu");
+  menuToggle.textContent = "☰";
+}
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+  menuToggle.textContent = isOpen ? "✕" : "☰";
 });
 
-/* ======================================================
-   STAR BACKGROUND
-====================================================== */
+$$('#navLinks a').forEach(link => {
+  link.addEventListener("click", () => {
+    closeMenu();
+    setTimeout(updateActiveNav, 50);
+  });
+});
 
-(() => {
- const canvas = $("#stars");
- const ctx = canvas.getContext("2d");
- if (!ctx) return;
+function updateActiveNav() {
+  const current = (location.hash || "#home").slice(1);
+  $$("[data-section]").forEach(link => {
+    link.classList.toggle("active", link.dataset.section === current);
+  });
+}
+window.addEventListener("hashchange", updateActiveNav);
+updateActiveNav();
 
- let w=0,h=0,stars=[],frame=0;
- const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
- function resize() {
-  const ratio = Math.min(devicePixelRatio || 1,2);
-  w=innerWidth; h=innerHeight;
-  canvas.width=Math.round(w*ratio);
-  canvas.height=Math.round(h*ratio);
-  ctx.setTransform(ratio,0,0,ratio,0,0);
-  stars=Array.from({length:Math.min(100,Math.floor(w*h/10000))},()=>({
-   x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.3,
-   v:Math.random()*.18+.03,a:Math.random()*.55+.2
-  }));
- }
- function draw() {
-  ctx.clearRect(0,0,w,h);
-  for (const s of stars) {
-   ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-   ctx.fillStyle=`rgba(150,210,255,${s.a})`;ctx.fill();
-   if (!reduceMotion) {
-    s.y-=s.v;
-    if(s.y < -2){s.y=h+2;s.x=Math.random()*w}
-   }
-  }
-  frame=requestAnimationFrame(draw);
- }
- resize();
- if(!reduceMotion) draw();
- else {
-  for(const s of stars) {
-   ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-   ctx.fillStyle=`rgba(150,210,255,${s.a})`;ctx.fill();
-  }
- }
- addEventListener("resize",resize,{passive:true});
- document.addEventListener("visibilitychange",()=>{
-  if(document.hidden) cancelAnimationFrame(frame);
-  else if(!reduceMotion) draw();
- });
-})();
+$("#navAccountBtn").addEventListener("click", () => {
+  location.hash = "arcade";
+  setTimeout(() => $("#account").scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+});
 
 $("#year").textContent = new Date().getFullYear();
 
-/* ======================================================
-   CLOUDFLARE WORKER API
-   Expected routes:
-   POST /api/register
-   POST /api/login
-   GET  /api/me
-   POST /api/logout
-   POST /api/scores
-   GET  /api/scores?gameId=snake
-====================================================== */
+window.addEventListener("scroll", () => {
+  $("#backTop").classList.toggle("hidden", window.scrollY < 450);
+}, { passive: true });
 
-async function api(path, options = {}) {
- const headers = {"Content-Type":"application/json",...(options.headers || {})};
- if (apiToken) headers.Authorization = "Bearer " + apiToken;
-
- let response;
- try {
-  response = await fetch(API_BASE + path,{
-   method:options.method || "GET",
-   headers,
-   body:options.body,
-   signal:AbortSignal.timeout(12000)
-  });
- } catch (error) {
-  if(error.name === "TimeoutError") throw new Error("API request timed out. Try again.");
-  throw new Error("Cannot reach the Cloudflare Worker. Check your connection.");
- }
-
- let data = {};
- try {data=await response.json()} catch {}
-
- if(!response.ok) {
-  throw new Error(data.error || data.message || `Request failed (${response.status}).`);
- }
- return data;
-}
-
-function showAuthStatus(message) {
- $("#authStatus").textContent = message;
-}
-
-function renderAccount() {
- $("#signedOut").classList.toggle("hidden",!!currentUser);
- $("#signedIn").classList.toggle("hidden",!currentUser);
- $("#accountName").textContent = currentUser || "";
-}
-
-function changeAuthMode(mode) {
- authMode=mode;
- $("#authTitle").textContent=mode==="login"?"Log in to ScottCode":"Create your account";
- $("#authSubmit").textContent=mode==="login"?"Log in":"Create account";
- $("#authSwitch").textContent=mode==="login"?"Create an account":"I already have an account";
- $("#password").autocomplete=mode==="login"?"current-password":"new-password";
- showAuthStatus(mode==="register"?"Choose a unique username and a password of at least 8 characters.":"");
-}
-
-$("#authSwitch").addEventListener("click",()=>{
- changeAuthMode(authMode==="login"?"register":"login");
+$("#backTop").addEventListener("click", () => {
+  location.hash = "home";
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-$("#authForm").addEventListener("submit",async event=>{
- event.preventDefault();
+/* =========================================================
+   ANIMATED BACKGROUND
+   ========================================================= */
+(() => {
+  const canvas = $("#stars");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
 
- const button=$("#authSubmit");
- const username=$("#username").value.trim();
- const password=$("#password").value;
+  let width = 0, height = 0, stars = [];
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
- if(!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
-  showAuthStatus("Use 3–20 letters, numbers, or underscores.");
-  return;
- }
- if(password.length<8 || password.length>128) {
-  showAuthStatus("Password must be 8–128 characters.");
-  return;
- }
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
- button.disabled=true;
- showAuthStatus(authMode==="login"?"Logging in…":"Creating account…");
+    const count = Math.min(110, Math.floor(width * height / 10500));
+    stars = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.5 + .3,
+      a: Math.random() * .5 + .15,
+      speed: Math.random() * .18 + .025
+    }));
+  }
 
- try {
-  const endpoint=authMode==="login"?"/api/login":"/api/register";
-  const data=await api(endpoint,{
-   method:"POST",
-   body:JSON.stringify({username,password})
-  });
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180,220,255,${s.a})`;
+      ctx.fill();
+      if (!reduceMotion) {
+        s.y -= s.speed;
+        if (s.y < -3) {
+          s.y = height + 3;
+          s.x = Math.random() * width;
+        }
+      }
+    }
+    if (!reduceMotion) requestAnimationFrame(draw);
+  }
 
-  const token=data.token || data.accessToken || data.access_token;
-  const returnedUser=data.user && (data.user.username || data.user.name);
-  const name=returnedUser || data.username || username;
+  resize();
+  draw();
+  window.addEventListener("resize", () => {
+    resize();
+    if (!reduceMotion) draw();
+  }, { passive: true });
+})();
 
-  if(!token) throw new Error("The API did not return a login token. Check the Worker response format.");
+/* =========================================================
+   ONLINE ACCOUNT SYSTEM
+   Expects the Worker routes documented in the API config.
+   ========================================================= */
+let apiToken = localStorage.getItem("scottcode_api_token") || "";
+let currentUser = null;
+let authMode = "login";
 
-  apiToken=token;
-  currentUser=name;
-  localStorage.setItem(TOKEN_KEY,token);
-  localStorage.setItem(USER_KEY,name);
+const authForm = $("#authForm");
+const authMessage = $("#authMessage");
 
-  renderAccount();
-  showAuthStatus("");
-  $("#profileStatus").textContent="Signed in successfully.";
-  refreshLeaderboard();
-  syncRemoteBest();
- } catch(error) {
-  showAuthStatus(error.message);
- } finally {
-  button.disabled=false;
- }
+function setAuthMode(mode) {
+  authMode = mode;
+  $("#showLogin").classList.toggle("btn-primary", mode === "login");
+  $("#showRegister").classList.toggle("btn-primary", mode === "register");
+  $("#authSubmit").textContent = mode === "login" ? "Login" : "Create account";
+  $("#password").autocomplete = mode === "login" ? "current-password" : "new-password";
+  hideNotice(authMessage);
+}
+
+$("#showLogin").addEventListener("click", () => setAuthMode("login"));
+$("#showRegister").addEventListener("click", () => setAuthMode("register"));
+
+function updateAccountUI() {
+  const loggedIn = Boolean(currentUser && apiToken);
+  $("#loggedOut").classList.toggle("hidden", loggedIn);
+  $("#loggedIn").classList.toggle("hidden", !loggedIn);
+  $("#navAccountBtn").textContent = loggedIn ? currentUser.username : "Sign in";
+  $("#accountUsername").textContent = loggedIn ? currentUser.username : "";
+  $("#arcadeUserStatus").innerHTML = loggedIn
+    ? '<span class="dot"></span> Signed in as ' + escapeHTML(currentUser.username)
+    : '<span class="dot"></span> Guest mode — sign in to submit online scores';
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[ch]));
+}
+
+authForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const username = $("#username").value.trim();
+  const password = $("#password").value;
+
+  if (username.length < 3) {
+    showNotice(authMessage, "Username must contain at least 3 characters.", "error");
+    return;
+  }
+  if (password.length < 8) {
+    showNotice(authMessage, "Password must contain at least 8 characters.", "error");
+    return;
+  }
+
+  const submit = $("#authSubmit");
+  submit.disabled = true;
+  submit.textContent = authMode === "login" ? "Signing in…" : "Creating account…";
+  hideNotice(authMessage);
+
+  try {
+    const data = await apiRequest(API[authMode], {
+      method: "POST",
+      body: JSON.stringify({ username, password })
+    });
+
+    const token = data.token || data.accessToken || data.access_token;
+    if (!token) {
+      throw new Error("The server did not return a login token. Check your Worker API response.");
+    }
+
+    apiToken = token;
+    localStorage.setItem("scottcode_api_token", token);
+
+    const returnedUser = data.user || { username };
+    currentUser = { username: returnedUser.username || username };
+
+    // If a /me endpoint exists, verify and refresh the user record.
+    try {
+      const me = await apiRequest(API.me, { method: "GET" });
+      if (me.user) currentUser = me.user;
+    } catch (error) {
+      // Keep the user returned by successful login if /me is temporarily unavailable.
+    }
+
+    updateAccountUI();
+    authForm.reset();
+    showToast(authMode === "login" ? "Welcome back!" : "Account created!");
+    await loadLeaderboard();
+  } catch (error) {
+    showNotice(authMessage, error.message || "Authentication failed.", "error");
+  } finally {
+    submit.disabled = false;
+    submit.textContent = authMode === "login" ? "Login" : "Create account";
+  }
 });
 
-$("#logoutButton").addEventListener("click",async()=>{
- try {
-  if(apiToken) await api("/api/logout",{method:"POST"});
- } catch(error) {
-  console.warn("Logout endpoint:",error.message);
- }
+$("#logoutBtn").addEventListener("click", async () => {
+  try {
+    if (apiToken) {
+      await apiRequest(API.logout, { method: "POST", body: JSON.stringify({}) });
+    }
+  } catch (error) {
+    // Clear the local session even if the network is offline.
+  }
 
- apiToken="";
- currentUser=null;
- localStorage.removeItem(TOKEN_KEY);
- localStorage.removeItem(USER_KEY);
- renderAccount();
- changeAuthMode("login");
- $("#profileStatus").textContent="Logged out.";
- $("#leaderboardList").innerHTML="<li>Log in to sync your account's scores.</li>";
+  apiToken = "";
+  currentUser = null;
+  localStorage.removeItem("scottcode_api_token");
+  updateAccountUI();
+  showToast("You have logged out.");
 });
 
 async function restoreSession() {
- if(!apiToken) {
-  renderAccount();
-  return;
- }
- try {
-  const data=await api("/api/me");
-  currentUser=(data.user && data.user.username) || data.username ||
-   localStorage.getItem(USER_KEY);
-  if(!currentUser) throw new Error("No username returned");
-  renderAccount();
-  await syncRemoteBest();
- } catch(error) {
-  console.warn("Session restore:",error.message);
-  apiToken="";
-  currentUser=null;
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-  renderAccount();
- }
-}
-
-/* ======================================================
-   LOCAL GAME STATS
-====================================================== */
-
-const STATS_KEY="scottcode_arcade_stats_v2";
-
-function readStats() {
- try {
-  return JSON.parse(localStorage.getItem(STATS_KEY)) || {games:0,best:0};
- } catch {
-  return {games:0,best:0};
- }
-}
-function writeStats(stats) {
- localStorage.setItem(STATS_KEY,JSON.stringify(stats));
- $("#gamesPlayed").textContent=stats.games;
- $("#bestScore").textContent=stats.best;
-}
-writeStats(readStats());
-
-function recordGame(score) {
- const stats=readStats();
- stats.games++;
- stats.best=Math.max(stats.best,Math.max(0,Math.floor(score)));
- writeStats(stats);
-}
-
-async function submitScore(gameId,score) {
- if(!apiToken || !currentUser) return;
-
- try {
-  await api("/api/scores",{
-   method:"POST",
-   body:JSON.stringify({gameId,score:Math.max(0,Math.floor(score))})
-  });
-  $("#profileStatus").textContent="Score synced.";
-  refreshLeaderboard();
- } catch(error) {
-  $("#profileStatus").textContent="Score not synced: "+error.message;
- }
-}
-
-async function refreshLeaderboard() {
- const gameId=$("#leaderboardGame").value;
- const list=$("#leaderboardList");
- const status=$("#leaderboardStatus");
- list.innerHTML="<li>Loading scores…</li>";
- status.textContent="";
-
- try {
-  const data=await api("/api/scores?gameId="+encodeURIComponent(gameId));
-  const entries=data.leaderboard || data.scores || [];
-  list.innerHTML="";
-
-  if(!entries.length) {
-   list.innerHTML="<li>No scores yet. Be the first!</li>";
-   return;
+  if (!apiToken) {
+    updateAccountUI();
+    return;
   }
 
-  entries.slice(0,10).forEach((entry,index)=>{
-   const li=document.createElement("li");
-   const username=entry.username || entry.name || "Player";
-   const score=entry.bestScore ?? entry.score ?? 0;
-   li.textContent=`${username} — ${score}`;
-   list.appendChild(li);
-  });
- } catch(error) {
-  list.innerHTML="<li>Leaderboard unavailable.</li>";
-  status.textContent=error.message;
- }
-}
-
-$("#refreshLeaderboard").addEventListener("click",refreshLeaderboard);
-$("#leaderboardGame").addEventListener("change",refreshLeaderboard);
-
-async function syncRemoteBest() {
- if(!apiToken || !currentUser) return;
- try {
-  const data=await api("/api/scores?gameId=snake");
-  const mine=(data.leaderboard || data.scores || []).find(
-   entry=>(entry.username || "").toLowerCase()===currentUser.toLowerCase()
-  );
-  if(mine) {
-   const stats=readStats();
-   stats.best=Math.max(stats.best,Number(mine.bestScore ?? mine.score)||0);
-   writeStats(stats);
+  try {
+    const data = await apiRequest(API.me, { method: "GET" });
+    currentUser = data.user || data;
+    if (!currentUser.username) throw new Error("The server did not return a username.");
+  } catch (error) {
+    apiToken = "";
+    currentUser = null;
+    localStorage.removeItem("scottcode_api_token");
   }
- } catch(error) {
-  console.warn("Score sync:",error.message);
- }
+  updateAccountUI();
 }
 
-/* ======================================================
-   GAME SWITCHER
-====================================================== */
+setAuthMode("login");
 
-let activeGame="snake";
+/* =========================================================
+   ONLINE LEADERBOARD AND SCORE SUBMISSION
+   ========================================================= */
+async function loadLeaderboard() {
+  const gameId = $("#leaderGame").value;
+  const target = $("#leaderboard");
+  target.innerHTML = '<p class="muted small">Loading scores…</p>';
 
-$$("[data-game]").forEach(button=>{
- button.addEventListener("click",()=>{
-  activeGame=button.dataset.game;
-  $$(".tab").forEach(tab=>tab.classList.toggle("active",tab===button));
-  $$(".game").forEach(game=>game.classList.toggle("active",game.id==="game-"+activeGame));
+  try {
+    const data = await apiRequest(API.scores + "?gameId=" + encodeURIComponent(gameId), {
+      method: "GET"
+    });
+    const rows = data.leaderboard || data.scores || [];
 
-  if(activeGame==="snake") drawSnake();
-  if(activeGame==="tictactoe") renderTic();
- });
+    if (!Array.isArray(rows) || rows.length === 0) {
+      target.innerHTML = '<p class="muted small">No scores yet. Be the first to play!</p>';
+      return;
+    }
+
+    target.innerHTML = rows.slice(0, 10).map((row, index) => {
+      const username = row.username || row.user?.username || "Player";
+      const score = Number(row.score ?? row.points ?? 0);
+      return '<div class="leaderboard-row"><span><b class="rank">#' +
+        (index + 1) + '</b> &nbsp;' + escapeHTML(username) +
+        '</span><strong>' + escapeHTML(score) + '</strong></div>';
+    }).join("");
+  } catch (error) {
+    target.innerHTML = '<p class="muted small">Leaderboard unavailable. Check that the Worker supports GET /api/scores?gameId=…</p>';
+  }
+}
+
+async function submitScore(gameId, score) {
+  if (!currentUser || !apiToken || !Number.isFinite(score) || score < 0) return;
+
+  try {
+    await apiRequest(API.scores, {
+      method: "POST",
+      body: JSON.stringify({ gameId, score })
+    });
+    showToast("Score submitted!");
+    await loadLeaderboard();
+  } catch (error) {
+    showToast("Score could not be saved online. Check the Worker API.");
+  }
+}
+
+$("#refreshLeaderboard").addEventListener("click", loadLeaderboard);
+$("#leaderGame").addEventListener("change", loadLeaderboard);
+
+/* =========================================================
+   ARCADE ENGINE
+   ========================================================= */
+const gameTitle = $("#gameTitle");
+const gameDescription = $("#gameDescription");
+const gameMessage = $("#gameMessage");
+const gameHelp = $("#gameHelp");
+
+let selectedGame = "snake";
+let snakeTimer = null;
+let snake = [];
+let food = { x: 5, y: 5 };
+let direction = { x: 1, y: 0 };
+let nextDirection = { x: 1, y: 0 };
+let snakeScore = 0;
+let snakeRunning = false;
+let snakeEnded = false;
+
+let tttCells = Array(9).fill("");
+let tttEnded = false;
+
+const memorySymbols = ["🌙","⭐","🪐","🚀","💎","🌈","🧩","🔥"];
+let memoryCards = [];
+let memoryFlipped = [];
+let memoryMoves = 0;
+let memoryPairs = 0;
+let memoryLocked = false;
+
+let clickScore = 0;
+let clickTime = 10;
+let clickRunning = false;
+let clickEnded = false;
+let clickTimer = null;
+
+function setGameMessage(message) {
+  gameMessage.textContent = message;
+}
+
+function stopTimers() {
+  clearInterval(snakeTimer);
+  clearInterval(clickTimer);
+  snakeTimer = null;
+  clickTimer = null;
+  snakeRunning = false;
+  clickRunning = false;
+}
+
+function showGame(game) {
+  stopTimers();
+  selectedGame = game;
+
+  $$(".game-choice").forEach(button => {
+    button.classList.toggle("selected", button.dataset.game === game);
+  });
+
+  ["snake", "ttt", "memory", "clicker"].forEach(name => {
+    const id = name === "snake" ? "snakeGame" :
+      name === "ttt" ? "tttGame" :
+      name === "memory" ? "memoryGame" : "clickerGame";
+    $("#" + id).classList.toggle("hidden", name !== game);
+  });
+
+  const details = {
+    snake: ["🐍 Snake", "Use arrow keys or touch controls to collect food. Don't hit the walls or yourself."],
+    ttt: ["⭕ Tic-Tac-Toe", "You play X. The computer plays O. Get three in a row."],
+    memory: ["🧠 Memory Match", "Flip the cards and find all eight matching pairs."],
+    clicker: ["⚡ Click Rush", "Get as many clicks as you can in ten seconds."]
+  };
+  gameTitle.textContent = details[game][0];
+  gameDescription.textContent = details[game][1];
+  gameHelp.textContent = currentUser
+    ? "Your account is signed in. Finished scores can be submitted to the online leaderboard."
+    : "Guest play is available. Sign in to submit eligible scores online.";
+
+  resetGame();
+}
+
+function resetGame() {
+  stopTimers();
+  if (selectedGame === "snake") initSnake();
+  if (selectedGame === "ttt") initTTT();
+  if (selectedGame === "memory") initMemory();
+  if (selectedGame === "clicker") initClicker();
+  setGameMessage("Press Start to play.");
+}
+
+$$(".game-choice").forEach(button => {
+  button.addEventListener("click", () => showGame(button.dataset.game));
 });
 
-/* ======================================================
-   SNAKE
-====================================================== */
+$("#startGame").addEventListener("click", () => {
+  if (selectedGame === "snake") startSnake();
+  else if (selectedGame === "ttt") initTTT();
+  else if (selectedGame === "memory") initMemory();
+  else if (selectedGame === "clicker") startClicker();
+});
 
-const snakeCanvas=$("#snakeCanvas");
-const snakeCtx=snakeCanvas.getContext("2d");
-const CELLS=18;
-const CELL=snakeCanvas.width/CELLS;
+$("#pauseGame").addEventListener("click", () => {
+  if (selectedGame === "snake" && snakeRunning) {
+    clearInterval(snakeTimer);
+    snakeTimer = null;
+    snakeRunning = false;
+    setGameMessage("Paused. Press Start to continue.");
+  } else if (selectedGame === "clicker" && clickRunning) {
+    clearInterval(clickTimer);
+    clickTimer = null;
+    clickRunning = false;
+    setGameMessage("Paused. Press Start to continue.");
+  } else {
+    setGameMessage("Game is not running.");
+  }
+});
 
-let snake=[],food={},direction={x:1,y:0},nextDirection={x:1,y:0};
-let snakeScore=0,snakeTimer=null,snakeRunning=false,snakeEnded=false;
-
-function placeFood() {
- do {
-  food={x:Math.floor(Math.random()*CELLS),y:Math.floor(Math.random()*CELLS)};
- } while(snake.some(part=>part.x===food.x && part.y===food.y));
-}
-
-function resetSnake() {
- clearInterval(snakeTimer);
- snakeRunning=false;
- snakeEnded=false;
- snakeScore=0;
- direction={x:1,y:0};
- nextDirection={x:1,y:0};
- snake=[
-  {x:6,y:9},{x:5,y:9},{x:4,y:9}
- ];
- placeFood();
- $("#snakeScore").textContent="0";
- $("#snakeStatus").textContent="Ready. Press Start to play.";
- drawSnake();
-}
+/* SNAKE */
+const snakeCanvas = $("#snakeCanvas");
+const snakeCtx = snakeCanvas.getContext("2d");
+const CELL = 16;
+const CELLS = 20;
 
 function drawSnake() {
- const ctx=snakeCtx;
- const size=snakeCanvas.width/CELLS;
- ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
- ctx.fillStyle="#061020";
- ctx.fillRect(0,0,snakeCanvas.width,snakeCanvas.height);
+  if (!snakeCtx) return;
+  snakeCtx.fillStyle = "#07111f";
+  snakeCtx.fillRect(0, 0, 320, 320);
 
- ctx.strokeStyle="#18304a";
- ctx.lineWidth=.5;
- for(let i=0;i<=CELLS;i++) {
-  ctx.beginPath();ctx.moveTo(i*size,0);ctx.lineTo(i*size,snakeCanvas.height);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(0,i*size);ctx.lineTo(snakeCanvas.width,i*size);ctx.stroke();
- }
+  snakeCtx.strokeStyle = "rgba(130,190,255,.06)";
+  snakeCtx.lineWidth = 1;
+  for (let i = 0; i <= CELLS; i++) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(i * CELL, 0);
+    snakeCtx.lineTo(i * CELL, 320);
+    snakeCtx.stroke();
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0, i * CELL);
+    snakeCtx.lineTo(320, i * CELL);
+    snakeCtx.stroke();
+  }
 
- ctx.fillStyle="#ff738a";
- ctx.beginPath();
- ctx.arc((food.x+.5)*size,(food.y+.5)*size,size*.35,0,Math.PI*2);
- ctx.fill();
+  snakeCtx.fillStyle = "#ff91b2";
+  snakeCtx.beginPath();
+  snakeCtx.arc(food.x * CELL + 8, food.y * CELL + 8, 6, 0, Math.PI * 2);
+  snakeCtx.fill();
 
- snake.forEach((part,index)=>{
-  ctx.fillStyle=index===0?"#80f0ed":"#75c7ff";
-  ctx.beginPath();
-  ctx.roundRect(part.x*size+1,part.y*size+1,size-2,size-2,4);
-  ctx.fill();
- });
+  snake.forEach((part, index) => {
+    snakeCtx.fillStyle = index === 0 ? "#9df7ff" : "#57b8e7";
+    snakeCtx.beginPath();
+    snakeCtx.roundRect(part.x * CELL + 1, part.y * CELL + 1, CELL - 2, CELL - 2, 4);
+    snakeCtx.fill();
+  });
 }
 
-function setSnakeDirection(dir) {
- const map={
-  up:{x:0,y:-1},down:{x:0,y:1},
-  left:{x:-1,y:0},right:{x:1,y:0}
- };
- const next=map[dir];
- if(!next) return;
-
- if(next.x===-direction.x && next.y===-direction.y) return;
- nextDirection=next;
-}
-
-$$("[data-dir]").forEach(button=>{
- button.addEventListener("click",()=>setSnakeDirection(button.dataset.dir));
-});
-
-document.addEventListener("keydown",event=>{
- if(!$("#game-snake").classList.contains("active")) return;
- const map={
-  ArrowUp:"up",w:"up",W:"up",
-  ArrowDown:"down",s:"down",S:"down",
-  ArrowLeft:"left",a:"left",A:"left",
-  ArrowRight:"right",d:"right",D:"right"
- };
- if(map[event.key]) {
-  event.preventDefault();
-  setSnakeDirection(map[event.key]);
- }
-});
-
-function endSnake(message) {
- clearInterval(snakeTimer);
- snakeRunning=false;
- snakeEnded=true;
- $("#snakeStatus").textContent=message+" Final score: "+snakeScore+".";
- recordGame(snakeScore);
- submitScore("snake",snakeScore);
-}
-
-function snakeTick() {
- direction=nextDirection;
- const head={
-  x:snake[0].x+direction.x,
-  y:snake[0].y+direction.y
- };
-
- const eating=head.x===food.x && head.y===food.y;
- const body=eating?snake:snake.slice(0,-1);
-
- if(head.x<0 || head.y<0 || head.x>=CELLS || head.y>=CELLS ||
-  body.some(part=>part.x===head.x && part.y===head.y)) {
-  endSnake("Game over!");
-  return;
- }
-
- snake.unshift(head);
- if(eating) {
-  snakeScore+=10;
-  $("#snakeScore").textContent=snakeScore;
+function initSnake() {
+  snake = [{ x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }];
+  direction = { x: 1, y: 0 };
+  nextDirection = { x: 1, y: 0 };
+  snakeScore = 0;
+  snakeEnded = false;
+  $("#snakeScore").textContent = "0";
   placeFood();
- } else snake.pop();
-
- drawSnake();
+  drawSnake();
 }
 
-$("#snakeStart").addEventListener("click",()=>{
- resetSnake();
- snakeRunning=true;
- $("#snakeStatus").textContent="Playing! Collect the red food.";
- snakeTimer=setInterval(snakeTick,125);
+function placeFood() {
+  let attempts = 0;
+  do {
+    food = { x: Math.floor(Math.random() * CELLS), y: Math.floor(Math.random() * CELLS) };
+    attempts++;
+  } while (snake.some(part => part.x === food.x && part.y === food.y) && attempts < 500);
+}
+
+function startSnake() {
+  if (snakeEnded) initSnake();
+  if (snakeRunning) return;
+  snakeRunning = true;
+  setGameMessage("Go! Collect the glowing food.");
+  clearInterval(snakeTimer);
+  snakeTimer = setInterval(tickSnake, 125);
+}
+
+function changeDirection(name) {
+  const dirs = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 }
+  };
+  const d = dirs[name];
+  if (!d) return;
+  if (d.x === -direction.x && d.y === -direction.y) return;
+  nextDirection = d;
+}
+
+function tickSnake() {
+  direction = nextDirection;
+  const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+  const hitWall = head.x < 0 || head.y < 0 || head.x >= CELLS || head.y >= CELLS;
+  const eating = head.x === food.x && head.y === food.y;
+  const body = eating ? snake : snake.slice(0, -1);
+  const hitBody = body.some(part => part.x === head.x && part.y === head.y);
+
+  if (hitWall || hitBody) {
+    endSnake();
+    return;
+  }
+
+  snake.unshift(head);
+  if (eating) {
+    snakeScore += 10;
+    $("#snakeScore").textContent = snakeScore;
+    placeFood();
+  } else {
+    snake.pop();
+  }
+  drawSnake();
+}
+
+function endSnake() {
+  clearInterval(snakeTimer);
+  snakeTimer = null;
+  snakeRunning = false;
+  snakeEnded = true;
+  setGameMessage("Game over! Score: " + snakeScore + ". Press Start to try again.");
+  if (snakeScore > 0) submitScore("snake", snakeScore);
+}
+
+$$("[data-dir]").forEach(button => {
+  button.addEventListener("click", () => changeDirection(button.dataset.dir));
 });
 
-resetSnake();
+document.addEventListener("keydown", event => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key) &&
+      selectedGame === "snake") {
+    event.preventDefault();
+    const dirs = {
+      ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right"
+    };
+    changeDirection(dirs[event.key]);
+  }
+});
 
-/* ======================================================
-   TIC-TAC-TOE: PLAYER VS COMPUTER
-====================================================== */
-
-let ticCells=Array(9).fill("");
-let ticBusy=false,ticOver=false,ticWins=0,ticDraws=0;
-const winLines=[
- [0,1,2],[3,4,5],[6,7,8],
- [0,3,6],[1,4,7],[2,5,8],
- [0,4,8],[2,4,6]
+/* TIC-TAC-TOE */
+const winLines = [
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
 ];
 
-function ticWinner(board) {
- for(const line of winLines) {
-  const [a,b,c]=line;
-  if(board[a] && board[a]===board[b] && board[a]===board[c]) return board[a];
- }
- return board.every(Boolean)?"draw":null;
+function getWinner(cells) {
+  for (const line of winLines) {
+    const [a,b,c] = line;
+    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) return cells[a];
+  }
+  return cells.every(Boolean) ? "draw" : null;
 }
 
-function renderTic() {
- const board=$("#ticBoard");
- board.innerHTML="";
- ticCells.forEach((value,index)=>{
-  const button=document.createElement("button");
-  button.type="button";
-  button.className="gamebutton";
-  button.textContent=value;
-  button.setAttribute("aria-label",`Cell ${index+1}: ${value||"empty"}`);
-  button.disabled=!!value || ticBusy || ticOver;
-  button.addEventListener("click",()=>ticMove(index));
-  board.appendChild(button);
- });
- $("#ticWins").textContent=ticWins;
- $("#ticDraws").textContent=ticDraws;
+function initTTT() {
+  tttCells = Array(9).fill("");
+  tttEnded = false;
+  renderTTT();
 }
 
-function ticFinish() {
- const winner=ticWinner(ticCells);
- if(!winner) return false;
- ticOver=true;
-
- if(winner==="X") {
-  ticWins++;
-  $("#ticStatus").textContent="You win! 🎉";
-  recordGame(100);
-  submitScore("tictactoe",100);
- } else if(winner==="O") {
-  $("#ticStatus").textContent="Computer wins. Try again!";
-  recordGame(0);
- } else {
-  ticDraws++;
-  $("#ticStatus").textContent="It's a draw!";
-  recordGame(25);
-  submitScore("tictactoe",25);
- }
- renderTic();
- return true;
+function renderTTT() {
+  const board = $("#tttBoard");
+  board.innerHTML = "";
+  tttCells.forEach((value, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = value;
+    button.setAttribute("aria-label", "Cell " + (index + 1) + (value ? ": " + value : ": empty"));
+    button.addEventListener("click", () => playerMove(index));
+    board.appendChild(button);
+  });
 }
 
-function ticMove(index) {
- if(ticOver || ticBusy || ticCells[index]) return;
- ticCells[index]="X";
- if(ticFinish()) return;
- ticBusy=true;
- renderTic();
- $("#ticStatus").textContent="Computer is thinking…";
+function playerMove(index) {
+  if (tttEnded || tttCells[index]) return;
+  tttCells[index] = "X";
+  renderTTT();
+  let winner = getWinner(tttCells);
+  if (winner) return finishTTT(winner);
 
- setTimeout(()=>{
-  if(ticOver) return;
+  setGameMessage("Computer's turn…");
+  setTimeout(() => {
+    if (tttEnded) return;
+    const move = chooseComputerMove();
+    if (move !== -1) tttCells[move] = "O";
+    renderTTT();
+    winner = getWinner(tttCells);
+    if (winner) finishTTT(winner);
+    else setGameMessage("Your turn. Make a move.");
+  }, 250);
+}
 
-  const available=ticCells.map((v,i)=>v?null:i).filter(v=>v!==null);
-  let choice=-1;
+function chooseComputerMove() {
+  const empty = tttCells.map((v, i) => v ? -1 : i).filter(i => i !== -1);
+  if (!empty.length) return -1;
 
   // Win if possible.
-  for(const i of available) {
-   const test=[...ticCells];test[i]="O";
-   if(ticWinner(test)==="O"){choice=i;break}
+  for (const i of empty) {
+    const test = [...tttCells]; test[i] = "O";
+    if (getWinner(test) === "O") return i;
   }
-
-  // Otherwise block the player's winning move.
-  if(choice<0) {
-   for(const i of available) {
-    const test=[...ticCells];test[i]="X";
-    if(ticWinner(test)==="X"){choice=i;break}
-   }
+  // Block the player's winning move.
+  for (const i of empty) {
+    const test = [...tttCells]; test[i] = "X";
+    if (getWinner(test) === "X") return i;
   }
-
-  // Prefer the center, then a corner, then any free cell.
-  if(choice<0 && available.includes(4)) choice=4;
-  if(choice<0) {
-   const corners=[0,2,6,8].filter(i=>available.includes(i));
-   if(corners.length) choice=corners[Math.floor(Math.random()*corners.length)];
-  }
-  if(choice<0) choice=available[Math.floor(Math.random()*available.length)];
-
-  if(choice!==undefined && choice>=0) ticCells[choice]="O";
-  ticBusy=false;
-
-  if(!ticFinish()) $("#ticStatus").textContent="Your turn — X.";
-  renderTic();
- },350);
+  if (!tttCells[4]) return 4;
+  const corners = [0,2,6,8].filter(i => !tttCells[i]);
+  if (corners.length) return corners[Math.floor(Math.random() * corners.length)];
+  return empty[Math.floor(Math.random() * empty.length)];
 }
 
-function resetTic() {
- ticCells=Array(9).fill("");
- ticBusy=false;
- ticOver=false;
- $("#ticStatus").textContent="Your turn — X.";
- renderTic();
+function finishTTT(winner) {
+  tttEnded = true;
+  if (winner === "X") {
+    setGameMessage("You win! 🎉");
+    submitScore("ttt", 1);
+  } else if (winner === "O") {
+    setGameMessage("Computer wins. Try again!");
+  } else {
+    setGameMessage("It's a draw!");
+    submitScore("ttt", 0);
+  }
 }
-$("#ticReset").addEventListener("click",resetTic);
-resetTic();
 
-/* ======================================================
-   MEMORY MATCH
-====================================================== */
-
-const memorySymbols=["🌙","🚀","🍀","🎮","💎","🔥","🌈","⭐"];
-let memoryDeck=[],memoryChosen=[],memoryMatched=new Set(),memoryMoveCount=0,memoryLock=false;
-
-function shuffle(array) {
- for(let i=array.length-1;i>0;i--) {
-  const j=Math.floor(Math.random()*(i+1));
-  [array[i],array[j]]=[array[j],array[i]];
- }
- return array;
+/* MEMORY MATCH */
+function initMemory() {
+  memoryCards = [...memorySymbols, ...memorySymbols].sort(() => Math.random() - .5);
+  memoryFlipped = [];
+  memoryMoves = 0;
+  memoryPairs = 0;
+  memoryLocked = false;
+  $("#memoryMoves").textContent = "0";
+  $("#memoryPairs").textContent = "0";
+  renderMemory();
 }
 
 function renderMemory() {
- const board=$("#memoryBoard");
- board.innerHTML="";
- memoryDeck.forEach((symbol,index)=>{
-  const button=document.createElement("button");
-  button.type="button";
-  button.className="gamebutton";
-  button.textContent=memoryMatched.has(index)||memoryChosen.includes(index)?symbol:"?";
-  button.disabled=memoryMatched.has(index)||memoryLock||memoryChosen.includes(index);
-  button.setAttribute("aria-label",memoryMatched.has(index)?"Matched card":`Card ${index+1}`);
-  button.addEventListener("click",()=>memoryFlip(index));
-  board.appendChild(button);
- });
- $("#memoryMoves").textContent=memoryMoveCount;
- $("#memoryPairs").textContent=memoryMatched.size/2;
+  const board = $("#memoryBoard");
+  board.innerHTML = "";
+  memoryCards.forEach((symbol, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    const revealed = memoryFlipped.includes(index) || memoryCards[index] === null;
+    button.textContent = revealed ? (symbol || "✓") : "?";
+    button.setAttribute("aria-label", revealed ? "Card " + (index + 1) + ": " + (symbol || "matched") : "Hidden card " + (index + 1));
+    button.disabled = revealed || memoryLocked;
+    button.addEventListener("click", () => flipMemory(index));
+    board.appendChild(button);
+  });
 }
 
-function resetMemory() {
- memoryDeck=shuffle([...memorySymbols,...memorySymbols]);
- memoryChosen=[];
- memoryMatched=new Set();
- memoryMoveCount=0;
- memoryLock=false;
- $("#memoryStatus").textContent="Flip two cards to find a match.";
- renderMemory();
-}
+function flipMemory(index) {
+  if (memoryLocked || memoryFlipped.includes(index) || memoryCards[index] === null) return;
+  memoryFlipped.push(index);
+  renderMemory();
 
-function memoryFlip(index) {
- if(memoryLock||memoryMatched.has(index)||memoryChosen.includes(index)) return;
- memoryChosen.push(index);
- renderMemory();
+  if (memoryFlipped.length === 2) {
+    memoryMoves++;
+    $("#memoryMoves").textContent = memoryMoves;
+    const [a, b] = memoryFlipped;
+    if (memoryCards[a] === memoryCards[b]) {
+      memoryCards[a] = null;
+      memoryCards[b] = null;
+      memoryPairs++;
+      $("#memoryPairs").textContent = memoryPairs;
+      memoryFlipped = [];
+      renderMemory();
 
- if(memoryChosen.length===2) {
-  memoryMoveCount++;
-  $("#memoryMoves").textContent=memoryMoveCount;
-  const [a,b]=memoryChosen;
-
-  if(memoryDeck[a]===memoryDeck[b]) {
-   memoryMatched.add(a);memoryMatched.add(b);
-   memoryChosen=[];
-   renderMemory();
-
-   if(memoryMatched.size===memoryDeck.length) {
-    const score=Math.max(10,200-memoryMoveCount*10);
-    $("#memoryStatus").textContent=`You matched every pair in ${memoryMoveCount} moves!`;
-    recordGame(score);
-    submitScore("memory",score);
-   } else {
-    $("#memoryStatus").textContent="Match! Find another pair.";
-   }
-  } else {
-   memoryLock=true;
-   $("#memoryStatus").textContent="Not a match. Try again.";
-   setTimeout(()=>{
-    memoryChosen=[];
-    memoryLock=false;
-    renderMemory();
-   },750);
+      if (memoryPairs === 8) {
+        setGameMessage("All pairs found in " + memoryMoves + " moves! 🎉");
+        const score = Math.max(1, 1000 - memoryMoves * 10);
+        submitScore("memory", score);
+      }
+    } else {
+      memoryLocked = true;
+      setTimeout(() => {
+        memoryFlipped = [];
+        memoryLocked = false;
+        renderMemory();
+      }, 750);
+    }
   }
- }
 }
 
-$("#memoryReset").addEventListener("click",resetMemory);
-resetMemory();
-
-/* ======================================================
-   CLICK CHALLENGE
-====================================================== */
-
-let clickCount=0,clickRemaining=10,clickRunning=false,clickInterval=null;
-
-function updateClicker() {
- $("#clickScore").textContent=clickCount;
- $("#clickTime").textContent=clickRemaining;
-}
-
-function resetClicker() {
- clearInterval(clickInterval);
- clickRunning=false;
- clickCount=0;
- clickRemaining=10;
- $("#clickTarget").textContent="START!";
- $("#clickTarget").disabled=false;
- $("#clickStatus").textContent="Ready? Start when you're ready.";
- updateClicker();
+/* CLICK RUSH */
+function initClicker() {
+  clickScore = 0;
+  clickTime = 10;
+  clickRunning = false;
+  clickEnded = false;
+  $("#clickScore").textContent = "0";
+  $("#clickTime").textContent = "10";
+  $("#bigClick").disabled = true;
 }
 
 function startClicker() {
- if(clickRunning) return;
- clearInterval(clickInterval);
- clickRunning=true;
- clickCount=0;
- clickRemaining=10;
- $("#clickTarget").textContent="CLICK ME! ⚡";
- $("#clickStatus").textContent="Go, go, go!";
- updateClicker();
-
- clickInterval=setInterval(()=>{
-  clickRemaining--;
-  updateClicker();
-
-  if(clickRemaining<=0) {
-   clearInterval(clickInterval);
-   clickRunning=false;
-   $("#clickTarget").textContent="TIME'S UP!";
-   $("#clickStatus").textContent=`You scored ${clickCount} clicks!`;
-   recordGame(clickCount);
-   submitScore("clicker",clickCount);
-  }
- },1000);
+  if (clickRunning) return;
+  if (clickEnded) initClicker();
+  clickRunning = true;
+  clickEnded = false;
+  $("#bigClick").disabled = false;
+  setGameMessage("Click as fast as you can!");
+  clearInterval(clickTimer);
+  clickTimer = setInterval(() => {
+    clickTime--;
+    $("#clickTime").textContent = clickTime;
+    if (clickTime <= 0) {
+      clearInterval(clickTimer);
+      clickTimer = null;
+      clickRunning = false;
+      clickEnded = true;
+      $("#bigClick").disabled = true;
+      setGameMessage("Time's up! Your score: " + clickScore);
+      submitScore("clicker", clickScore);
+    }
+  }, 1000);
 }
 
-$("#clickTarget").addEventListener("click",()=>{
- if(!clickRunning) {
-  if(clickRemaining===10 && clickCount===0) startClicker();
-  return;
- }
- clickCount++;
- updateClicker();
+$("#bigClick").addEventListener("click", () => {
+  if (!clickRunning) return;
+  clickScore++;
+  $("#clickScore").textContent = clickScore;
 });
-$("#clickReset").addEventListener("click",resetClicker);
-resetClicker();
 
-/* ======================================================
-   CONTACT FORM: FORMspree + THANK-YOU REDIRECT
-====================================================== */
+/* Initial arcade state */
+initSnake();
+initTTT();
+initMemory();
+initClicker();
+showGame("snake");
 
-$("#contactForm").addEventListener("submit",async event=>{
- event.preventDefault();
+/* Restore any existing login session and load scores. */
+restoreSession().then(loadLeaderboard);
 
- const form=event.currentTarget;
- const button=$("#contactSubmit");
- const status=$("#contactStatus");
+/* =========================================================
+   CONTACT FORM
+   The form uses Formspree and its redirect configuration.
+   ========================================================= */
+$("#contactForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
- if(!form.reportValidity()) return;
+  const form = event.currentTarget;
+  const status = $("#contactStatus");
+  const submit = $("#contactSubmit");
 
- button.disabled=true;
- button.textContent="Sending…";
- status.textContent="Sending your message securely…";
+  if (!form.reportValidity()) return;
 
- try {
-  const response=await fetch(form.action,{
-   method:"POST",
-   body:new FormData(form),
-   headers:{Accept:"application/json"}
-  });
+  submit.disabled = true;
+  submit.textContent = "Sending…";
+  hideNotice(status);
 
-  let data={};
-  try {data=await response.json()} catch {}
+  try {
+    const formData = new FormData(form);
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: { "Accept": "application/json" }
+    });
 
-  if(!response.ok) {
-   const message=data.errors?.map(e=>e.message).join(", ");
-   throw new Error(message || "Message could not be sent. Please try again.");
+    if (!response.ok) {
+      let message = "Form submission failed. Please try again.";
+      try {
+        const data = await response.json();
+        if (data.errors) message = data.errors.map(e => e.message).join(" ");
+        else if (data.error) message = data.error;
+      } catch {}
+      throw new Error(message);
+    }
+
+    // Keep the existing separate thanks page.
+    location.href = THANKS_URL;
+  } catch (error) {
+    showNotice(status, error.message || "Unable to send your message. Check your connection.", "error");
+    submit.disabled = false;
+    submit.textContent = "Send message ↗";
   }
-
-  status.textContent="Message sent successfully! Redirecting…";
-  window.location.assign(THANKS_URL);
- } catch(error) {
-  status.textContent=error.message || "Network error. Please try again.";
-  button.disabled=false;
-  button.textContent="Send message ↗";
- }
 });
-
-/* ======================================================
-   STARTUP
-====================================================== */
-
-renderAccount();
-restoreSession();
-
-if(apiToken) refreshLeaderboard();
-
-const initialPage=location.hash.slice(1);
-navigate(validPages.includes(initialPage)?initialPage:"home",false);
 </script>
 </body>
-     </html>
+  </html>
