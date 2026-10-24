@@ -2,1388 +2,3401 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071426">
-<meta name="description" content="ScottCode.fun — Scott's digital world.">
-<title>ScottCode.fun — Scott's Digital World</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071629">
+<meta name="description" content="ScottCode.fun — Personal portfolio, projects, and browser games by Scott.">
+<title>ScottCode.fun — Scott's Digital Space</title>
 
 <style>
-:root{
-  --bg:#071426;
-  --panel:rgba(17,39,67,.78);
-  --line:rgba(155,207,255,.18);
-  --text:#edf7ff;
-  --muted:#9eb7d0;
-  --blue:#80c9ff;
-  --cyan:#65f0ff;
-  --purple:#b5a1ff;
-  --green:#8dffce;
-  --red:#ff9da9;
-  --radius:21px;
-  --max:1150px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
-  line-height:1.65;overflow-x:hidden
-}
-button,input,textarea,select{font:inherit}
-button,a{-webkit-tap-highlight-color:transparent}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer}
-.container{width:min(var(--max),calc(100% - 34px));margin:auto}
-.muted{color:var(--muted)}
-.small{font-size:.84rem}
-.hidden{display:none!important}
-.gradient-text{
-  color:transparent;
-  background:linear-gradient(110deg,#fff,#8ad8ff,#b5a1ff);
-  -webkit-background-clip:text;background-clip:text
-}
-.eyebrow{
-  color:var(--cyan);font-size:.76rem;font-weight:800;
-  letter-spacing:.18em;text-transform:uppercase
-}
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:5px 11px;border:1px solid var(--line);
-  border-radius:100px;color:#c5e5ff;font-size:.78rem;
-  background:rgba(120,190,255,.07)
-}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
-.panel{
-  background:linear-gradient(145deg,rgba(23,48,79,.84),rgba(9,24,44,.88));
-  border:1px solid var(--line);border-radius:var(--radius);
-  box-shadow:0 18px 50px #0002;backdrop-filter:blur(18px)
-}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px 17px;border:1px solid var(--line);border-radius:12px;
-  background:rgba(255,255,255,.055);color:var(--text);
-  font-weight:750;transition:.2s
-}
-.btn:hover{transform:translateY(-2px);border-color:#80c9ff}
-.btn-primary{
-  color:#071426;border:0;
-  background:linear-gradient(115deg,#8ddcff,#a9c6ff,#b8adff)
-}
-.btn-danger{color:var(--red)}
-.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
-.section{padding:85px 0}
-.section-heading{margin-bottom:32px}
-.section-heading h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.12;margin:8px 0}
-.section-heading p{max-width:680px;color:var(--muted)}
-.grid{display:grid;gap:17px}
-.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.card{padding:23px;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-3px);border-color:#80c9ff77}
-.card-icon{font-size:1.8rem;margin-bottom:12px}
-.card h3{margin:0 0 8px}
-.card p{margin:0;color:var(--muted);font-size:.92rem}
-.tag-list,.skill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.tag{
-  padding:4px 9px;border-radius:8px;
-  background:#78b9ff12;color:#b9dfff;font-size:.75rem
+:root {
+  --bg: #071629;
+  --bg2: #0b2038;
+  --panel: rgba(17, 42, 68, .78);
+  --panel2: rgba(24, 54, 83, .76);
+  --blue: #73c8ff;
+  --blue2: #b4e6ff;
+  --text: #f2f8ff;
+  --muted: #a8bed3;
+  --border: rgba(159, 211, 255, .17);
+  --green: #83f0c0;
+  --red: #ff929f;
 }
 
-/* BACKGROUND */
-#stars{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-3}
-.background-glow{
-  position:fixed;inset:0;pointer-events:none;z-index:-2;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+  scroll-padding-top: 90px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   background:
-    radial-gradient(ellipse at 10% 10%,#1e7ddc33,transparent 43%),
-    radial-gradient(ellipse at 90% 35%,#5a50dc22,transparent 40%),
-    radial-gradient(ellipse at 50% 100%,#1eb4dc1a,transparent 45%)
+    radial-gradient(ellipse at 10% 5%, rgba(55, 148, 220, .16), transparent 35%),
+    radial-gradient(ellipse at 90% 25%, rgba(89, 188, 255, .09), transparent 32%),
+    linear-gradient(155deg, #061321, #0a1c31 50%, #061321);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
 }
 
-/* NAV */
-header{
-  position:sticky;top:0;z-index:100;
-  background:#05101fdb;border-bottom:1px solid #96c8ff1f;
-  backdrop-filter:blur(22px)
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: .23;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, white 50%, transparent),
+    radial-gradient(2px 2px at 75% 30%, #b9e7ff 50%, transparent),
+    radial-gradient(1px 1px at 40% 70%, white 50%, transparent),
+    radial-gradient(2px 2px at 90% 85%, #8bd4ff 50%, transparent),
+    radial-gradient(1px 1px at 60% 10%, white 50%, transparent);
+  background-size: 230px 230px;
 }
-.nav{min-height:73px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.04em}
-.brand-icon{
-  width:39px;height:39px;border-radius:13px;display:grid;place-items:center;
-  color:#061426;background:linear-gradient(135deg,#8de4ff,#b8a5ff);font-weight:1000
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
-.nav-links{display:flex;align-items:center;gap:4px}
-.nav-links a{
-  padding:9px 11px;border-radius:10px;font-size:.86rem;
-  font-weight:700;color:#afc4da;transition:.2s
+
+button, input, textarea, select {
+  font: inherit;
 }
-.nav-links a:hover,.nav-links a.active{color:#fff;background:#7dc5ff1f}
-.nav-actions{display:flex;align-items:center;gap:8px}
-.menu-toggle{
-  display:none;width:43px;height:43px;border-radius:12px;
-  border:1px solid var(--line);background:var(--panel);color:white;font-size:1.25rem
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+
+.container {
+  width: min(1120px, calc(100% - 36px));
+  margin-inline: auto;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.blue {
+  color: var(--blue);
+}
+
+.small {
+  font-size: .88rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 17px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(83, 169, 232, .08);
+  color: var(--blue2);
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.section {
+  padding: 78px 0;
+  border-bottom: 1px solid rgba(159, 211, 255, .07);
+  scroll-margin-top: 82px;
+}
+
+.section-heading {
+  margin-bottom: 32px;
+}
+
+.section-heading h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -.045em;
+  margin-bottom: 12px;
+}
+
+.section-heading p {
+  max-width: 650px;
+  color: var(--muted);
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, #fff, #9bdcff 55%, #75b9ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* HEADER */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(5, 17, 31, .94);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.navbar {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.08rem;
+  font-weight: 850;
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #061524;
+  background: linear-gradient(145deg, #c1ebff, #67baff);
+  box-shadow: 0 5px 22px rgba(83, 181, 255, .19);
+  font-size: 1.05rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-links a {
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: #bed0e0;
+  font-size: .91rem;
+  transition: background .15s, color .15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: white;
+  background: rgba(104, 190, 255, .12);
+}
+
+.nav-links .nav-login {
+  color: var(--blue2);
+  border: 1px solid var(--border);
+}
+
+.menu-toggle {
+  display: none;
+  width: 43px;
+  height: 43px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.menu-toggle span {
+  width: 19px;
+  height: 2px;
+  border-radius: 5px;
+  background: white;
+}
+
+/* BUTTONS */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 45px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-weight: 750;
+  font-size: .94rem;
+  transition: background .15s, border-color .15s;
+}
+
+.btn-primary {
+  color: #041524;
+  background: linear-gradient(135deg, #b9e9ff, #72c4ff);
+  box-shadow: 0 7px 24px rgba(67, 170, 246, .12);
+}
+
+.btn-primary:hover {
+  background: #d7f3ff;
+}
+
+.btn-secondary {
+  color: var(--text);
+  background: rgba(128, 192, 239, .08);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: rgba(128, 192, 239, .16);
+}
+
+.btn-danger {
+  color: #ffdce1;
+  background: rgba(255, 111, 133, .08);
+  border-color: rgba(255, 111, 133, .22);
+}
+
+.btn-small {
+  min-height: 37px;
+  padding: 8px 12px;
+  font-size: .85rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
 }
 
 /* HOME */
-.hero{min-height:calc(88vh - 73px);display:flex;align-items:center;padding:70px 0 55px}
-.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:45px}
-.hero h1{font-size:clamp(3rem,8vw,6.3rem);line-height:.99;letter-spacing:-.075em;margin:22px 0}
-.hero-copy{font-size:1.05rem;color:#afc4da;max-width:610px}
-.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px}
-.stat{padding:16px;border:1px solid var(--line);border-radius:15px;background:#ffffff06}
-.stat strong{display:block;font-size:1.45rem}
-.stat span{color:var(--muted);font-size:.78rem}
-.hero-art{position:relative;min-height:360px;display:grid;place-items:center}
-.orbit{
-  position:absolute;width:290px;height:290px;border-radius:50%;
-  border:1px solid #79cfff33;animation:spin 24s linear infinite
+
+.hero {
+  min-height: 510px;
+  padding: 88px 0 75px;
+  display: flex;
+  align-items: center;
 }
-.orbit:before,.orbit:after{
-  content:"";position:absolute;width:12px;height:12px;border-radius:50%;
-  background:#81dfff;box-shadow:0 0 25px #66d5ff
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 50px;
 }
-.orbit:before{top:22px;left:70px}
-.orbit:after{bottom:36px;right:30px;background:#b4a1ff}
-.orbit.two{width:220px;height:220px;animation-direction:reverse;animation-duration:18s}
-.orbit.two:before{background:#b4a1ff;top:35px;right:20px;left:auto}
-.orbit.two:after{display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero-core{
-  width:165px;height:165px;display:grid;place-items:center;border-radius:40px;
-  transform:rotate(-8deg);background:linear-gradient(145deg,#71cbff33,#9b82ff20);
-  border:1px solid #9fdbff66;box-shadow:0 0 80px #4dabff2b,inset 0 0 30px #82beff14
+
+.hero h1 {
+  max-width: 750px;
+  font-size: clamp(2.65rem, 7vw, 5.4rem);
+  letter-spacing: -.065em;
+  line-height: 1.04;
+  margin-bottom: 24px;
 }
-.hero-core span{font-size:4.6rem;font-weight:1000;letter-spacing:-.1em;color:#c6edff}
-.floating-card{
-  position:absolute;padding:11px 14px;border-radius:14px;
-  background:#0d2239ed;border:1px solid var(--line);font-size:.82rem
+
+.hero-description {
+  max-width: 590px;
+  color: #b5c9dc;
+  font-size: 1.07rem;
+  margin-bottom: 27px;
 }
-.float-one{top:25px;right:0}
-.float-two{bottom:25px;left:0}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 27px;
+  color: #c5d7e8;
+  font-size: .9rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(131, 240, 192, .5);
+}
+
+.hero-card {
+  position: relative;
+  padding: 28px;
+  min-height: 300px;
+  overflow: hidden;
+  border: 1px solid rgba(143, 209, 255, .24);
+  border-radius: 25px;
+  background: linear-gradient(145deg, rgba(24, 60, 92, .85), rgba(8, 28, 48, .88));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .18);
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -70px;
+  top: -80px;
+  border-radius: 50%;
+  background: rgba(95, 191, 255, .15);
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.code-window {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(165, 214, 255, .14);
+  border-radius: 15px;
+  background: rgba(3, 16, 29, .65);
+  overflow: hidden;
+}
+
+.code-top {
+  display: flex;
+  gap: 6px;
+  padding: 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.code-top span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6f9ab9;
+}
+
+.code-body {
+  padding: 23px 18px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .88rem;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.code-blue { color: #81d1ff; }
+.code-green { color: #92edc4; }
+.code-muted { color: #7e9cb6; }
+
+.hero-card-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 17px;
+  color: var(--muted);
+  font-size: .83rem;
+}
+
+/* GENERAL CARDS */
+
+.grid {
+  display: grid;
+  gap: 18px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.card h3 {
+  font-size: 1.13rem;
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: .94rem;
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 17px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(94, 183, 255, .1);
+  font-size: 1.3rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: #bfe7ff;
+  background: rgba(83, 169, 232, .07);
+  font-size: .78rem;
+}
 
 /* ABOUT */
-.about-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
-.profile-card{padding:28px;text-align:center}
-.avatar{
-  width:100px;height:100px;border-radius:29px;margin:0 auto 17px;
-  display:grid;place-items:center;font-size:3rem;font-weight:900;color:#081729;
-  background:linear-gradient(135deg,#8de5ff,#b7a5ff)
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
 }
-.profile-card h3{margin:0;font-size:1.5rem}
-.profile-card .pill{margin-top:10px}
-.about-text{padding:28px}
-.about-text p{color:var(--muted)}
+
+.about-copy p + p {
+  margin-top: 14px;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.skill {
+  padding: 9px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(111, 184, 241, .07);
+  color: #d9efff;
+  font-size: .88rem;
+}
 
 /* PROJECTS */
-.project-card{display:flex;flex-direction:column;min-height:230px}
-.project-bottom{margin-top:auto;padding-top:20px}
-.project-link{color:var(--cyan);font-weight:800;font-size:.9rem}
-.project-link:hover{text-decoration:underline}
 
-/* ARCADE LAYOUT */
-.arcade-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.arcade-layout{display:grid;grid-template-columns:minmax(0,1fr) 305px;gap:20px;align-items:start}
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 235px;
+}
 
-/* NEW GAME SELECTOR */
-.game-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.game-choice{
-  position:relative;display:flex;flex-direction:column;align-items:flex-start;
-  justify-content:center;gap:7px;min-height:148px;padding:18px;
-  overflow:hidden;text-align:left;color:var(--text);
-  background:linear-gradient(145deg,#1e4267a6,#0a192de0);
-  border:1px solid #9bcfff25;border-radius:19px;
-  transition:transform .22s,border-color .22s,background .22s,box-shadow .22s
+.project-card .project-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-.game-choice:after{
-  content:"↗";position:absolute;top:13px;right:15px;
-  color:#8fcfff;font-size:1.15rem;opacity:.7;transition:transform .2s
-}
-.game-choice:hover{transform:translateY(-3px);border-color:#7ecbff99;box-shadow:0 12px 28px #0003}
-.game-choice:hover:after{transform:translate(2px,-2px)}
-.game-choice.selected{
-  background:linear-gradient(145deg,#3776ae54,#1f2d55a8);
-  border-color:#80c9ff;
-  box-shadow:inset 0 0 0 1px #80c9ff25,0 0 25px #5aafff17
-}
-.game-choice .game-category{color:#91d8ff;font-size:.76rem;font-weight:750}
-.game-choice strong{font-size:1.12rem;line-height:1.3}
-.game-choice .game-desc{color:var(--muted);font-size:.81rem;line-height:1.5}
 
-.game-panel{padding:23px;margin-top:16px;min-height:300px}
-.game-panel h3{margin-top:0}
-.game-message{min-height:26px;color:var(--cyan);font-size:.9rem}
-.game-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
-.game-display{display:flex;flex-direction:column;align-items:center;gap:15px;margin:18px 0}
-.board{display:grid;gap:7px;max-width:100%}
-.board button{border:1px solid var(--line);background:#ffffff0b;color:var(--text);border-radius:12px;font-weight:900}
-.ttt-board{grid-template-columns:repeat(3,76px)}
-.ttt-board button{width:76px;height:76px;font-size:2rem}
-.memory-board{grid-template-columns:repeat(4,58px)}
-.memory-board button{width:58px;height:62px;font-size:1.35rem}
-#snakeCanvas{display:block;max-width:100%;width:320px;height:320px;border-radius:14px;border:1px solid var(--line);background:#07111f}
-.dpad{display:grid;grid-template-columns:repeat(3,48px);gap:5px}
-.dpad button{height:42px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:white}
-.dpad button:nth-child(1){grid-column:2}
-.dpad button:nth-child(2){grid-column:1;grid-row:2}
-.dpad button:nth-child(3){grid-column:2;grid-row:2}
-.dpad button:nth-child(4){grid-column:3;grid-row:2}
+.project-label {
+  color: var(--blue);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 8px;
+}
 
-/* ACCOUNT / SCORES */
-.side-panel,.auth-box{padding:21px}
-.side-panel h3,.auth-box h3{margin-top:0}
-.leaderboard-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.87rem}
-.leaderboard-row:last-child{border:0}
-.rank{color:var(--cyan);font-weight:900}
-.form-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.form-field label{font-size:.84rem;color:#c6d9eb;font-weight:700}
-.form-field input,.form-field textarea,.form-field select{
-  width:100%;padding:12px 13px;color:var(--text);
-  background:#010c1885;border:1px solid var(--line);border-radius:11px;outline:none
+/* ARCADE */
+
+.arcade-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
 }
-.form-field input:focus,.form-field textarea:focus,.form-field select:focus{
-  border-color:#7ccfff;box-shadow:0 0 0 3px #64b9ff14
+
+.account-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--muted);
+  background: rgba(10, 32, 52, .7);
+  font-size: .85rem;
 }
-.form-field textarea{min-height:140px;resize:vertical}
-.form-field select option{background:#0b1b30;color:white}
-.notice{padding:12px 14px;border-radius:12px;font-size:.85rem;margin:12px 0;background:#7dbfff12;border:1px solid var(--line);overflow-wrap:anywhere}
-.notice.error{color:#ffb5bf;border-color:#ff788a55}
-.notice.success{color:#a4ffd6;border-color:#64ffbe44}
-.auth-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
-.auth-switch .btn{min-height:44px;font-size:.85rem}
-.auth-subtitle{color:var(--muted);font-size:.85rem;margin-top:-5px}
-.account-avatar{width:58px;height:58px;display:grid;place-items:center;border-radius:19px;background:linear-gradient(135deg,#8de5ff,#b7a5ff);color:#071426;font-size:1.6rem;font-weight:900}
-.account-header{display:flex;align-items:center;gap:13px;margin:15px 0}
-.account-header h3{margin:0}
-.status-line{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.8rem}
+
+.game-selector {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.game-choice {
+  min-width: 0;
+  text-align: left;
+  padding: 17px 14px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  color: var(--text);
+  background: rgba(13, 35, 57, .8);
+}
+
+.game-choice:hover,
+.game-choice.selected {
+  border-color: rgba(120, 202, 255, .68);
+  background: rgba(69, 152, 214, .15);
+}
+
+.game-choice .game-emoji {
+  display: block;
+  font-size: 1.65rem;
+  margin-bottom: 8px;
+}
+
+.game-choice strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: .94rem;
+}
+
+.game-choice small {
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.game-panel {
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  background: rgba(8, 26, 44, .85);
+}
+
+.game-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 19px;
+}
+
+.game-panel-header h3 {
+  font-size: 1.3rem;
+}
+
+.game-panel-header p {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.game-stage {
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.game-status {
+  min-height: 25px;
+  text-align: center;
+  color: var(--blue2);
+  font-size: .95rem;
+}
+
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.score-line {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: #d6eaff;
+  font-size: .9rem;
+}
+
+#snakeCanvas {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #071522;
+  touch-action: none;
+}
+
+.game-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 55px);
+  gap: 7px;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.pad-button {
+  width: 55px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: white;
+  background: var(--panel2);
+  font-size: 1.15rem;
+}
+
+.pad-empty {
+  visibility: hidden;
+}
+
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 78px);
+  gap: 8px;
+}
+
+.ttt-cell {
+  height: 78px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  color: var(--blue2);
+  background: rgba(24, 55, 82, .78);
+  font-size: 2rem;
+  font-weight: 850;
+}
+
+.ttt-cell:disabled {
+  opacity: 1;
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(55px, 70px));
+  gap: 8px;
+  justify-content: center;
+}
+
+.memory-card {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(28, 65, 98, .8);
+  color: white;
+  font-size: 1.6rem;
+}
+
+.memory-card.matched {
+  background: rgba(66, 161, 125, .22);
+  border-color: rgba(131, 240, 192, .45);
+}
+
+.memory-card:disabled {
+  opacity: 1;
+}
+
+.click-target {
+  width: 130px;
+  height: 130px;
+  border: 1px solid rgba(151, 218, 255, .5);
+  border-radius: 50%;
+  color: #071629;
+  background: linear-gradient(145deg, #c2eeff, #65b9ff);
+  font-size: 1.1rem;
+  font-weight: 850;
+  box-shadow: 0 0 32px rgba(94, 190, 255, .12);
+}
+
+.click-target:disabled {
+  opacity: .4;
+}
+
+.leaderboard {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: rgba(11, 31, 50, .8);
+}
+
+.leaderboard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.leaderboard-head h3 {
+  font-size: 1.05rem;
+}
+
+.leaderboard-list {
+  display: grid;
+  gap: 8px;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 35px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(159, 211, 255, .08);
+  border-radius: 10px;
+  background: rgba(128, 192, 239, .035);
+  font-size: .9rem;
+}
+
+.rank {
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.leaderboard-row .muted {
+  font-size: .82rem;
+}
+
+.game-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+/* ACCOUNT */
+
+.account-layout {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.account-card {
+  padding: 25px;
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  background: var(--panel);
+}
+
+.account-card h3 {
+  font-size: 1.35rem;
+  margin-bottom: 7px;
+}
+
+.account-card > p {
+  color: var(--muted);
+  font-size: .92rem;
+  margin-bottom: 19px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.auth-tab {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(8, 27, 45, .8);
+}
+
+.auth-tab.active {
+  color: white;
+  border-color: rgba(115, 200, 255, .5);
+  background: rgba(84, 166, 225, .14);
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 15px;
+}
+
+.field label {
+  font-size: .87rem;
+  color: #d6e6f5;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+  border: 1px solid rgba(159, 211, 255, .2);
+  border-radius: 11px;
+  color: white;
+  background: rgba(4, 18, 31, .7);
+  outline: none;
+}
+
+.field textarea {
+  min-height: 145px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: rgba(115, 200, 255, .7);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #718ba4;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.auth-switch-text {
+  margin-top: 15px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue2);
+  font-weight: 750;
+}
+
+.message {
+  display: none;
+  margin: 12px 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: .87rem;
+  overflow-wrap: anywhere;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  color: #ffd8df;
+  background: rgba(220, 73, 100, .1);
+  border-color: rgba(255, 111, 133, .25);
+}
+
+.message.success {
+  color: #c5ffe7;
+  background: rgba(64, 180, 133, .1);
+  border-color: rgba(131, 240, 192, .25);
+}
+
+.message.info {
+  color: #ccecff;
+  background: rgba(76, 158, 215, .1);
+}
+
+.account-profile {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(5, 21, 36, .5);
+}
+
+.profile-avatar {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  color: #061524;
+  background: linear-gradient(145deg, #c2eeff, #65b9ff);
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 18px;
+}
 
 /* CONTACT */
-.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
-.contact-info,.contact-form{padding:26px}
-.contact-info a{color:var(--cyan)}
-footer{padding:33px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
-.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.back-top{position:fixed;right:16px;bottom:16px;z-index:50;box-shadow:0 8px 30px #0005}
-.toast{
-  position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);
-  z-index:200;max-width:calc(100% - 30px);padding:13px 18px;
-  border-radius:13px;background:#173655;border:1px solid var(--line);
-  opacity:0;pointer-events:none;transition:.25s
-}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-hr{border:0;border-top:1px solid var(--line);margin:20px 0}
 
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .hero-art{min-height:310px;max-width:440px;width:100%;margin:auto}
-  .arcade-layout{grid-template-columns:1fr}
-  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .about-layout,.contact-layout{grid-template-columns:1fr}
+.contact-layout {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 22px;
 }
-@media(max-width:760px){
-  .nav{min-height:67px}
-  .menu-toggle{display:grid;place-items:center}
-  .nav-actions .login-nav{display:none}
-  .nav-links{
-    display:none;position:absolute;top:67px;left:12px;right:12px;
-    padding:12px;flex-direction:column;align-items:stretch;gap:4px;
-    background:#051120fa;border:1px solid var(--line);border-radius:17px;
-    box-shadow:0 18px 45px #0007
+
+.contact-item {
+  display: flex;
+  gap: 13px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(159, 211, 255, .09);
+}
+
+.contact-item:last-child {
+  border-bottom: 0;
+}
+
+.contact-item .card-icon {
+  flex: 0 0 43px;
+  width: 43px;
+  height: 43px;
+  margin: 0;
+}
+
+.contact-item h3 {
+  font-size: .95rem;
+  margin-bottom: 3px;
+}
+
+.contact-item p {
+  color: var(--muted);
+  font-size: .88rem;
+  overflow-wrap: anywhere;
+}
+
+/* FOOTER */
+
+.site-footer {
+  padding: 28px 0;
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 14px}
-  .hero{padding:53px 0 35px;min-height:auto}
-  .hero h1{font-size:clamp(3rem,14vw,5rem)}
-  .hero-art{min-height:275px}
-  .orbit{width:240px;height:240px}
-  .orbit.two{width:190px;height:190px}
-  .hero-core{width:140px;height:140px}
-  .hero-core span{font-size:4rem}
-  .stats{gap:8px}
-  .stat{padding:12px}
-  .stat strong{font-size:1.2rem}
-  .section{padding:62px 0}
-  .grid-2,.grid-3{grid-template-columns:1fr}
-  .game-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .game-choice{min-height:142px;padding:13px;border-radius:15px}
-  .game-choice strong{font-size:1rem}
-  .game-choice .game-desc{font-size:.75rem}
-  .game-panel{padding:17px}
-  .ttt-board{grid-template-columns:repeat(3,min(22vw,76px))}
-  .ttt-board button{width:min(22vw,76px);height:min(22vw,76px)}
-  .memory-board{grid-template-columns:repeat(4,min(15vw,58px))}
-  .memory-board button{width:min(15vw,58px);height:55px}
-  .contact-info,.contact-form{padding:19px}
+
+  .hero {
+    padding-top: 65px;
+  }
+
+  .hero-card {
+    max-width: 600px;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .game-selector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .account-layout,
+  .contact-layout,
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    gap: 1px;
+  }
+
+  .nav-links a {
+    padding: 9px 8px;
+    font-size: .84rem;
+  }
 }
-@media(max-width:370px){
-  .container{width:calc(100% - 24px)}
-  .game-choice{padding:10px}
-  .game-choice .game-category{font-size:.68rem}
-  .game-choice .game-desc{font-size:.71rem}
+
+@media (max-width: 650px) {
+  .container {
+    width: calc(100% - 28px);
+  }
+
+  .navbar {
+    min-height: 66px;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    padding: 12px 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #081a2c;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: .94rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 58px 0;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .hero-card {
+    padding: 17px;
+  }
+
+  .section {
+    padding: 58px 0;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .arcade-top {
+    flex-direction: column;
+  }
+
+  .game-panel {
+    padding: 15px;
+  }
+
+  .game-selector {
+    gap: 8px;
+  }
+
+  .game-choice {
+    padding: 13px 11px;
+  }
+
+  .game-choice strong {
+    font-size: .88rem;
+  }
+
+  .ttt-board {
+    grid-template-columns: repeat(3, 68px);
+  }
+
+  .ttt-cell {
+    height: 68px;
+  }
+
+  .memory-board {
+    grid-template-columns: repeat(4, minmax(48px, 62px));
+    gap: 6px;
+  }
+
+  .account-card {
+    padding: 18px;
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
 
 <body>
-<canvas id="stars" aria-hidden="true"></canvas>
-<div class="background-glow" aria-hidden="true"></div>
 
-<header>
-  <div class="container nav">
-    <a href="#home" class="brand" aria-label="ScottCode home">
-      <span class="brand-icon">S</span>
-      <span>ScottCode<span class="gradient-text">.fun</span></span>
+<!-- HEADER: all links point to sections in THIS SAME HTML FILE -->
+<header class="site-header">
+  <div class="container navbar">
+
+    <a class="logo" href="#home" aria-label="ScottCode home">
+      <span class="logo-icon">&lt;/&gt;</span>
+      <span>Scott<span class="blue">Code</span></span>
     </a>
 
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="navLinks">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-      <a href="#home" data-section="home" class="active">Home</a>
-      <a href="#about" data-section="about">About</a>
-      <a href="#projects" data-section="projects">Projects</a>
-      <a href="#arcade" data-section="arcade">Arcade 🎮</a>
-      <a href="#contact" data-section="contact">Contact</a>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#arcade">Arcade</a>
+      <a href="#contact">Contact</a>
+      <a href="#account" class="nav-login" id="navAccount">Login</a>
     </nav>
 
-    <div class="nav-actions">
-      <button class="btn login-nav" id="navAccountBtn" type="button">Sign in</button>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-    </div>
   </div>
 </header>
 
+
 <main>
+
+<!-- ================= HOME ================= -->
 <section class="hero" id="home">
   <div class="container hero-grid">
-    <div>
-      <span class="pill"><span class="dot"></span> Welcome to my digital world</span>
-      <div class="eyebrow" style="margin-top:25px">Developer · Creator · Learner</div>
-      <h1>Building my<br><span class="gradient-text">own universe.</span></h1>
-      <p class="hero-copy">Hey, I'm Scott. I build websites, experiment with code, explore technology, and turn ideas into things people can actually use.</p>
-      <div class="hero-buttons">
-        <a href="#projects" class="btn btn-primary">Explore my projects ↗</a>
-        <a href="#arcade" class="btn">🎮 Play games</a>
-      </div>
-      <div class="hero-tags">
-        <span class="pill">💻 Web development</span>
-        <span class="pill">✨ Creative experiments</span>
-        <span class="pill">🚀 Always learning</span>
-      </div>
-      <div class="stats">
-        <div class="stat"><strong>01</strong><span>Curiosity first</span></div>
-        <div class="stat"><strong>∞</strong><span>Ideas to explore</span></div>
-        <div class="stat"><strong>24/7</strong><span>Internet energy</span></div>
-      </div>
-    </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="orbit"></div><div class="orbit two"></div>
-      <div class="hero-core"><span>S.</span></div>
-      <div class="floating-card float-one">⚡ <b>Building</b> the future</div>
-      <div class="floating-card float-two">🌐 One idea at a time</div>
-    </div>
-  </div>
-</section>
 
-<section class="section" id="about">
-  <div class="container">
-    <div class="section-heading">
-      <div class="eyebrow">A little about me</div>
-      <h2>Meet <span class="gradient-text">Scott.</span></h2>
-      <p>A personal corner of the internet for my interests, experiments, and projects.</p>
-    </div>
-    <div class="about-layout">
-      <div class="panel profile-card">
-        <div class="avatar">S.</div>
-        <h3>Scott</h3>
-        <p class="muted">Developer & Digital Creator</p>
-        <span class="pill"><span class="dot"></span> Learning and building</span>
-        <hr>
-        <p class="small muted">Curious about technology, websites, games, and what we can create with code.</p>
-        <a href="#contact" class="btn" style="margin-top:10px">Get in touch ↗</a>
+    <div>
+      <span class="eyebrow">Welcome to my corner of the internet</span>
+
+      <h1>
+        Building things<br>
+        for the <span class="gradient-text">digital world.</span>
+      </h1>
+
+      <p class="hero-description">
+        Hey, I'm Scott. I enjoy exploring web development, creating digital
+        projects, and experimenting with ideas that make the internet more
+        interesting.
+      </p>
+
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#projects">Explore Projects ↗</a>
+        <a class="btn btn-secondary" href="#arcade">Play Arcade 🎮</a>
       </div>
-      <div class="panel about-text">
-        <div class="eyebrow">My story</div>
-        <h3 style="font-size:1.5rem">Curiosity turns into creation.</h3>
-        <p>I enjoy exploring technology and learning how digital products work. This website is my space to experiment, share projects, and keep improving my skills.</p>
-        <p>From web design to browser games, I like projects that combine creativity, problem-solving, and a little bit of fun.</p>
-        <h3 style="margin-top:24px">Things I'm interested in</h3>
-        <div class="skill-row">
-          <span class="tag">HTML & CSS</span><span class="tag">JavaScript</span>
-          <span class="tag">Web design</span><span class="tag">Cloudflare</span>
-          <span class="tag">GitHub</span><span class="tag">Gaming</span>
-          <span class="tag">Digital creation</span>
+
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        <span>Building, learning, and experimenting.</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="code-window">
+        <div class="code-top">
+          <span></span><span></span><span></span>
+        </div>
+
+        <div class="code-body">
+          <div class="code-muted">// a little about Scott</div>
+          <div><span class="code-blue">const</span> developer = {</div>
+          <div>&nbsp;&nbsp;name: <span class="code-green">"Scott"</span>,</div>
+          <div>&nbsp;&nbsp;interests: [</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-green">"Web Development"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-green">"Creative Projects"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-green">"Gaming"</span></div>
+          <div>&nbsp;&nbsp;],</div>
+          <div>&nbsp;&nbsp;keepLearning: <span class="code-blue">true</span></div>
+          <div>};</div>
         </div>
       </div>
+
+      <div class="hero-card-footer">
+        <span>ScottCode.fun</span>
+        <span>Made with curiosity ✦</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="container">
+
+    <div class="section-heading">
+      <span class="eyebrow">A little introduction</span>
+      <h2>About <span class="gradient-text">me.</span></h2>
+      <p>
+        A personal space for the things I'm learning, making, and interested in.
+      </p>
+    </div>
+
+    <div class="about-layout">
+
+      <article class="card about-copy">
+        <div class="card-icon">👋</div>
+        <h3>Hey, I'm Scott.</h3>
+
+        <p>
+          I'm interested in technology, websites, and the creative side of
+          software. I like figuring out how things work and turning ideas into
+          projects that people can actually use.
+        </p>
+
+        <p>
+          ScottCode.fun is my personal digital space. It's where I can share
+          projects, experiment with browser games, and keep improving my
+          development skills.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🧩</div>
+        <h3>Things I'm exploring</h3>
+
+        <p>
+          My interests change as I learn, but these are some of the areas I
+          enjoy exploring.
+        </p>
+
+        <div class="skill-list">
+          <span class="skill">HTML & CSS</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Web Design</span>
+          <span class="skill">APIs</span>
+          <span class="skill">Cloudflare</span>
+          <span class="skill">GitHub</span>
+          <span class="skill">Gaming</span>
+          <span class="skill">Creative Editing</span>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
 
+
+<!-- ================= PROJECTS ================= -->
 <section class="section" id="projects">
   <div class="container">
+
     <div class="section-heading">
-      <div class="eyebrow">Things I've been working on</div>
+      <span class="eyebrow">Things I've been working on</span>
       <h2>My <span class="gradient-text">projects.</span></h2>
-      <p>Experiments and digital projects, all accessible from this single page.</p>
+      <p>
+        A collection of experiments, web ideas, and things I'm developing.
+      </p>
     </div>
+
     <div class="grid grid-3">
-      <article class="panel card project-card">
-        <div class="card-icon">🌐</div><h3>ScottCode.fun</h3>
-        <p>My personal website bringing my projects, profile, and browser arcade together.</p>
-        <div class="tag-list"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-        <div class="project-bottom"><a class="project-link" href="#home">You're here ↗</a></div>
+
+      <article class="card project-card">
+        <div class="card-icon">🌐</div>
+        <div class="project-label">Personal Website</div>
+        <h3>ScottCode.fun</h3>
+        <p>
+          My personal website, bringing together my introduction, projects,
+          browser games, and contact form in one place.
+        </p>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+        <div class="project-bottom">
+          <span class="muted small">This website</span>
+          <a class="btn btn-secondary btn-small" href="#home">Visit ↗</a>
+        </div>
       </article>
-      <article class="panel card project-card">
-        <div class="card-icon">🎮</div><h3>Browser Arcade</h3>
-        <p>Browser games that run directly on this page without separate game URLs.</p>
-        <div class="tag-list"><span class="tag">Games</span><span class="tag">JavaScript</span></div>
-        <div class="project-bottom"><a class="project-link" href="#arcade">Play games ↗</a></div>
+
+      <article class="card project-card">
+        <div class="card-icon">🎮</div>
+        <div class="project-label">Browser Gaming</div>
+        <h3>Scott Arcade</h3>
+        <p>
+          Small games that run directly in a web browser, with online account
+          integration and scoreboards when the API is available.
+        </p>
+        <div class="tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">Canvas</span>
+          <span class="tag">Games</span>
+        </div>
+        <div class="project-bottom">
+          <span class="muted small">Play in browser</span>
+          <a class="btn btn-secondary btn-small" href="#arcade">Play ↗</a>
+        </div>
       </article>
-      <article class="panel card project-card">
-        <div class="card-icon">☁️</div><h3>Cloud Experiments</h3>
-        <p>Exploring APIs, online accounts, and browser interfaces connected to a backend.</p>
-        <div class="tag-list"><span class="tag">Cloudflare</span><span class="tag">APIs</span></div>
-        <div class="project-bottom"><a class="project-link" href="#arcade">Explore the arcade ↗</a></div>
+
+      <article class="card project-card">
+        <div class="card-icon">☁️</div>
+        <div class="project-label">Web Infrastructure</div>
+        <h3>Cloud Experiments</h3>
+        <p>
+          Exploring hosted websites, custom domains, APIs, and the tools that
+          make web applications work.
+        </p>
+        <div class="tags">
+          <span class="tag">Cloudflare</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">APIs</span>
+        </div>
+        <div class="project-bottom">
+          <span class="muted small">Learning in progress</span>
+          <a class="btn btn-secondary btn-small" href="#contact">Contact ↗</a>
+        </div>
       </article>
-      <article class="panel card project-card">
-        <div class="card-icon">🧪</div><h3>Web Experiments</h3>
-        <p>A space for interactive interfaces, design tests, and new things to learn.</p>
-        <div class="tag-list"><span class="tag">Experiments</span><span class="tag">Creative coding</span></div>
-        <div class="project-bottom"><a class="project-link" href="#contact">Say hello ↗</a></div>
-      </article>
-      <article class="panel card project-card">
-        <div class="card-icon">✨</div><h3>Future Projects</h3>
-        <p>More ideas are on the way as I build and publish new things.</p>
-        <div class="tag-list"><span class="tag">In progress</span></div>
-        <div class="project-bottom"><a class="project-link" href="#contact">Get in touch ↗</a></div>
-      </article>
-      <article class="panel card project-card">
-        <div class="card-icon">💡</div><h3>Have an idea?</h3>
-        <p>Have a suggestion or want to talk about a project? Send me a message.</p>
-        <div class="project-bottom"><a class="project-link" href="#contact">Let's talk ↗</a></div>
-      </article>
+
     </div>
   </div>
 </section>
 
+
+<!-- ================= ARCADE ================= -->
 <section class="section" id="arcade">
   <div class="container">
+
     <div class="section-heading">
-      <div class="eyebrow">Play right here</div>
-      <h2>Scott's <span class="gradient-text">Arcade.</span></h2>
-      <p>Choose a game, play directly on this page, and sign in if you want to submit scores online.</p>
+      <span class="eyebrow">Take a break</span>
+      <h2>Scott <span class="gradient-text">Arcade.</span></h2>
+      <p>
+        Four mini-games, right here on the page. Choose a game and start
+        playing—no extra HTML pages required.
+      </p>
     </div>
 
     <div class="arcade-top">
-      <span class="pill">🎮 4 playable games</span>
-      <span class="status-line" id="arcadeUserStatus"><span class="dot"></span> Guest mode</span>
+      <div>
+        <h3>Choose your game</h3>
+        <p class="muted small">Your game runs in this section.</p>
+      </div>
+
+      <div class="account-indicator" id="arcadeAccountStatus">
+        <span>👤</span>
+        <span>Playing as Guest</span>
+      </div>
     </div>
 
-    <div class="arcade-layout" style="margin-top:22px">
-      <div>
-        <div class="game-list">
-          <button class="game-choice selected" data-game="snake" type="button">
-            <span class="game-category">🐍 CLASSIC ARCADE</span>
-            <strong>Snake</strong>
-            <span class="game-desc">Eat, grow, and avoid crashing.</span>
+    <div class="game-selector">
+
+      <button class="game-choice selected" type="button" data-game="snake">
+        <span class="game-emoji">🐍</span>
+        <strong>Snake</strong>
+        <small>Collect food</small>
+      </button>
+
+      <button class="game-choice" type="button" data-game="ttt">
+        <span class="game-emoji">⭕</span>
+        <strong>Tic-Tac-Toe</strong>
+        <small>Beat the computer</small>
+      </button>
+
+      <button class="game-choice" type="button" data-game="memory">
+        <span class="game-emoji">🧠</span>
+        <strong>Memory Match</strong>
+        <small>Find matching pairs</small>
+      </button>
+
+      <button class="game-choice" type="button" data-game="clicker">
+        <span class="game-emoji">⚡</span>
+        <strong>Click Rush</strong>
+        <small>Tap as fast as you can</small>
+      </button>
+
+    </div>
+
+    <div class="game-panel">
+
+      <div class="game-panel-header">
+        <div>
+          <h3 id="gameTitle">🐍 Snake</h3>
+          <p id="gameDescription">Eat the food and avoid the walls and yourself.</p>
+        </div>
+
+        <button class="btn btn-secondary btn-small" id="restartGame" type="button">
+          ↻ Restart
+        </button>
+      </div>
+
+      <div class="game-stage" id="gameStage">
+
+        <!-- SNAKE -->
+        <div id="snakeGame" class="game-content">
+          <canvas id="snakeCanvas" width="360" height="360"
+            aria-label="Snake game board"></canvas>
+
+          <div class="score-line">
+            <span>Score: <strong id="snakeScore">0</strong></span>
+            <span>Best this session: <strong id="snakeBest">0</strong></span>
+          </div>
+
+          <div class="game-pad" aria-label="Snake movement controls">
+            <button class="pad-button pad-empty" tabindex="-1" type="button"> </button>
+            <button class="pad-button" type="button" data-direction="up" aria-label="Move up">▲</button>
+            <button class="pad-button pad-empty" tabindex="-1" type="button"> </button>
+
+            <button class="pad-button" type="button" data-direction="left" aria-label="Move left">◀</button>
+            <button class="pad-button" type="button" data-direction="down" aria-label="Move down">▼</button>
+            <button class="pad-button" type="button" data-direction="right" aria-label="Move right">▶</button>
+          </div>
+        </div>
+
+        <!-- TIC TAC TOE -->
+        <div id="tttGame" class="game-content" hidden>
+          <div class="ttt-board" id="tttBoard" aria-label="Tic-Tac-Toe board">
+            <button class="ttt-cell" data-cell="0" type="button" aria-label="Cell 1"></button>
+            <button class="ttt-cell" data-cell="1" type="button" aria-label="Cell 2"></button>
+            <button class="ttt-cell" data-cell="2" type="button" aria-label="Cell 3"></button>
+            <button class="ttt-cell" data-cell="3" type="button" aria-label="Cell 4"></button>
+            <button class="ttt-cell" data-cell="4" type="button" aria-label="Cell 5"></button>
+            <button class="ttt-cell" data-cell="5" type="button" aria-label="Cell 6"></button>
+            <button class="ttt-cell" data-cell="6" type="button" aria-label="Cell 7"></button>
+            <button class="ttt-cell" data-cell="7" type="button" aria-label="Cell 8"></button>
+            <button class="ttt-cell" data-cell="8" type="button" aria-label="Cell 9"></button>
+          </div>
+
+          <div class="score-line">
+            <span>You: <strong id="tttWins">0</strong></span>
+            <span>Computer: <strong id="tttLosses">0</strong></span>
+            <span>Draws: <strong id="tttDraws">0</strong></span>
+          </div>
+        </div>
+
+        <!-- MEMORY -->
+        <div id="memoryGame" class="game-content" hidden>
+          <div class="memory-board" id="memoryBoard"></div>
+
+          <div class="score-line">
+            <span>Moves: <strong id="memoryMoves">0</strong></span>
+            <span>Pairs: <strong id="memoryPairs">0</strong>/8</span>
+          </div>
+        </div>
+
+        <!-- CLICK RUSH -->
+        <div id="clickerGame" class="game-content" hidden>
+          <div class="score-line">
+            <span>Score: <strong id="clickerScore">0</strong></span>
+            <span>Time: <strong id="clickerTime">10</strong>s</span>
+            <span>Best: <strong id="clickerBest">0</strong></span>
+          </div>
+
+          <button class="click-target" id="clickTarget" type="button">
+            TAP!
           </button>
-          <button class="game-choice" data-game="ttt" type="button">
-            <span class="game-category">⭕ STRATEGY</span>
-            <strong>Tic-Tac-Toe</strong>
-            <span class="game-desc">Challenge the computer.</span>
-          </button>
-          <button class="game-choice" data-game="memory" type="button">
-            <span class="game-category">🧠 BRAIN TRAINING</span>
-            <strong>Memory Match</strong>
-            <span class="game-desc">Find all eight matching pairs.</span>
-          </button>
-          <button class="game-choice" data-game="clicker" type="button">
-            <span class="game-category">⚡ QUICK CHALLENGE</span>
-            <strong>Click Rush</strong>
-            <span class="game-desc">How many clicks in ten seconds?</span>
+
+          <p class="muted small" id="clickerInstructions">
+            Press Start, then tap the circle as many times as possible.
+          </p>
+
+          <button class="btn btn-primary" id="clickerStart" type="button">
+            Start 10-second round
           </button>
         </div>
 
-        <div class="panel game-panel">
-          <h3 id="gameTitle">🐍 Snake</h3>
-          <p class="muted small" id="gameDescription">Collect food and avoid the walls and yourself.</p>
-          <div class="game-message" id="gameMessage" role="status">Press Start to play.</div>
+      </div>
 
-          <div id="snakeGame" class="game-display">
-            <div class="pill">Score: <b id="snakeScore">0</b></div>
-            <canvas id="snakeCanvas" width="320" height="320" aria-label="Snake game board"></canvas>
-            <div class="dpad" aria-label="Snake touch controls">
-              <button type="button" data-dir="up" aria-label="Up">▲</button>
-              <button type="button" data-dir="left" aria-label="Left">◀</button>
-              <button type="button" data-dir="down" aria-label="Down">▼</button>
-              <button type="button" data-dir="right" aria-label="Right">▶</button>
-            </div>
-          </div>
+      <div class="game-status" id="gameStatus" role="status" aria-live="polite">
+        Snake ready. Use the arrow keys or on-screen controls.
+      </div>
 
-          <div id="tttGame" class="game-display hidden">
-            <div class="pill">You: X · Computer: O</div>
-            <div id="tttBoard" class="board ttt-board" aria-label="Tic-Tac-Toe board"></div>
-          </div>
+      <div class="game-note">
+        Guest scores are not uploaded. Sign in to submit scores to the online
+        leaderboard, if your backend supports the selected game.
+      </div>
 
-          <div id="memoryGame" class="game-display hidden">
-            <div class="pill">Moves: <b id="memoryMoves">0</b> · Pairs: <b id="memoryPairs">0</b>/8</div>
-            <div id="memoryBoard" class="board memory-board" aria-label="Memory game board"></div>
-          </div>
+    </div>
 
-          <div id="clickerGame" class="game-display hidden">
-            <div class="pill">Time: <b id="clickTime">10</b>s · Score: <b id="clickScore">0</b></div>
-            <button type="button" class="btn btn-primary" id="bigClick" style="width:min(100%,250px);min-height:110px;font-size:1.35rem">⚡ CLICK!</button>
-          </div>
+    <!-- ONLINE LEADERBOARD -->
+    <div class="leaderboard">
 
-          <div class="game-buttons">
-            <button class="btn btn-primary" type="button" id="startGame">▶ Start / Restart</button>
-            <button class="btn" type="button" id="pauseGame">Ⅱ Pause</button>
-          </div>
-          <p class="small muted">Games run directly in this page. Sign in to submit scores to the online leaderboard.</p>
+      <div class="leaderboard-head">
+        <div>
+          <h3>🏆 Online leaderboard</h3>
+          <p class="muted small" id="leaderboardGameName">Snake rankings</p>
+        </div>
+
+        <button class="btn btn-secondary btn-small" id="refreshLeaderboard" type="button">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div class="leaderboard-list" id="leaderboardList">
+        <div class="muted small">
+          Loading leaderboard...
         </div>
       </div>
 
-      <aside>
-        <div class="panel side-panel">
-          <h3>🏆 Leaderboard</h3>
-          <p class="muted small">Online scores from the connected backend.</p>
-          <div class="form-field">
-            <label for="leaderGame">Choose game</label>
-            <select id="leaderGame">
-              <option value="snake">Snake</option>
-              <option value="ttt">Tic-Tac-Toe</option>
-              <option value="memory">Memory Match</option>
-              <option value="clicker">Click Rush</option>
-            </select>
-          </div>
-          <button class="btn" id="refreshLeaderboard" type="button" style="width:100%">↻ Refresh scores</button>
-          <div id="leaderboard" style="margin-top:12px" aria-live="polite">
-            <p class="muted small">Loading scores…</p>
-          </div>
+      <p class="game-note" id="leaderboardNote">
+        Leaderboard data comes from your Cloudflare Worker API.
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= ACCOUNT ================= -->
+<section class="section" id="account">
+  <div class="container">
+
+    <div class="section-heading">
+      <span class="eyebrow">Your arcade account</span>
+      <h2>Welcome <span class="gradient-text">back.</span></h2>
+      <p>
+        Sign in or create an account to use the online arcade features.
+      </p>
+    </div>
+
+    <div class="account-layout">
+
+      <div class="account-card">
+        <div class="card-icon">🔐</div>
+        <h3>One account. Your games.</h3>
+
+        <p>
+          Your account is handled by your Cloudflare Worker backend. Online
+          score saving requires a working API connection.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Account login</span>
+          <span class="tag">Online scores</span>
+          <span class="tag">Leaderboard</span>
         </div>
 
-        <div class="panel auth-box" id="account" style="margin-top:18px">
-          <div id="loggedOut">
-            <h3>🔐 Your account</h3>
-            <p class="auth-subtitle">One account for your arcade scores.</p>
-
-            <div class="auth-switch">
-              <button class="btn btn-primary" id="showLogin" type="button">Login</button>
-              <button class="btn" id="showRegister" type="button">Create Account</button>
-            </div>
-
-            <form id="authForm">
-              <div class="form-field">
-                <label for="username">Username</label>
-                <input id="username" name="username" autocomplete="username" minlength="3" maxlength="32" required placeholder="Enter your username">
-              </div>
-              <div class="form-field">
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
-              </div>
-              <button class="btn btn-primary" id="authSubmit" type="submit" style="width:100%">Login</button>
-              <div id="authMessage" class="notice hidden" role="status"></div>
-            </form>
-            <p class="muted small" id="authHint">New here? Choose Create Account. Already registered? Choose Login.</p>
-          </div>
-
-          <div id="loggedIn" class="hidden">
-            <span class="pill"><span class="dot"></span> Signed in</span>
-            <div class="account-header">
-              <div class="account-avatar">S.</div>
-              <div>
-                <h3 id="accountUsername"></h3>
-                <p class="muted small" style="margin:0">Your arcade account</p>
-              </div>
-            </div>
-            <div class="notice success">You're signed in. You can submit scores to the online leaderboard.</div>
-            <button class="btn btn-danger" id="logoutBtn" type="button" style="width:100%">Log out</button>
-          </div>
-          <p class="muted small">Online accounts require the Cloudflare Worker API to be configured correctly.</p>
+        <div style="margin-top:24px">
+          <p class="small">
+            <strong class="blue">Important:</strong> Your Worker must implement
+            the account and score endpoints used by this page. Creating a
+            front-end form alone cannot create a real online account.
+          </p>
         </div>
-      </aside>
+      </div>
+
+      <div class="account-card">
+
+        <!-- LOGGED-IN VIEW -->
+        <div id="loggedInView" hidden>
+          <div class="profile-avatar" id="profileAvatar">S</div>
+          <h3 id="profileWelcome">You're signed in.</h3>
+          <p>Your account is connected to Scott Arcade.</p>
+
+          <div class="account-profile">
+            <p class="small muted">USERNAME</p>
+            <p id="profileUsername" style="font-weight:800;overflow-wrap:anywhere">Scott</p>
+
+            <p class="small muted" style="margin-top:13px">ACCOUNT STATUS</p>
+            <p class="blue">Signed in</p>
+          </div>
+
+          <div class="profile-actions">
+            <a class="btn btn-primary" href="#arcade">Play Arcade</a>
+            <button class="btn btn-danger" id="logoutButton" type="button">Log out</button>
+          </div>
+
+          <div class="message" id="profileMessage" role="status"></div>
+        </div>
+
+        <!-- LOGIN / REGISTER VIEW -->
+        <div id="authView">
+          <h3 id="authTitle">Sign in</h3>
+          <p id="authSubtitle">Welcome back. Enter your account details.</p>
+
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab" type="button">
+              Login
+            </button>
+            <button class="auth-tab" id="registerTab" type="button">
+              Create Account
+            </button>
+          </div>
+
+          <form id="authForm">
+            <div class="field">
+              <label for="authUsername">Username</label>
+              <input
+                id="authUsername"
+                name="username"
+                type="text"
+                minlength="3"
+                maxlength="24"
+                autocomplete="username"
+                placeholder="Your username"
+                required>
+            </div>
+
+            <div class="field">
+              <label for="authPassword">Password</label>
+              <input
+                id="authPassword"
+                name="password"
+                type="password"
+                minlength="8"
+                autocomplete="current-password"
+                placeholder="At least 8 characters"
+                required>
+            </div>
+
+            <div class="field" id="confirmPasswordField" hidden>
+              <label for="authConfirmPassword">Confirm password</label>
+              <input
+                id="authConfirmPassword"
+                name="confirmPassword"
+                type="password"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Enter the password again">
+            </div>
+
+            <div class="message" id="authMessage" role="status" aria-live="polite"></div>
+
+            <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">
+              Login
+            </button>
+          </form>
+
+          <p class="auth-switch-text" id="authSwitchText">
+            Don't have an account?
+            <button class="text-button" id="switchAuthMode" type="button">
+              Create Account
+            </button>
+          </p>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+
+<!-- ================= CONTACT ================= -->
 <section class="section" id="contact">
   <div class="container">
+
     <div class="section-heading">
-      <div class="eyebrow">Let's connect</div>
-      <h2>Send me a <span class="gradient-text">message.</span></h2>
-      <p>Have a question, idea, or suggestion? Send me a message.</p>
+      <span class="eyebrow">Get in touch</span>
+      <h2>Let's <span class="gradient-text">connect.</span></h2>
+      <p>
+        Have a question, idea, or project in mind? Send a message using the
+        contact form.
+      </p>
     </div>
 
     <div class="contact-layout">
-      <div class="panel contact-info">
+
+      <div class="card">
         <div class="card-icon">✉️</div>
-        <h3>Get in touch</h3>
-        <p class="muted">I'm interested in hearing about ideas, projects, and feedback.</p>
-        <hr>
-        <p><strong>Website</strong><br><a href="#home">scottcode.fun</a></p>
-        <p><strong>Response</strong><br><span class="muted">I'll reply when I can.</span></p>
-        <div class="notice">Please don't include passwords or sensitive personal information in your message.</div>
+        <h3>Send me a message</h3>
+        <p>
+          Fill out the form and submit your message. After a successful
+          submission, the form service will redirect you to the existing
+          ScottCode.fun thanks page.
+        </p>
+
+        <div style="margin-top:18px">
+          <div class="contact-item">
+            <div class="card-icon">🌐</div>
+            <div>
+              <h3>Website</h3>
+              <p>ScottCode.fun</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="card-icon">💬</div>
+            <div>
+              <h3>Contact</h3>
+              <p>Use the form on this page.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <form class="panel contact-form" id="contactForm" action="https://formspree.io/f/xgaogqjo" method="POST">
-        <div class="form-field">
-          <label for="contactName">Your name</label>
-          <input id="contactName" name="name" required maxlength="100" placeholder="Your name">
-        </div>
-        <div class="form-field">
-          <label for="contactEmail">Your email</label>
-          <input id="contactEmail" name="email" type="email" required maxlength="254" placeholder="you@example.com">
-        </div>
-        <div class="form-field">
-          <label for="contactSubject">Subject</label>
-          <input id="contactSubject" name="subject" required maxlength="150" placeholder="What's this about?">
-        </div>
-        <div class="form-field">
-          <label for="contactMessage">Message</label>
-          <textarea id="contactMessage" name="message" required maxlength="5000" placeholder="Write your message…"></textarea>
-        </div>
-        <input type="hidden" name="_subject" value="New message from ScottCode.fun">
-        <input type="hidden" name="_next" value="https://scottcode.fun/thanks/">
-        <button class="btn btn-primary" id="contactSubmit" type="submit" style="width:100%">Send message ↗</button>
-        <div id="contactStatus" class="notice hidden" role="status"></div>
-        <p class="muted small">Successful submissions redirect to your existing thanks page.</p>
-      </form>
+      <div class="card">
+        <form
+          id="contactForm"
+          action="https://formspree.io/f/xgaogqjo"
+          method="POST">
+
+          <input type="hidden" name="_subject" value="New message from ScottCode.fun">
+          <input type="hidden" name="_next" value="https://scottcode.fun/thanks/">
+
+          <div class="field">
+            <label for="contactName">Your name</label>
+            <input
+              id="contactName"
+              name="name"
+              type="text"
+              maxlength="100"
+              autocomplete="name"
+              placeholder="Enter your name"
+              required>
+          </div>
+
+          <div class="field">
+            <label for="contactEmail">Your email</label>
+            <input
+              id="contactEmail"
+              name="email"
+              type="email"
+              maxlength="200"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required>
+          </div>
+
+          <div class="field">
+            <label for="contactSubject">Subject</label>
+            <input
+              id="contactSubject"
+              name="subject"
+              type="text"
+              maxlength="150"
+              placeholder="What is this about?"
+              required>
+          </div>
+
+          <div class="field">
+            <label for="contactMessage">Message</label>
+            <textarea
+              id="contactMessage"
+              name="message"
+              maxlength="5000"
+              placeholder="Write your message here..."
+              required></textarea>
+          </div>
+
+          <button class="btn btn-primary" type="submit" style="width:100%">
+            Send Message ↗
+          </button>
+
+          <p class="muted small" style="margin-top:12px">
+            Your message is submitted through Formspree.
+          </p>
+
+        </form>
+      </div>
+
     </div>
   </div>
 </section>
+
 </main>
 
-<footer>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
   <div class="container footer-inner">
-    <div>© <span id="year"></span> <strong>ScottCode.fun</strong> · Made with curiosity.</div>
-    <div><a href="#home">Home ↑</a> · <a href="#projects">Projects</a> · <a href="#arcade">Arcade</a></div>
+    <p>© <span id="currentYear"></span> ScottCode.fun. Built with curiosity.</p>
+
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#arcade">Arcade</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
 </footer>
 
-<button class="btn back-top hidden" id="backTop" type="button" aria-label="Back to top">↑</button>
-<div class="toast" id="toast" role="status"></div>
 
 <script>
 "use strict";
 
-/* CONFIGURATION */
+/* ==========================================================
+   CONFIGURATION
+   Your existing Cloudflare Worker API.
+========================================================== */
+
 const API_BASE = "https://scottcode-api.getlost24543.workers.dev";
+
 const API = {
-  register:"/api/register",
-  login:"/api/login",
-  me:"/api/me",
-  logout:"/api/logout",
-  scores:"/api/scores"
+  register: "/api/register",
+  login: "/api/login",
+  me: "/api/me",
+  logout: "/api/logout",
+  scores: "/api/scores"
 };
-const THANKS_URL = "https://scottcode.fun/thanks/";
 
-/* HELPERS */
-const $ = (s,root=document) => root.querySelector(s);
-const $$ = (s,root=document) => [...root.querySelectorAll(s)];
 
-function showToast(message){
-  const el=$("#toast");
-  el.textContent=message;
-  el.classList.add("show");
-  clearTimeout(showToast.timer);
-  showToast.timer=setTimeout(()=>el.classList.remove("show"),2800);
-}
-function showNotice(el,message,type=""){
-  el.textContent=message;
-  el.className="notice"+(type?" "+type:"");
-  el.classList.remove("hidden");
-}
-function hideNotice(el){el.classList.add("hidden")}
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,ch=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[ch]));
-}
+/* ==========================================================
+   BASIC PAGE SETUP
+========================================================== */
 
-async function apiRequest(path,options={}){
-  const headers=new Headers(options.headers||{});
-  headers.set("Accept","application/json");
-  if(options.body&&!headers.has("Content-Type")){
-    headers.set("Content-Type","application/json");
-  }
-  if(apiToken)headers.set("Authorization","Bearer "+apiToken);
+document.getElementById("currentYear").textContent =
+  new Date().getFullYear();
 
-  let response;
-  try{
-    response=await fetch(API_BASE+path,{...options,headers,mode:"cors"});
-  }catch(error){
-    throw new Error("Cannot connect to the account server. Check the Worker URL and CORS settings.");
-  }
 
-  const raw=await response.text();
-  let data={};
-  try{data=raw?JSON.parse(raw):{}}
-  catch{data={message:raw||"Unexpected server response."}}
+/* ==========================================================
+   NORMAL SECTION NAVIGATION + HAMBURGER MENU
 
-  if(!response.ok){
-    throw new Error(data.message||data.error||("Server error ("+response.status+")"));
-  }
-  return data;
-}
+   Links point to #home, #about, #projects, #arcade,
+   #account and #contact in THIS SAME HTML FILE.
 
-/* SINGLE-PAGE NAVIGATION */
-const navLinks=$("#navLinks");
-const menuToggle=$("#menuToggle");
+   No horizontal sliding or page carousel.
+========================================================== */
 
-function closeMenu(){
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+function closeMenu() {
   navLinks.classList.remove("open");
-  menuToggle.setAttribute("aria-expanded","false");
-  menuToggle.setAttribute("aria-label","Open menu");
-  menuToggle.textContent="☰";
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open navigation menu");
 }
-menuToggle.addEventListener("click",()=>{
-  const open=navLinks.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded",String(open));
-  menuToggle.setAttribute("aria-label",open?"Close menu":"Open menu");
-  menuToggle.textContent=open?"✕":"☰";
-});
-$$('#navLinks a').forEach(a=>a.addEventListener("click",()=>{
-  closeMenu();
-  setTimeout(updateActiveNav,30);
-}));
-function updateActiveNav(){
-  const current=(location.hash||"#home").slice(1);
-  $$("[data-section]").forEach(a=>a.classList.toggle("active",a.dataset.section===current));
-}
-window.addEventListener("hashchange",updateActiveNav);
-updateActiveNav();
 
-$("#navAccountBtn").addEventListener("click",()=>{
-  location.hash="arcade";
-  setTimeout(()=>$("#account").scrollIntoView({behavior:"smooth",block:"center"}),100);
-});
-$("#year").textContent=new Date().getFullYear();
-window.addEventListener("scroll",()=>{
-  $("#backTop").classList.toggle("hidden",window.scrollY<450);
-},{passive:true});
-$("#backTop").addEventListener("click",()=>{
-  location.hash="home";
-  window.scrollTo({top:0,behavior:"smooth"});
+menuToggle.addEventListener("click", function () {
+  const isOpen = navLinks.classList.toggle("open");
+
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.setAttribute(
+    "aria-label",
+    isOpen ? "Close navigation menu" : "Open navigation menu"
+  );
 });
 
-/* ANIMATED STAR BACKGROUND */
-(()=>{
-  const canvas=$("#stars");
-  const ctx=canvas.getContext("2d");
-  if(!ctx)return;
-  let w=0,h=0,stars=[];
-  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  link.addEventListener("click", function () {
+    closeMenu();
+  });
+});
 
-  function resize(){
-    const dpr=Math.min(devicePixelRatio||1,2);
-    w=innerWidth;h=innerHeight;
-    canvas.width=Math.round(w*dpr);
-    canvas.height=Math.round(h*dpr);
-    canvas.style.width=w+"px";
-    canvas.style.height=h+"px";
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    const n=Math.min(110,Math.floor(w*h/10500));
-    stars=Array.from({length:n},()=>({
-      x:Math.random()*w,y:Math.random()*h,
-      r:Math.random()*1.5+.3,a:Math.random()*.5+.15,
-      speed:Math.random()*.18+.025
-    }));
+
+/* ==========================================================
+   API HELPERS
+========================================================== */
+
+let apiToken = null;
+let currentUser = null;
+
+function getStoredToken() {
+  try {
+    return sessionStorage.getItem("scottcode_token");
+  } catch (error) {
+    return null;
   }
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    for(const s of stars){
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(180,220,255,${s.a})`;
-      ctx.fill();
-      if(!reduced){
-        s.y-=s.speed;
-        if(s.y< -3){s.y=h+3;s.x=Math.random()*w}
-      }
+}
+
+function storeToken(token) {
+  apiToken = token || null;
+
+  try {
+    if (apiToken) {
+      sessionStorage.setItem("scottcode_token", apiToken);
+    } else {
+      sessionStorage.removeItem("scottcode_token");
     }
-    if(!reduced)requestAnimationFrame(draw);
+  } catch (error) {
+    // Session storage may be unavailable in some browser contexts.
   }
-  resize();draw();
-  addEventListener("resize",()=>{resize();if(!reduced)draw()},{passive:true});
-})();
-
-/* ACCOUNT SYSTEM */
-let apiToken=localStorage.getItem("scottcode_api_token")||"";
-let currentUser=null;
-let authMode="login";
-
-const authForm=$("#authForm");
-const authMessage=$("#authMessage");
-
-function setAuthMode(mode){
-  authMode=mode;
-  const login=mode==="login";
-
-  $("#showLogin").classList.toggle("btn-primary",login);
-  $("#showRegister").classList.toggle("btn-primary",!login);
-
-  $("#showLogin").textContent=login?"Login":"Already have an account?";
-  $("#showRegister").textContent=login?"Create Account":"Create Account";
-
-  $("#authSubmit").textContent=login?"Login":"Create Account";
-  $("#password").autocomplete=login?"current-password":"new-password";
-  $("#authHint").textContent=login
-    ?"New here? Choose Create Account. Already registered? Log in."
-    :"Create your account once. We'll sign you in automatically when supported.";
-
-  hideNotice(authMessage);
-}
-$("#showLogin").addEventListener("click",()=>setAuthMode("login"));
-$("#showRegister").addEventListener("click",()=>setAuthMode("register"));
-
-function updateAccountUI(){
-  const signedIn=Boolean(currentUser&&apiToken);
-  $("#loggedOut").classList.toggle("hidden",signedIn);
-  $("#loggedIn").classList.toggle("hidden",!signedIn);
-  $("#navAccountBtn").textContent=signedIn?currentUser.username:"Sign in";
-  $("#accountUsername").textContent=signedIn?currentUser.username:"";
-
-  $("#arcadeUserStatus").innerHTML=signedIn
-    ?'<span class="dot"></span> Signed in as '+escapeHTML(currentUser.username)
-    :'<span class="dot"></span> Guest mode — sign in to submit online scores';
 }
 
-/* Registration automatically logs in if the API returns a token,
-   or attempts the login endpoint if registration returns no token. */
-authForm.addEventListener("submit",async event=>{
+function extractData(payload) {
+  if (!payload || typeof payload !== "object") {
+    return {};
+  }
+
+  if (payload.data && typeof payload.data === "object") {
+    return payload.data;
+  }
+
+  return payload;
+}
+
+function extractToken(payload) {
+  const data = extractData(payload);
+
+  return (
+    data.token ||
+    data.accessToken ||
+    data.access_token ||
+    payload.token ||
+    payload.accessToken ||
+    payload.access_token ||
+    null
+  );
+}
+
+function extractUser(payload) {
+  const data = extractData(payload);
+
+  return (
+    data.user ||
+    data.account ||
+    payload.user ||
+    payload.account ||
+    null
+  );
+}
+
+function extractError(payload, fallback) {
+  if (!payload || typeof payload !== "object") {
+    return fallback;
+  }
+
+  const data = extractData(payload);
+
+  return (
+    data.message ||
+    data.error ||
+    payload.message ||
+    payload.error ||
+    fallback
+  );
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = {
+    "Accept": "application/json",
+    ...(options.headers || {})
+  };
+
+  if (options.body !== undefined) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  if (apiToken) {
+    headers["Authorization"] = "Bearer " + apiToken;
+  }
+
+  const response = await fetch(API_BASE + path, {
+    method: options.method || "GET",
+    headers,
+    body: options.body === undefined
+      ? undefined
+      : JSON.stringify(options.body)
+  });
+
+  const rawText = await response.text();
+  let payload = {};
+
+  if (rawText) {
+    try {
+      payload = JSON.parse(rawText);
+    } catch (error) {
+      payload = { message: rawText };
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      extractError(payload, "Request failed (" + response.status + ").")
+    );
+  }
+
+  if (payload && payload.success === false) {
+    throw new Error(extractError(payload, "The request was unsuccessful."));
+  }
+
+  return payload;
+}
+
+
+/* ==========================================================
+   ACCOUNT UI
+========================================================== */
+
+const authView = document.getElementById("authView");
+const loggedInView = document.getElementById("loggedInView");
+
+const authForm = document.getElementById("authForm");
+const authTitle = document.getElementById("authTitle");
+const authSubtitle = document.getElementById("authSubtitle");
+const authUsername = document.getElementById("authUsername");
+const authPassword = document.getElementById("authPassword");
+const authConfirmPassword = document.getElementById("authConfirmPassword");
+
+const confirmPasswordField =
+  document.getElementById("confirmPasswordField");
+
+const authSubmit = document.getElementById("authSubmit");
+const authMessage = document.getElementById("authMessage");
+
+const loginTab = document.getElementById("loginTab");
+const registerTab = document.getElementById("registerTab");
+const switchAuthMode = document.getElementById("switchAuthMode");
+const authSwitchText = document.getElementById("authSwitchText");
+
+let authMode = "login";
+
+function showMessage(element, message, type = "info") {
+  element.textContent = message;
+  element.className = "message show " + type;
+}
+
+function hideMessage(element) {
+  element.textContent = "";
+  element.className = "message";
+}
+
+function setAuthMode(mode) {
+  authMode = mode === "register" ? "register" : "login";
+
+  hideMessage(authMessage);
+
+  const registering = authMode === "register";
+
+  authTitle.textContent = registering ? "Create your account" : "Sign in";
+
+  authSubtitle.textContent = registering
+    ? "Choose a username and create a password."
+    : "Welcome back. Enter your account details.";
+
+  authSubmit.textContent = registering
+    ? "Create Account"
+    : "Login";
+
+  authPassword.autocomplete = registering
+    ? "new-password"
+    : "current-password";
+
+  confirmPasswordField.hidden = !registering;
+  authConfirmPassword.required = registering;
+
+  loginTab.classList.toggle("active", !registering);
+  registerTab.classList.toggle("active", registering);
+
+  if (registering) {
+    authSwitchText.innerHTML =
+      'Already have an account? <button class="text-button" id="switchAuthMode" type="button">Login</button>';
+  } else {
+    authSwitchText.innerHTML =
+      'Don\'t have an account? <button class="text-button" id="switchAuthMode" type="button">Create Account</button>';
+  }
+
+  // Reconnect the newly rendered switch button.
+  document.getElementById("switchAuthMode").addEventListener("click", function () {
+    setAuthMode(authMode === "login" ? "register" : "login");
+  });
+}
+
+loginTab.addEventListener("click", function () {
+  setAuthMode("login");
+});
+
+registerTab.addEventListener("click", function () {
+  setAuthMode("register");
+});
+
+switchAuthMode.addEventListener("click", function () {
+  setAuthMode(authMode === "login" ? "register" : "login");
+});
+
+function normalizeUsername(user, fallback) {
+  if (typeof user === "string" && user.trim()) {
+    return user.trim();
+  }
+
+  if (user && typeof user === "object") {
+    return (
+      user.username ||
+      user.name ||
+      user.handle ||
+      fallback ||
+      "Player"
+    );
+  }
+
+  return fallback || "Player";
+}
+
+function updateArcadeAccountStatus() {
+  const status = document.getElementById("arcadeAccountStatus");
+
+  if (currentUser) {
+    status.innerHTML =
+      "<span>👤</span><span>Playing as " +
+      escapeHTML(normalizeUsername(currentUser)) +
+      "</span>";
+  } else {
+    status.innerHTML = "<span>👤</span><span>Playing as Guest</span>";
+  }
+}
+
+function updateNavAccount() {
+  const link = document.getElementById("navAccount");
+
+  link.textContent = currentUser
+    ? normalizeUsername(currentUser)
+    : "Login";
+}
+
+function renderSignedIn(user, fallbackUsername) {
+  currentUser = user || {
+    username: fallbackUsername || "Player"
+  };
+
+  const username = normalizeUsername(currentUser, fallbackUsername);
+
+  authView.hidden = true;
+  loggedInView.hidden = false;
+
+  document.getElementById("profileWelcome").textContent =
+    "Welcome, " + username + "!";
+
+  document.getElementById("profileUsername").textContent = username;
+
+  document.getElementById("profileAvatar").textContent =
+    username.charAt(0).toUpperCase();
+
+  updateArcadeAccountStatus();
+  updateNavAccount();
+}
+
+function renderSignedOut() {
+  currentUser = null;
+  storeToken(null);
+
+  authView.hidden = false;
+  loggedInView.hidden = true;
+
+  updateArcadeAccountStatus();
+  updateNavAccount();
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, function (character) {
+    const map = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    };
+
+    return map[character];
+  });
+}
+
+async function loadCurrentUser() {
+  if (!apiToken) {
+    renderSignedOut();
+    return;
+  }
+
+  try {
+    const payload = await apiRequest(API.me);
+    const user = extractUser(payload) || extractData(payload);
+
+    if (!normalizeUsername(user, "")) {
+      throw new Error("Your session is no longer valid.");
+    }
+
+    renderSignedIn(user);
+  } catch (error) {
+    renderSignedOut();
+
+    showMessage(
+      authMessage,
+      "Please sign in again. " + error.message,
+      "info"
+    );
+  }
+}
+
+async function loginWithCredentials(username, password) {
+  const payload = await apiRequest(API.login, {
+    method: "POST",
+    body: {
+      username: username,
+      password: password
+    }
+  });
+
+  const token = extractToken(payload);
+  const user = extractUser(payload);
+
+  if (!token) {
+    throw new Error(
+      "The API did not return a login token. Check your Worker login response."
+    );
+  }
+
+  storeToken(token);
+
+  let finalUser = user || { username: username };
+
+  // Try to obtain the full account profile.
+  try {
+    const mePayload = await apiRequest(API.me);
+    const meUser = extractUser(mePayload);
+
+    if (meUser) {
+      finalUser = meUser;
+    }
+  } catch (error) {
+    // The login response may already contain the username.
+  }
+
+  renderSignedIn(finalUser, username);
+
+  return finalUser;
+}
+
+authForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
-  const username=$("#username").value.trim();
-  const password=$("#password").value;
-  const submit=$("#authSubmit");
-  const registering=authMode==="register";
+  hideMessage(authMessage);
 
-  if(username.length<3){
-    showNotice(authMessage,"Username must contain at least 3 characters.","error");
+  const username = authUsername.value.trim();
+  const password = authPassword.value;
+
+  if (username.length < 3 || username.length > 24) {
+    showMessage(
+      authMessage,
+      "Your username must be between 3 and 24 characters.",
+      "error"
+    );
     return;
   }
-  if(password.length<8){
-    showNotice(authMessage,"Password must contain at least 8 characters.","error");
+
+  if (password.length < 8) {
+    showMessage(
+      authMessage,
+      "Your password must contain at least 8 characters.",
+      "error"
+    );
     return;
   }
 
-  submit.disabled=true;
-  submit.textContent=registering?"Creating account…":"Signing in…";
-  hideNotice(authMessage);
+  if (authMode === "register") {
+    if (authConfirmPassword.value !== password) {
+      showMessage(
+        authMessage,
+        "The passwords do not match.",
+        "error"
+      );
+      return;
+    }
+  }
 
-  try{
-    let data;
-    let token;
+  authSubmit.disabled = true;
+  authSubmit.textContent =
+    authMode === "register" ? "Creating account..." : "Signing in...";
 
-    if(registering){
-      data=await apiRequest(API.register,{
-        method:"POST",
-        body:JSON.stringify({username,password})
+  try {
+    if (authMode === "register") {
+      // Create the account first.
+      const registerPayload = await apiRequest(API.register, {
+        method: "POST",
+        body: {
+          username: username,
+          password: password
+        }
       });
 
-      token=data.token||data.accessToken||data.access_token;
+      const registerToken = extractToken(registerPayload);
+      const registerUser = extractUser(registerPayload);
 
-      if(!token){
-        submit.textContent="Signing you in…";
-        try{
-          data=await apiRequest(API.login,{
-            method:"POST",
-            body:JSON.stringify({username,password})
-          });
-          token=data.token||data.accessToken||data.access_token;
-        }catch(loginError){
-          setAuthMode("login");
-          showNotice(
-            authMessage,
-            "Your account was created, but automatic sign-in failed. Please log in with the same username and password.",
-            "success"
-          );
-          $("#username").value=username;
-          $("#password").value="";
-          return;
+      // Some APIs automatically return a token after registration.
+      if (registerToken) {
+        storeToken(registerToken);
+
+        let finalUser = registerUser || { username: username };
+
+        try {
+          const mePayload = await apiRequest(API.me);
+          const meUser = extractUser(mePayload);
+
+          if (meUser) {
+            finalUser = meUser;
+          }
+        } catch (error) {
+          // Keep the username returned by registration.
         }
-      }
 
-      if(!token){
-        setAuthMode("login");
-        showNotice(
-          authMessage,
-          "Your account was created, but the server didn't return a login token. Please log in.",
+        renderSignedIn(finalUser, username);
+
+        showMessage(
+          document.getElementById("profileMessage"),
+          "Account created successfully. You're signed in!",
           "success"
         );
-        $("#username").value=username;
-        $("#password").value="";
+
         return;
       }
-    }else{
-      data=await apiRequest(API.login,{
-        method:"POST",
-        body:JSON.stringify({username,password})
-      });
-      token=data.token||data.accessToken||data.access_token;
 
-      if(!token){
-        throw new Error("The server didn't return a login token. Check the Worker API.");
+      // If registration did not return a token, sign in automatically.
+      try {
+        await loginWithCredentials(username, password);
+
+        showMessage(
+          document.getElementById("profileMessage"),
+          "Account created successfully. You're now signed in!",
+          "success"
+        );
+
+        return;
+      } catch (loginError) {
+        // Account creation may succeed even if automatic login is unsupported.
+        renderSignedOut();
+        setAuthMode("login");
+        authUsername.value = username;
+        authPassword.value = "";
+
+        showMessage(
+          authMessage,
+          "Your account may have been created. Please sign in. " +
+          loginError.message,
+          "info"
+        );
+
+        return;
+      }
+
+    } else {
+      await loginWithCredentials(username, password);
+
+      showMessage(
+        document.getElementById("profileMessage"),
+        "You are now signed in.",
+        "success"
+      );
+    }
+
+  } catch (error) {
+    showMessage(
+      authMessage,
+      error.message || "Something went wrong. Please try again.",
+      "error"
+    );
+  } finally {
+    authSubmit.disabled = false;
+
+    authSubmit.textContent =
+      authMode === "register" ? "Create Account" : "Login";
+  }
+});
+
+
+/* LOG OUT */
+
+document.getElementById("logoutButton").addEventListener("click", async function () {
+  const logoutButton = this;
+
+  logoutButton.disabled = true;
+
+  try {
+    if (apiToken) {
+      try {
+        await apiRequest(API.logout, {
+          method: "POST",
+          body: {}
+        });
+      } catch (error) {
+        // Clear the local session even if the logout endpoint fails.
       }
     }
 
-    apiToken=token;
-    localStorage.setItem("scottcode_api_token",token);
+    renderSignedOut();
+    setAuthMode("login");
 
-    const user=data.user||{username};
-    currentUser={username:user.username||username};
+    showMessage(
+      authMessage,
+      "You have been logged out.",
+      "success"
+    );
 
-    try{
-      const me=await apiRequest(API.me,{method:"GET"});
-      if(me.user)currentUser=me.user;
-    }catch(error){
-      // Keep the user returned by successful login or registration.
-    }
-
-    updateAccountUI();
-    authForm.reset();
-    showToast(registering?"Account created! You're signed in.":"Welcome back!");
-    await loadLeaderboard();
-
-  }catch(error){
-    showNotice(authMessage,error.message||"Something went wrong. Please try again.","error");
-  }finally{
-    submit.disabled=false;
-    submit.textContent=authMode==="login"?"Login":"Create Account";
+  } finally {
+    logoutButton.disabled = false;
   }
 });
 
-$("#logoutBtn").addEventListener("click",async()=>{
-  try{
-    if(apiToken){
-      await apiRequest(API.logout,{
-        method:"POST",
-        body:JSON.stringify({})
-      });
-    }
-  }catch(error){
-    // Clear the local session even if the server is unreachable.
+
+/* ==========================================================
+   GAME SYSTEM
+========================================================== */
+
+const gameTitles = {
+  snake: {
+    title: "🐍 Snake",
+    description: "Eat the food and avoid the walls and yourself."
+  },
+  ttt: {
+    title: "⭕ Tic-Tac-Toe",
+    description: "Play as X against the computer as O."
+  },
+  memory: {
+    title: "🧠 Memory Match",
+    description: "Flip the cards and find all eight matching pairs."
+  },
+  clicker: {
+    title: "⚡ Click Rush",
+    description: "Start a round and tap as many times as possible in 10 seconds."
   }
+};
 
-  apiToken="";
-  currentUser=null;
-  localStorage.removeItem("scottcode_api_token");
-  updateAccountUI();
-  setAuthMode("login");
-  showToast("You've logged out.");
-});
+let selectedGame = "snake";
 
-async function restoreSession(){
-  if(!apiToken){
-    updateAccountUI();
+const gameStatus = document.getElementById("gameStatus");
+
+function setGameStatus(message) {
+  gameStatus.textContent = message;
+}
+
+function showGame(gameId) {
+  if (!gameTitles[gameId]) {
     return;
   }
-  try{
-    const me=await apiRequest(API.me,{method:"GET"});
-    currentUser=me.user||me;
-    if(!currentUser.username)throw new Error("Missing username");
-  }catch(error){
-    apiToken="";
-    currentUser=null;
-    localStorage.removeItem("scottcode_api_token");
-  }
-  updateAccountUI();
-}
-setAuthMode("login");
 
-/* LEADERBOARD */
-async function loadLeaderboard(){
-  const gameId=$("#leaderGame").value;
-  const target=$("#leaderboard");
-  target.innerHTML='<p class="muted small">Loading scores…</p>';
+  selectedGame = gameId;
 
-  try{
-    const data=await apiRequest(
-      API.scores+"?gameId="+encodeURIComponent(gameId),
-      {method:"GET"}
+  document.querySelectorAll(".game-choice").forEach(function (button) {
+    button.classList.toggle(
+      "selected",
+      button.dataset.game === gameId
     );
-    const rows=data.leaderboard||data.scores||[];
+  });
 
-    if(!Array.isArray(rows)||rows.length===0){
-      target.innerHTML='<p class="muted small">No scores yet. Be the first to play!</p>';
+  document.querySelectorAll(".game-content").forEach(function (game) {
+    game.hidden = true;
+  });
+
+  const elementIds = {
+    snake: "snakeGame",
+    ttt: "tttGame",
+    memory: "memoryGame",
+    clicker: "clickerGame"
+  };
+
+  document.getElementById(elementIds[gameId]).hidden = false;
+
+  document.getElementById("gameTitle").textContent =
+    gameTitles[gameId].title;
+
+  document.getElementById("gameDescription").textContent =
+    gameTitles[gameId].description;
+
+  document.getElementById("leaderboardGameName").textContent =
+    gameTitles[gameId].title.replace(/^[^\w]+/, "") + " rankings";
+
+  stopClickerTimer();
+
+  if (gameId === "snake") {
+    resetSnake();
+    setGameStatus("Snake ready. Use arrow keys or the on-screen controls.");
+  } else if (gameId === "ttt") {
+    resetTTT();
+  } else if (gameId === "memory") {
+    resetMemory();
+  } else if (gameId === "clicker") {
+    resetClicker();
+  }
+
+  loadLeaderboard(gameId);
+}
+
+document.querySelectorAll(".game-choice").forEach(function (button) {
+  button.addEventListener("click", function () {
+    showGame(button.dataset.game);
+  });
+});
+
+document.getElementById("restartGame").addEventListener("click", function () {
+  showGame(selectedGame);
+});
+
+
+/* ==========================================================
+   SCORE SUBMISSION
+========================================================== */
+
+async function submitScore(gameId, score) {
+  if (!currentUser || !apiToken) {
+    setGameStatus(
+      "Score: " + score + ". Sign in to submit it to the online leaderboard."
+    );
+    return;
+  }
+
+  try {
+    await apiRequest(API.scores, {
+      method: "POST",
+      body: {
+        gameId: gameId,
+        score: Number(score)
+      }
+    });
+
+    setGameStatus("Score submitted successfully!");
+
+    loadLeaderboard(gameId);
+
+  } catch (error) {
+    setGameStatus(
+      "Score: " + score + ". Online score submission failed: " + error.message
+    );
+  }
+}
+
+
+/* ==========================================================
+   LEADERBOARD
+========================================================== */
+
+async function loadLeaderboard(gameId) {
+  const list = document.getElementById("leaderboardList");
+  const note = document.getElementById("leaderboardNote");
+
+  list.innerHTML = '<div class="muted small">Loading leaderboard...</div>';
+  note.textContent = "Connecting to the online leaderboard...";
+
+  try {
+    const payload = await apiRequest(
+      API.scores + "?gameId=" + encodeURIComponent(gameId)
+    );
+
+    const data = extractData(payload);
+
+    let scores =
+      data.leaderboard ||
+      data.scores ||
+      payload.leaderboard ||
+      payload.scores ||
+      [];
+
+    if (!Array.isArray(scores)) {
+      scores = [];
+    }
+
+    scores = scores
+      .map(function (entry) {
+        return {
+          username: normalizeUsername(
+            entry.user || entry,
+            entry.username || entry.name || "Player"
+          ),
+          score: Number(entry.score ?? entry.bestScore ?? 0)
+        };
+      })
+      .filter(function (entry) {
+        return Number.isFinite(entry.score);
+      })
+      .sort(function (a, b) {
+        return b.score - a.score;
+      })
+      .slice(0, 10);
+
+    if (!scores.length) {
+      list.innerHTML =
+        '<div class="muted small">No scores yet. Be the first to play!</div>';
+
+      note.textContent =
+        "No leaderboard entries were returned for this game.";
+
       return;
     }
 
-    target.innerHTML=rows.slice(0,10).map((row,i)=>{
-      const name=row.username||row.user?.username||"Player";
-      const score=Number(row.score??row.points??0);
-      return '<div class="leaderboard-row"><span><b class="rank">#'+
-        (i+1)+'</b> &nbsp;'+escapeHTML(name)+
-        '</span><strong>'+escapeHTML(score)+'</strong></div>';
+    list.innerHTML = scores.map(function (entry, index) {
+      return `
+        <div class="leaderboard-row">
+          <span class="rank">#${index + 1}</span>
+          <span>${escapeHTML(entry.username)}</span>
+          <strong>${escapeHTML(entry.score)}</strong>
+        </div>
+      `;
     }).join("");
-  }catch(error){
-    target.innerHTML='<p class="muted small">Leaderboard unavailable. Check the Worker score endpoint.</p>';
-  }
-}
-$("#refreshLeaderboard").addEventListener("click",loadLeaderboard);
-$("#leaderGame").addEventListener("change",loadLeaderboard);
 
-async function submitScore(gameId,score){
-  if(!currentUser||!apiToken||!Number.isFinite(score)||score<0)return;
-  try{
-    await apiRequest(API.scores,{
-      method:"POST",
-      body:JSON.stringify({gameId,score})
-    });
-    showToast("Score submitted!");
-    await loadLeaderboard();
-  }catch(error){
-    showToast("Score couldn't be saved online. Check the Worker API.");
+    note.textContent = "Showing the top " + scores.length + " scores.";
+
+  } catch (error) {
+    list.innerHTML =
+      '<div class="muted small">Leaderboard unavailable for this game.</div>';
+
+    note.textContent =
+      "Your Worker must support GET /api/scores?gameId=" +
+      gameId + ". " + error.message;
   }
 }
 
-/* ARCADE */
-let selectedGame="snake";
-let snakeTimer=null,snake=[],food={x:5,y:5};
-let direction={x:1,y:0},nextDirection={x:1,y:0};
-let snakeScore=0,snakeRunning=false,snakeEnded=false;
-
-let tttCells=Array(9).fill(""),tttEnded=false;
-let memorySymbols=["🌙","⭐","🪐","🚀","💎","🌈","🧩","🔥"];
-let memoryCards=[],memoryFlipped=[],memoryMoves=0,memoryPairs=0,memoryLocked=false;
-let clickScore=0,clickTime=10,clickRunning=false,clickEnded=false,clickTimer=null;
-
-function setGameMessage(message){$("#gameMessage").textContent=message}
-function stopTimers(){
-  clearInterval(snakeTimer);clearInterval(clickTimer);
-  snakeTimer=null;clickTimer=null;
-  snakeRunning=false;clickRunning=false;
-}
-
-function showGame(game){
-  stopTimers();
-  selectedGame=game;
-
-  $$(".game-choice").forEach(b=>b.classList.toggle("selected",b.dataset.game===game));
-
-  const ids={snake:"snakeGame",ttt:"tttGame",memory:"memoryGame",clicker:"clickerGame"};
-  Object.entries(ids).forEach(([name,id])=>{
-    $("#"+id).classList.toggle("hidden",name!==game);
-  });
-
-  const details={
-    snake:["🐍 Snake","Collect food and avoid hitting the walls or yourself."],
-    ttt:["⭕ Tic-Tac-Toe","You play X. The computer plays O. Get three in a row."],
-    memory:["🧠 Memory Match","Flip the cards and find all eight matching pairs."],
-    clicker:["⚡ Click Rush","Get as many clicks as possible in ten seconds."]
-  };
-  $("#gameTitle").textContent=details[game][0];
-  $("#gameDescription").textContent=details[game][1];
-  resetGame();
-}
-function resetGame(){
-  stopTimers();
-  if(selectedGame==="snake")initSnake();
-  if(selectedGame==="ttt")initTTT();
-  if(selectedGame==="memory")initMemory();
-  if(selectedGame==="clicker")initClicker();
-  setGameMessage("Press Start to play.");
-}
-$$(".game-choice").forEach(b=>b.addEventListener("click",()=>showGame(b.dataset.game)));
-
-$("#startGame").addEventListener("click",()=>{
-  if(selectedGame==="snake")startSnake();
-  else if(selectedGame==="ttt")initTTT();
-  else if(selectedGame==="memory")initMemory();
-  else if(selectedGame==="clicker")startClicker();
-});
-$("#pauseGame").addEventListener("click",()=>{
-  if(selectedGame==="snake"&&snakeRunning){
-    clearInterval(snakeTimer);snakeTimer=null;snakeRunning=false;
-    setGameMessage("Paused. Press Start to continue.");
-  }else if(selectedGame==="clicker"&&clickRunning){
-    clearInterval(clickTimer);clickTimer=null;clickRunning=false;
-    setGameMessage("Paused. Press Start to continue.");
-  }else{
-    setGameMessage("Game is not running.");
-  }
+document.getElementById("refreshLeaderboard").addEventListener("click", function () {
+  loadLeaderboard(selectedGame);
 });
 
-/* SNAKE */
-const snakeCanvas=$("#snakeCanvas");
-const snakeCtx=snakeCanvas.getContext("2d");
-const CELL=16,CELLS=20;
 
-function drawSnake(){
-  snakeCtx.fillStyle="#07111f";
-  snakeCtx.fillRect(0,0,320,320);
-  snakeCtx.strokeStyle="#82beff0e";
-  for(let i=0;i<=CELLS;i++){
-    snakeCtx.beginPath();snakeCtx.moveTo(i*CELL,0);snakeCtx.lineTo(i*CELL,320);snakeCtx.stroke();
-    snakeCtx.beginPath();snakeCtx.moveTo(0,i*CELL);snakeCtx.lineTo(320,i*CELL);snakeCtx.stroke();
+/* ==========================================================
+   SNAKE
+========================================================== */
+
+const snakeCanvas = document.getElementById("snakeCanvas");
+const snakeCtx = snakeCanvas.getContext("2d");
+
+const snakeSize = 18;
+const snakeCells = 20;
+
+let snake = [];
+let snakeFood = { x: 10, y: 10 };
+let snakeDirection = { x: 1, y: 0 };
+let snakeNextDirection = { x: 1, y: 0 };
+let snakeScore = 0;
+let snakeBest = 0;
+let snakeTimer = null;
+let snakeRunning = false;
+
+function randomSnakeFood() {
+  let food;
+
+  do {
+    food = {
+      x: Math.floor(Math.random() * snakeCells),
+      y: Math.floor(Math.random() * snakeCells)
+    };
+  } while (snake.some(function (part) {
+    return part.x === food.x && part.y === food.y;
+  }));
+
+  snakeFood = food;
+}
+
+function drawSnake() {
+  snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+  snakeCtx.fillStyle = "#071522";
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+  snakeCtx.strokeStyle = "rgba(133, 192, 230, .06)";
+  snakeCtx.lineWidth = 1;
+
+  for (let i = 0; i <= snakeCells; i++) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(i * snakeSize, 0);
+    snakeCtx.lineTo(i * snakeSize, snakeCanvas.height);
+    snakeCtx.stroke();
+
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0, i * snakeSize);
+    snakeCtx.lineTo(snakeCanvas.width, i * snakeSize);
+    snakeCtx.stroke();
   }
-  snakeCtx.fillStyle="#ff91b2";
+
+  snakeCtx.fillStyle = "#ff9dba";
   snakeCtx.beginPath();
-  snakeCtx.arc(food.x*CELL+8,food.y*CELL+8,6,0,Math.PI*2);
+  snakeCtx.arc(
+    snakeFood.x * snakeSize + snakeSize / 2,
+    snakeFood.y * snakeSize + snakeSize / 2,
+    snakeSize * .34,
+    0,
+    Math.PI * 2
+  );
   snakeCtx.fill();
 
-  snake.forEach((part,i)=>{
-    snakeCtx.fillStyle=i===0?"#9df7ff":"#57b8e7";
-    snakeCtx.beginPath();
-    snakeCtx.roundRect(part.x*CELL+1,part.y*CELL+1,CELL-2,CELL-2,4);
-    snakeCtx.fill();
+  snake.forEach(function (part, index) {
+    snakeCtx.fillStyle = index === 0 ? "#b8ebff" : "#58b7ed";
+
+    const padding = 2;
+
+    if (typeof snakeCtx.roundRect === "function") {
+      snakeCtx.beginPath();
+      snakeCtx.roundRect(
+        part.x * snakeSize + padding,
+        part.y * snakeSize + padding,
+        snakeSize - padding * 2,
+        snakeSize - padding * 2,
+        5
+      );
+      snakeCtx.fill();
+    } else {
+      snakeCtx.fillRect(
+        part.x * snakeSize + padding,
+        part.y * snakeSize + padding,
+        snakeSize - padding * 2,
+        snakeSize - padding * 2
+      );
+    }
   });
 }
-function initSnake(){
-  snake=[{x:8,y:10},{x:7,y:10},{x:6,y:10}];
-  direction={x:1,y:0};nextDirection={x:1,y:0};
-  snakeScore=0;snakeEnded=false;
-  $("#snakeScore").textContent="0";
-  placeFood();drawSnake();
-}
-function placeFood(){
-  let attempts=0;
-  do{
-    food={x:Math.floor(Math.random()*CELLS),y:Math.floor(Math.random()*CELLS)};
-    attempts++;
-  }while(snake.some(p=>p.x===food.x&&p.y===food.y)&&attempts<500);
-}
-function startSnake(){
-  if(snakeEnded)initSnake();
-  if(snakeRunning)return;
-  snakeRunning=true;
-  setGameMessage("Go! Collect the glowing food.");
-  clearInterval(snakeTimer);
-  snakeTimer=setInterval(tickSnake,125);
-}
-function changeDirection(name){
-  const dirs={
-    up:{x:0,y:-1},down:{x:0,y:1},
-    left:{x:-1,y:0},right:{x:1,y:0}
-  };
-  const d=dirs[name];
-  if(!d||d.x===-direction.x&&d.y===-direction.y)return;
-  nextDirection=d;
-}
-function tickSnake(){
-  direction=nextDirection;
-  const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};
-  const wall=head.x<0||head.y<0||head.x>=CELLS||head.y>=CELLS;
-  const eating=head.x===food.x&&head.y===food.y;
-  const body=eating?snake:snake.slice(0,-1);
-  if(wall||body.some(p=>p.x===head.x&&p.y===head.y)){
-    endSnake();return;
+
+function stopSnakeTimer() {
+  if (snakeTimer) {
+    clearInterval(snakeTimer);
+    snakeTimer = null;
   }
-  snake.unshift(head);
-  if(eating){
-    snakeScore+=10;
-    $("#snakeScore").textContent=snakeScore;
-    placeFood();
-  }else snake.pop();
+
+  snakeRunning = false;
+}
+
+function startSnakeTimer() {
+  if (snakeTimer) {
+    clearInterval(snakeTimer);
+  }
+
+  snakeRunning = true;
+
+  snakeTimer = setInterval(function () {
+    if (selectedGame !== "snake") {
+      return;
+    }
+
+    snakeTick();
+  }, 130);
+}
+
+function resetSnake() {
+  stopSnakeTimer();
+
+  snake = [
+    { x: 7, y: 10 },
+    { x: 6, y: 10 },
+    { x: 5, y: 10 }
+  ];
+
+  snakeDirection = { x: 1, y: 0 };
+  snakeNextDirection = { x: 1, y: 0 };
+  snakeScore = 0;
+
+  randomSnakeFood();
+  updateSnakeScore();
   drawSnake();
 }
-function endSnake(){
-  clearInterval(snakeTimer);snakeTimer=null;
-  snakeRunning=false;snakeEnded=true;
-  setGameMessage("Game over! Score: "+snakeScore+". Press Start to retry.");
-  if(snakeScore>0)submitScore("snake",snakeScore);
+
+function updateSnakeScore() {
+  document.getElementById("snakeScore").textContent = snakeScore;
+  document.getElementById("snakeBest").textContent = snakeBest;
 }
-$$("[data-dir]").forEach(b=>b.addEventListener("click",()=>changeDirection(b.dataset.dir)));
-document.addEventListener("keydown",event=>{
-  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(event.key)&&selectedGame==="snake"){
+
+function snakeTick() {
+  snakeDirection = snakeNextDirection;
+
+  const head = {
+    x: snake[0].x + snakeDirection.x,
+    y: snake[0].y + snakeDirection.y
+  };
+
+  const ateFood =
+    head.x === snakeFood.x &&
+    head.y === snakeFood.y;
+
+  const bodyToCheck = ateFood ? snake : snake.slice(0, -1);
+
+  const hitWall =
+    head.x < 0 ||
+    head.y < 0 ||
+    head.x >= snakeCells ||
+    head.y >= snakeCells;
+
+  const hitBody = bodyToCheck.some(function (part) {
+    return part.x === head.x && part.y === head.y;
+  });
+
+  if (hitWall || hitBody) {
+    stopSnakeTimer();
+
+    setGameStatus("Game over! Your score: " + snakeScore + ".");
+
+    if (snakeScore > 0) {
+      submitScore("snake", snakeScore);
+    }
+
+    drawSnake();
+    return;
+  }
+
+  snake.unshift(head);
+
+  if (ateFood) {
+    snakeScore += 10;
+    snakeBest = Math.max(snakeBest, snakeScore);
+
+    randomSnakeFood();
+    updateSnakeScore();
+
+    setGameStatus("Nice! Score: " + snakeScore + ".");
+  } else {
+    snake.pop();
+  }
+
+  drawSnake();
+}
+
+function setSnakeDirection(direction) {
+  const directions = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 }
+  };
+
+  const next = directions[direction];
+
+  if (!next) {
+    return;
+  }
+
+  if (
+    next.x === -snakeDirection.x &&
+    next.y === -snakeDirection.y
+  ) {
+    return;
+  }
+
+  snakeNextDirection = next;
+
+  if (!snakeRunning && selectedGame === "snake") {
+    startSnakeTimer();
+  }
+}
+
+document.addEventListener("keydown", function (event) {
+  if (selectedGame !== "snake") {
+    return;
+  }
+
+  const directions = {
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right",
+    w: "up",
+    s: "down",
+    a: "left",
+    d: "right",
+    W: "up",
+    S: "down",
+    A: "left",
+    D: "right"
+  };
+
+  const direction = directions[event.key];
+
+  if (direction) {
     event.preventDefault();
-    changeDirection({
-      ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"
-    }[event.key]);
+    setSnakeDirection(direction);
   }
 });
 
-/* TIC-TAC-TOE */
-const winLines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-function getWinner(cells){
-  for(const line of winLines){
-    const [a,b,c]=line;
-    if(cells[a]&&cells[a]===cells[b]&&cells[a]===cells[c])return cells[a];
+document.querySelectorAll("[data-direction]").forEach(function (button) {
+  button.addEventListener("click", function () {
+    setSnakeDirection(button.dataset.direction);
+  });
+});
+
+
+/* ==========================================================
+   TIC-TAC-TOE
+========================================================== */
+
+let tttBoard = Array(9).fill("");
+let tttLocked = false;
+let tttWins = 0;
+let tttLosses = 0;
+let tttDraws = 0;
+
+const tttWinningLines = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
+function tttWinner(board) {
+  for (const line of tttWinningLines) {
+    const [a, b, c] = line;
+
+    if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+      return board[a];
+    }
   }
-  return cells.every(Boolean)?"draw":null;
+
+  return board.every(Boolean) ? "draw" : null;
 }
-function initTTT(){
-  tttCells=Array(9).fill("");
-  tttEnded=false;
+
+function renderTTT() {
+  document.querySelectorAll(".ttt-cell").forEach(function (cell, index) {
+    cell.textContent = tttBoard[index];
+    cell.disabled = Boolean(tttBoard[index]) || tttLocked;
+  });
+
+  document.getElementById("tttWins").textContent = tttWins;
+  document.getElementById("tttLosses").textContent = tttLosses;
+  document.getElementById("tttDraws").textContent = tttDraws;
+}
+
+function resetTTT() {
+  tttBoard = Array(9).fill("");
+  tttLocked = false;
+
   renderTTT();
-}
-function renderTTT(){
-  const board=$("#tttBoard");
-  board.innerHTML="";
-  tttCells.forEach((v,i)=>{
-    const b=document.createElement("button");
-    b.type="button";b.textContent=v;
-    b.setAttribute("aria-label","Cell "+(i+1)+(v?": "+v:": empty"));
-    b.addEventListener("click",()=>playerMove(i));
-    board.appendChild(b);
-  });
-}
-function playerMove(i){
-  if(tttEnded||tttCells[i])return;
-  tttCells[i]="X";renderTTT();
-  let winner=getWinner(tttCells);
-  if(winner)return finishTTT(winner);
-
-  setGameMessage("Computer's turn…");
-  setTimeout(()=>{
-    if(tttEnded)return;
-    const move=chooseComputerMove();
-    if(move!==-1)tttCells[move]="O";
-    renderTTT();
-    winner=getWinner(tttCells);
-    if(winner)finishTTT(winner);
-    else setGameMessage("Your turn. Make a move.");
-  },250);
-}
-function chooseComputerMove(){
-  const empty=tttCells.map((v,i)=>v?-1:i).filter(i=>i!==-1);
-  if(!empty.length)return -1;
-  for(const i of empty){
-    const test=[...tttCells];test[i]="O";
-    if(getWinner(test)==="O")return i;
-  }
-  for(const i of empty){
-    const test=[...tttCells];test[i]="X";
-    if(getWinner(test)==="X")return i;
-  }
-  if(!tttCells[4])return 4;
-  const corners=[0,2,6,8].filter(i=>!tttCells[i]);
-  if(corners.length)return corners[Math.floor(Math.random()*corners.length)];
-  return empty[Math.floor(Math.random()*empty.length)];
-}
-function finishTTT(winner){
-  tttEnded=true;
-  if(winner==="X"){
-    setGameMessage("You win! 🎉");
-    submitScore("ttt",1);
-  }else if(winner==="O"){
-    setGameMessage("Computer wins. Try again!");
-  }else{
-    setGameMessage("It's a draw!");
-    submitScore("ttt",0);
-  }
+  setGameStatus("Your turn. You are X.");
 }
 
-/* MEMORY MATCH */
-function initMemory(){
-  memoryCards=[...memorySymbols,...memorySymbols].sort(()=>Math.random()-.5);
-  memoryFlipped=[];memoryMoves=0;memoryPairs=0;memoryLocked=false;
-  $("#memoryMoves").textContent="0";
-  $("#memoryPairs").textContent="0";
-  renderMemory();
-}
-function renderMemory(){
-  const board=$("#memoryBoard");
-  board.innerHTML="";
-  memoryCards.forEach((symbol,i)=>{
-    const b=document.createElement("button");
-    b.type="button";
-    const revealed=memoryFlipped.includes(i)||symbol===null;
-    b.textContent=revealed?(symbol||"✓"):"?";
-    b.setAttribute("aria-label",revealed?"Revealed card "+(i+1):"Hidden card "+(i+1));
-    b.disabled=revealed||memoryLocked;
-    b.addEventListener("click",()=>flipMemory(i));
-    board.appendChild(b);
-  });
-}
-function flipMemory(i){
-  if(memoryLocked||memoryFlipped.includes(i)||memoryCards[i]===null)return;
-  memoryFlipped.push(i);renderMemory();
-  if(memoryFlipped.length!==2)return;
-
-  memoryMoves++;
-  $("#memoryMoves").textContent=memoryMoves;
-  const [a,b]=memoryFlipped;
-
-  if(memoryCards[a]===memoryCards[b]){
-    memoryCards[a]=null;memoryCards[b]=null;
-    memoryPairs++;
-    $("#memoryPairs").textContent=memoryPairs;
-    memoryFlipped=[];renderMemory();
-    if(memoryPairs===8){
-      setGameMessage("All pairs found in "+memoryMoves+" moves! 🎉");
-      submitScore("memory",Math.max(1,1000-memoryMoves*10));
+function findWinningMove(board, player) {
+  for (let i = 0; i < board.length; i++) {
+    if (board[i]) {
+      continue;
     }
-  }else{
-    memoryLocked=true;
-    setTimeout(()=>{
-      memoryFlipped=[];memoryLocked=false;renderMemory();
-    },750);
-  }
-}
 
-/* CLICK RUSH */
-function initClicker(){
-  clickScore=0;clickTime=10;clickRunning=false;clickEnded=false;
-  $("#clickScore").textContent="0";
-  $("#clickTime").textContent="10";
-  $("#bigClick").disabled=true;
-}
-function startClicker(){
-  if(clickRunning)return;
-  if(clickEnded)initClicker();
-  clickRunning=true;clickEnded=false;
-  $("#bigClick").disabled=false;
-  setGameMessage("Click as fast as you can!");
-  clearInterval(clickTimer);
-  clickTimer=setInterval(()=>{
-    clickTime--;
-    $("#clickTime").textContent=clickTime;
-    if(clickTime<=0){
-      clearInterval(clickTimer);clickTimer=null;
-      clickRunning=false;clickEnded=true;
-      $("#bigClick").disabled=true;
-      setGameMessage("Time's up! Your score: "+clickScore);
-      submitScore("clicker",clickScore);
+    const test = board.slice();
+    test[i] = player;
+
+    if (tttWinner(test) === player) {
+      return i;
     }
-  },1000);
+  }
+
+  return -1;
 }
-$("#bigClick").addEventListener("click",()=>{
-  if(!clickRunning)return;
-  clickScore++;
-  $("#clickScore").textContent=clickScore;
-});
 
-/* INITIALISE GAMES */
-initSnake();initTTT();initMemory();initClicker();
-showGame("snake");
-restoreSession().then(loadLeaderboard);
+function computerTTTMove() {
+  if (tttLocked) {
+    return;
+  }
 
-/* CONTACT FORM */
-$("#contactForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  const form=event.currentTarget;
-  const status=$("#contactStatus");
-  const submit=$("#contactSubmit");
-  if(!form.reportValidity())return;
+  // Try to win.
+  let move = findWinningMove(tttBoard, "O");
 
-  submit.disabled=true;
-  submit.textContent="Sending…";
-  hideNotice(status);
+  // Otherwise block the player's winning move.
+  if (move < 0) {
+    move = findWinningMove(tttBoard, "X");
+  }
 
-  try{
-    const response=await fetch(form.action,{
-      method:"POST",
-      body:new FormData(form),
-      headers:{"Accept":"application/json"}
+  // Prefer the center.
+  if (move < 0 && !tttBoard[4]) {
+    move = 4;
+  }
+
+  // Then try corners.
+  if (move < 0) {
+    const corners = [0, 2, 6, 8].filter(function (i) {
+      return !tttBoard[i];
     });
 
-    if(!response.ok){
-      let message="Form submission failed. Please try again.";
-      try{
-        const data=await response.json();
-        if(data.errors)message=data.errors.map(e=>e.message).join(" ");
-        else if(data.error)message=data.error;
-      }catch{}
-      throw new Error(message);
+    if (corners.length) {
+      move = corners[Math.floor(Math.random() * corners.length)];
     }
-    location.href=THANKS_URL;
-  }catch(error){
-    showNotice(status,error.message||"Unable to send your message. Check your connection.","error");
-    submit.disabled=false;
-    submit.textContent="Send message ↗";
   }
+
+  // Finally, any available square.
+  if (move < 0) {
+    const available = tttBoard
+      .map(function (value, index) {
+        return value ? -1 : index;
+      })
+      .filter(function (index) {
+        return index >= 0;
+      });
+
+    if (available.length) {
+      move = available[Math.floor(Math.random() * available.length)];
+    }
+  }
+
+  if (move >= 0) {
+    tttBoard[move] = "O";
+  }
+
+  finishTTTTurn();
+}
+
+function finishTTTTurn() {
+  renderTTT();
+
+  const result = tttWinner(tttBoard);
+
+  if (result === "X") {
+    tttLocked = true;
+    tttWins++;
+
+    renderTTT();
+    setGameStatus("You win! Nice work.");
+
+    submitScore("ttt", 1);
+    return;
+  }
+
+  if (result === "O") {
+    tttLocked = true;
+    tttLosses++;
+
+    renderTTT();
+    setGameStatus("The computer wins. Try again!");
+
+    return;
+  }
+
+  if (result === "draw") {
+    tttLocked = true;
+    tttDraws++;
+
+    renderTTT();
+    setGameStatus("It's a draw!");
+
+    return;
+  }
+
+  renderTTT();
+}
+
+document.querySelectorAll(".ttt-cell").forEach(function (cell) {
+  cell.addEventListener("click", function () {
+    const index = Number(cell.dataset.cell);
+
+    if (tttLocked || tttBoard[index]) {
+      return;
+    }
+
+    tttBoard[index] = "X";
+
+    const result = tttWinner(tttBoard);
+
+    if (result) {
+      finishTTTTurn();
+      return;
+    }
+
+    tttLocked = true;
+    renderTTT();
+
+    setGameStatus("Computer is thinking...");
+
+    setTimeout(function () {
+      if (selectedGame !== "ttt") {
+        return;
+      }
+
+      computerTTTMove();
+
+      if (!tttWinner(tttBoard)) {
+        tttLocked = false;
+        renderTTT();
+        setGameStatus("Your turn. You are X.");
+      }
+    }, 300);
+  });
 });
+
+
+/* ==========================================================
+   MEMORY MATCH
+========================================================== */
+
+const memorySymbols = ["🌙", "🚀", "💎", "🎮", "🌊", "⭐", "🪐", "⚡"];
+
+let memoryCards = [];
+let memoryFirst = null;
+let memoryLock = false;
+let memoryMoves = 0;
+let memoryPairs = 0;
+let memoryTimeout = null;
+
+function resetMemory() {
+  if (memoryTimeout) {
+    clearTimeout(memoryTimeout);
+    memoryTimeout = null;
+  }
+
+  const symbols = memorySymbols.concat(memorySymbols);
+
+  for (let i = symbols.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [symbols[i], symbols[j]] = [symbols[j], symbols[i]];
+  }
+
+  memoryCards = symbols.map(function (symbol, index) {
+    return {
+      id: index,
+      symbol: symbol,
+      flipped: false,
+      matched: false
+    };
+  });
+
+  memoryFirst = null;
+  memoryLock = false;
+  memoryMoves = 0;
+  memoryPairs = 0;
+
+  renderMemory();
+
+  setGameStatus("Find all eight pairs.");
+}
+
+function renderMemory() {
+  const board = document.getElementById("memoryBoard");
+
+  board.innerHTML = "";
+
+  memoryCards.forEach(function (card) {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className =
+      "memory-card" + (card.matched ? " matched" : "");
+
+    button.textContent =
+      card.matched ? "✓" :
+      card.flipped ? card.symbol : "?";
+
+    button.disabled = card.matched || card.flipped || memoryLock;
+
+    button.setAttribute(
+      "aria-label",
+      card.matched || card.flipped ? card.symbol : "Hidden card"
+    );
+
+    button.addEventListener("click", function () {
+      flipMemoryCard(card.id);
+    });
+
+    board.appendChild(button);
+  });
+
+  document.getElementById("memoryMoves").textContent = memoryMoves;
+  document.getElementById("memoryPairs").textContent = memoryPairs;
+}
+
+function flipMemoryCard(id) {
+  if (memoryLock) {
+    return;
+  }
+
+  const card = memoryCards.find(function (item) {
+    return item.id === id;
+  });
+
+  if (!card || card.flipped || card.matched) {
+    return;
+  }
+
+  card.flipped = true;
+
+  if (memoryFirst === null) {
+    memoryFirst = card;
+    renderMemory();
+    return;
+  }
+
+  memoryMoves++;
+
+  const first = memoryFirst;
+  memoryFirst = null;
+
+  if (first.symbol === card.symbol) {
+    first.matched = true;
+    card.matched = true;
+    memoryPairs++;
+
+    renderMemory();
+
+    if (memoryPairs === memorySymbols.length) {
+      setGameStatus("You found every pair in " + memoryMoves + " moves!");
+
+      const score = Math.max(1, 1000 - memoryMoves * 20);
+
+      submitScore("memory", score);
+    } else {
+      setGameStatus("Match found! Keep going.");
+    }
+
+    return;
+  }
+
+  memoryLock = true;
+
+  renderMemory();
+
+  setGameStatus("Not a match. Try to remember the cards.");
+
+  memoryTimeout = setTimeout(function () {
+    first.flipped = false;
+    card.flipped = false;
+
+    memoryLock = false;
+    memoryTimeout = null;
+
+    renderMemory();
+  }, 750);
+}
+
+
+/* ==========================================================
+   CLICK RUSH
+========================================================== */
+
+let clickerScore = 0;
+let clickerBest = 0;
+let clickerTime = 10;
+let clickerTimer = null;
+let clickerRunning = false;
+
+const clickTarget = document.getElementById("clickTarget");
+const clickerStart = document.getElementById("clickerStart");
+
+function stopClickerTimer() {
+  if (clickerTimer) {
+    clearInterval(clickerTimer);
+    clickerTimer = null;
+  }
+
+  clickerRunning = false;
+}
+
+function resetClicker() {
+  stopClickerTimer();
+
+  clickerScore = 0;
+  clickerTime = 10;
+
+  document.getElementById("clickerScore").textContent = clickerScore;
+  document.getElementById("clickerTime").textContent = clickerTime;
+  document.getElementById("clickerBest").textContent = clickerBest;
+
+  clickTarget.disabled = true;
+  clickerStart.disabled = false;
+  clickerStart.textContent = "Start 10-second round";
+
+  document.getElementById("clickerInstructions").textContent =
+    "Press Start, then tap the circle as many times as possible.";
+
+  setGameStatus("Ready for Click Rush?");
+}
+
+clickerStart.addEventListener("click", function () {
+  stopClickerTimer();
+
+  clickerScore = 0;
+  clickerTime = 10;
+  clickerRunning = true;
+
+  document.getElementById("clickerScore").textContent = clickerScore;
+  document.getElementById("clickerTime").textContent = clickerTime;
+
+  clickTarget.disabled = false;
+  clickerStart.disabled = true;
+
+  document.getElementById("clickerInstructions").textContent =
+    "Go! Tap the circle!";
+
+  setGameStatus("Go! Go! Go!");
+
+  clickerTimer = setInterval(function () {
+    clickerTime--;
+
+    document.getElementById("clickerTime").textContent = clickerTime;
+
+    if (clickerTime <= 0) {
+      stopClickerTimer();
+
+      clickTarget.disabled = true;
+      clickerStart.disabled = false;
+      clickerStart.textContent = "Play again";
+
+      clickerBest = Math.max(clickerBest, clickerScore);
+
+      document.getElementById("clickerBest").textContent = clickerBest;
+      document.getElementById("clickerInstructions").textContent =
+        "Round finished! Your score was " + clickerScore + ".";
+
+      setGameStatus("Time's up! You scored " + clickerScore + ".");
+
+      if (clickerScore > 0) {
+        submitScore("clicker", clickerScore);
+      }
+    }
+  }, 1000);
+});
+
+clickTarget.addEventListener("click", function () {
+  if (!clickerRunning || clickerTime <= 0) {
+    return;
+  }
+
+  clickerScore++;
+
+  document.getElementById("clickerScore").textContent = clickerScore;
+
+  // Move the circle a little for an extra challenge.
+  const offsetX = Math.floor(Math.random() * 45) - 22;
+  const offsetY = Math.floor(Math.random() * 35) - 17;
+
+  clickTarget.style.transform =
+    "translate(" + offsetX + "px, " + offsetY + "px)";
+});
+
+
+/* ==========================================================
+   INITIALIZATION
+========================================================== */
+
+async function initializeApp() {
+  setAuthMode("login");
+
+  apiToken = getStoredToken();
+
+  if (apiToken) {
+    await loadCurrentUser();
+  } else {
+    renderSignedOut();
+  }
+
+  resetSnake();
+  resetTTT();
+  resetMemory();
+  resetClicker();
+
+  loadLeaderboard("snake");
+}
+
+initializeApp();
+
 </script>
+
 </body>
   </html>
