@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="Explore projects, experiments, and digital creations by ScottCode.">
+<title>Projects — ScottCode</title><style>
+:root {
+  color-scheme: dark;
+  --bg:#07101e;--surface:rgba(17,33,56,.76);--text:#f2f7ff;
+  --muted:#99abc5;--blue:#74beff;--border:rgba(148,190,255,.16);
+}
+body.light {
+  color-scheme:light;
+  --bg:#f5f8ff;--surface:rgba(255,255,255,.82);--text:#10203a;
+  --muted:#65758e;--blue:#187be9;--border:rgba(48,87,144,.15);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.background{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 15% 10%,rgba(41,111,255,.16),transparent 45%),radial-gradient(ellipse at 85% 60%,rgba(0,198,255,.08),transparent 40%)}
+.wrap{width:min(1050px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:12px;z-index:10;margin:12px auto 0;width:min(1050px,calc(100% - 24px));padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--border);border-radius:18px;background:var(--surface);backdrop-filter:blur(20px)}
+.brand{font-weight:850;letter-spacing:-.5px;white-space:nowrap}
+.brand span{display:inline-grid;place-items:center;width:32px;height:32px;margin-right:7px;border-radius:10px;background:linear-gradient(135deg,#58bdff,#5265ff);color:white}
+nav{display:flex;align-items:center;gap:5px}
+nav a,.theme{padding:10px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:650}
+nav a:hover,nav a.active,.theme:hover{background:rgba(100,155,255,.12);color:var(--text)}
+.theme{cursor:pointer;font-size:17px}
+.hero{padding:100px 0 65px}
+.eyebrow{color:var(--blue);font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+h1{margin:20px 0;font-size:clamp(43px,8vw,78px);line-height:1.02;letter-spacing:-4px}
+.gradient{color:transparent;background:linear-gradient(110deg,#79c5ff,#7e93ff,#5ee4ff);background-clip:text;-webkit-background-clip:text}
+.hero p{max-width:620px;color:var(--muted);font-size:15px;line-height:1.9}
+.filters{display:flex;flex-wrap:wrap;gap:9px;margin:30px 0}
+.filter{padding:10px 15px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:12px;font-weight:700}
+.filter.active,.filter:hover{color:var(--text);border-color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding-bottom:100px}
+.card{overflow:hidden;border:1px solid var(--border);border-radius:23px;background:var(--surface);transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-6px);border-color:var(--blue)}
+.preview{height:190px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 100%,rgba(65,130,255,.28),transparent 65%),linear-gradient(140deg,rgba(20,47,83,.9),rgba(8,18,33,.95));}
+.preview::before,.preview::after{content:"";position:absolute;width:200px;height:200px;border:1px solid rgba(120,185,255,.17);border-radius:50%}
+.preview::after{width:130px;height:130px}
+.preview-icon{position:relative;z-index:1;font-size:47px;color:#b7dcff;text-shadow:0 0 35px rgba(87,157,255,.8)}
+.card-content{padding:25px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.badge{padding:7px 9px;border:1px solid var(--border);border-radius:9px;color:var(--blue);font-size:10px;font-weight:800}
+.card h2{margin:19px 0 10px;font-size:22px;letter-spacing:-.5px}
+.card p{min-height:48px;color:var(--muted);font-size:13px;line-height:1.8}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:19px 0}
+.tag{padding:7px 9px;border-radius:8px;background:rgba(105,155,255,.09);color:var(--muted);font-size:10px}
+.project-link{display:inline-flex;gap:8px;align-items:center;color:var(--blue);font-size:12px;font-weight:800}
+.project-link:hover{gap:13px}
+.cta{margin-bottom:90px;padding:45px 25px;border:1px solid var(--border);border-radius:25px;background:var(--surface);text-align:center}
+.cta h2{font-size:clamp(28px,5vw,43px);letter-spacing:-1.5px}
+.cta p{color:var(--muted);line-height:1.8}
+.btn{display:inline-flex;align-items:center;justify-content:center;margin-top:12px;padding:13px 18px;border-radius:13px;background:linear-gradient(120deg,#438fff,#5367ff);color:white;font-size:13px;font-weight:750}
+footer{border-top:1px solid var(--border);padding:25px 0 35px;color:var(--muted);font-size:11px}
+.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.footer-links{display:flex;gap:15px}
+footer a:hover{color:var(--blue)}
+.hidden{display:none!important}
+@media(max-width:650px){
+ header{flex-wrap:wrap}
+ nav{order:3;width:100%;justify-content:space-between;gap:0}
+ nav a{padding:9px 7px;font-size:11px}
+ .hero{padding-top:75px}
+ h1{letter-spacing:-2.5px}
+ .grid{grid-template-columns:1fr}
+ .preview{height:165px}
+ .card p{min-height:0}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style></head><body>
+<div class="background"></div><header>
+  <a href="/" class="brand"><span>S.</span>ScottCode.</a>
+  <nav aria-label="Main navigation">
+    <a href="/">Home</a>
+    <a href="/projects" class="active" aria-current="page">Projects</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <button class="theme" id="theme" type="button" aria-label="Toggle theme">☀</button>
+</header><main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">THE WORKSHOP</div>
+    <h1>Ideas become<br><span class="gradient">real things.</span></h1>
+    <p>
+      A collection of projects, experiments, and things I'm learning to build.
+      Every project starts with curiosity and gets better with practice.
+    </p><div class="filters" aria-label="Filter projects">
+  <button class="filter active" data-filter="all">All projects</button>
+  <button class="filter" data-filter="web">Web</button>
+  <button class="filter" data-filter="experiment">Experiments</button>
+</div>
+
+  </section>  <section class="grid" id="projectGrid" aria-label="Projects"><article class="card" data-category="web">
+  <div class="preview"><div class="preview-icon">⌘</div></div>
+  <div class="card-content">
+    <div class="card-top">
+      <span class="badge">PERSONAL WEBSITE</span>
+      <span>01</span>
+    </div>
+    <h2>ScottCode.fun</h2>
+    <p>
+      My personal corner of the internet for sharing projects,
+      exploring ideas, and learning through building.
+    </p>
+    <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+    <a class="project-link" href="/">Visit website <span>↗</span></a>
+  </div>
+</article>
+
+<article class="card" data-category="experiment">
+  <div class="preview"><div class="preview-icon">✧</div></div>
+  <div class="card-content">
+    <div class="card-top">
+      <span class="badge">EXPERIMENT</span>
+      <span>02</span>
+    </div>
+    <h2>Creative Lab</h2>
+    <p>
+      A space for testing visual ideas, learning new techniques,
+      and experimenting with interactive web experiences.
+    </p>
+    <div class="tags"><span class="tag">Creative coding</span><span class="tag">Design</span></div>
+    <span class="project-link">More experiments coming <span>✦</span></span>
+  </div>
+</article>
+
+<article class="card" data-category="web">
+  <div class="preview"><div class="preview-icon">◈</div></div>
+  <div class="card-content">
+    <div class="card-top">
+      <span class="badge">WEB DEVELOPMENT</span>
+      <span>03</span>
+    </div>
+    <h2>Future Builds</h2>
+    <p>
+      New web projects and useful tools will appear here as
+      they're developed and ready to share.
+    </p>
+    <div class="tags"><span class="tag">Web</span><span class="tag">Learning</span></div>
+    <a class="project-link" href="/contact">Suggest an idea <span>↗</span></a>
+  </div>
+</article>
+
+<article class="card" data-category="experiment">
+  <div class="preview"><div class="preview-icon">∞</div></div>
+  <div class="card-content">
+    <div class="card-top">
+      <span class="badge">IN PROGRESS</span>
+      <span>04</span>
+    </div>
+    <h2>Next Big Idea</h2>
+    <p>
+      The next project hasn't been decided yet. That's the fun
+      part: there's always something new to try.
+    </p>
+    <div class="tags"><span class="tag">Ideas</span><span class="tag">Coming soon</span></div>
+    <a class="project-link" href="/about">What inspires me <span>↗</span></a>
+  </div>
+</article>
+
+  </section>  <section class="cta">
+    <div class="eyebrow">GOT AN IDEA?</div>
+    <h2>Let's make something <span class="gradient">interesting.</span></h2>
+    <p>Have a suggestion, collaboration idea, or question?</p>
+    <a class="btn" href="/contact">Get in touch ↗</a>
+  </section>
+</main><footer>
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> ScottCode.</span>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a>
+    </div>
+  </div>
+</footer><script>
+const themeButton = document.getElementById("theme");
+
+function applyTheme(value) {
+  document.body.classList.toggle("light", value === "light");
+  themeButton.textContent = value === "light" ? "☾" : "☀";
+  try { localStorage.setItem("scottcode-theme", value); } catch(e) {}
+}
+
+let initialTheme = "dark";
+try {
+  initialTheme = localStorage.getItem("scottcode-theme") || "dark";
+} catch(e) {}
+applyTheme(initialTheme);
+
+themeButton.addEventListener("click", () => {
+  applyTheme(document.body.classList.contains("light") ? "dark" : "light");
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+
+    const category = button.dataset.filter;
+    document.querySelectorAll(".card").forEach(card => {
+      card.classList.toggle("hidden", category !== "all" && card.dataset.category !== category);
+    });
+  });
+});
+</script>
+<script src="/index.js"></script></body>
+</html>
