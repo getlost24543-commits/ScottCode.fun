@@ -1,1 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="ScottCode — software, projects, games, and digital experiments by Scott.">
+<title>ScottCode — Digital Playground</title>
 
+<style>
+:root{
+  --bg:#06111f;
+  --panel:rgba(17,36,59,.72);
+  --panel2:rgba(22,46,73,.68);
+  --border:rgba(158,205,255,.15);
+  --text:#eef7ff;
+  --muted:#9eb4cc;
+  --blue:#78c8ff;
+  --cyan:#65f0ed;
+  --purple:#a9a5ff;
+  --danger:#ff7c91;
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:var(--bg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  overflow-x:hidden;
+}
+body:before,body:after{
+  content:"";
+  position:fixed;
+  width:400px;height:400px;
+  border-radius:50%;
+  filter:blur(110px);
+  opacity:.16;
+  pointer-events:none;
+  z-index:-2;
+  animation:float 13s ease-in-out infinite alternate;
+}
+body:before{background:#168bff;top:-150px;left:-140px}
+body:after{background:#4e5bff;right:-170px;bottom:-170px;animation-delay:-5s}
+@keyframes float{
+  from{transform:translate(0,0)}
+  to{transform:translate(80px,60px)}
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:3px
+}
+::selection{background:#77caff55}
+.background-grid{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.12;
+  background-image:linear-gradient(#b4d9ff14 1px,transparent 1px),
+  linear-gradient(90deg,#b4d9ff14 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(5,15,29,.84);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--border);
+}
+.nav-wrap{
+  width:min(1180px,92%);
+  margin:auto;
+  min-height:76px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.brand{
+  display:flex;align-items:center;gap:11px;
+  font-size:19px;font-weight:850;letter-spacing:-.5px;
+  white-space:nowrap;
+}
+.brand-icon{
+  width:39px;height:39px;display:grid;place-items:center;
+  color:#06111f;background:linear-gradient(135deg,var(--blue),var(--cyan));
+  border-radius:13px;font-weight:1000;box-shadow:0 0 30px #5acbff20;
+}
+.nav-links{display:flex;align-items:center;gap:5px}
+.nav-btn{
+  color:var(--muted);border:0;background:transparent;
+  padding:11px 13px;border-radius:12px;font-weight:650;
+  transition:.2s;
+}
+.nav-btn:hover,.nav-btn.active{color:white;background:#a3d7ff12}
+.nav-btn.active{box-shadow:inset 0 -2px var(--blue)}
+.menu-toggle{
+  display:none;border:1px solid var(--border);background:var(--panel);
+  color:white;border-radius:12px;width:44px;height:44px;font-size:22px;
+}
+.container{width:min(1120px,92%);margin:auto}
+.view{display:none;min-height:72vh;padding:48px 0 75px}
+.view.active{display:block;animation:appear .25s ease}
+@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.hero{
+  min-height:500px;display:grid;grid-template-columns:1.15fr .85fr;
+  align-items:center;gap:45px;padding:40px 0;
+}
+.eyebrow{
+  color:var(--cyan);font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:850;
+}
+h1{font-size:clamp(42px,7vw,76px);line-height:1.02;letter-spacing:-3px;margin:18px 0}
+h2{font-size:clamp(29px,4vw,43px);letter-spacing:-1.5px;margin:0 0 13px}
+h3{margin:0 0 10px}
+.gradient-text{
+  background:linear-gradient(100deg,#fff,var(--blue),var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lead{color:var(--muted);font-size:17px;line-height:1.8;max-width:650px}
+.muted{color:var(--muted)}
+.small{font-size:13px;line-height:1.7}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
+.btn{
+  border:1px solid var(--border);border-radius:13px;
+  padding:12px 17px;background:var(--panel2);color:var(--text);
+  font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .2s,border-color .2s,background .2s;
+}
+.btn:hover{transform:translateY(-2px);border-color:#78c8ff80}
+.btn.primary{background:linear-gradient(120deg,#83d2ff,#65e8e3);color:#061421;border:0}
+.btn.danger{border-color:#ff7c9144;color:#ff9bad}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.hero-art{
+  position:relative;min-height:340px;display:grid;place-items:center;
+}
+.orb{
+  width:min(300px,70vw);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 32% 25%,#d4f4ff,#74c8ff 25%,#355cc7 60%,#111c45 78%);
+  box-shadow:0 0 70px #53caff35,inset -20px -25px 50px #08142e88;
+  animation:orbfloat 5s ease-in-out infinite;
+  position:relative;
+}
+.orb:after{
+  content:"</>";position:absolute;inset:0;display:grid;place-items:center;
+  font-size:74px;font-weight:1000;color:#07182c;
+  text-shadow:0 2px 0 #fff8;
+}
+.orbit{
+  position:absolute;width:340px;height:115px;border:1px solid #8ad7ff7a;
+  border-radius:50%;transform:rotate(-28deg);
+}
+.orbit.two{transform:rotate(58deg);width:370px;height:135px;border-color:#85f4ec5c}
+@keyframes orbfloat{50%{transform:translateY(-12px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:30px}
+.stat,.card,.panel{
+  background:linear-gradient(145deg,var(--panel),rgba(9,23,41,.76));
+  border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:0 15px 50px #00000012;
+}
+.stat{padding:18px}
+.stat strong{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--muted)}
+.section-head{margin-bottom:26px}
+.section-head p{color:var(--muted);line-height:1.8;max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.card{padding:23px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:#8fd6ff50}
+.card p{color:var(--muted);line-height:1.75;font-size:14px}
+.card-icon{
+  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+  font-size:23px;background:#7dcfff16;border:1px solid var(--border);margin-bottom:17px;
+}
+.tag{
+  display:inline-flex;padding:5px 9px;border-radius:8px;
+  color:#aee1ff;background:#7dcfff12;border:1px solid #7dcfff20;
+  font-size:11px;font-weight:750;margin:3px 3px 3px 0;
+}
+.panel{padding:25px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:750;color:#d5e8fa}
+.field input,.field textarea{
+  width:100%;padding:13px 14px;color:white;
+  background:#071526;border:1px solid var(--border);
+  border-radius:12px;outline:none;
+}
+.field input:focus,.field textarea:focus{border-color:var(--blue)}
+.field textarea{min-height:150px;resize:vertical}
+.notice{padding:13px 15px;border-radius:12px;margin:15px 0;font-size:13px;line-height:1.6}
+.notice.info{background:#69c9ff12;border:1px solid #69c9ff35;color:#bce7ff}
+.notice.success{background:#64f1c512;border:1px solid #64f1c535;color:#a8f9dc}
+.notice.error{background:#ff7c9112;border:1px solid #ff7c9135;color:#ffb4c0}
+.auth-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tab{
+  flex:1;padding:12px;border-radius:11px;background:transparent;
+  color:var(--muted);border:1px solid var(--border);font-weight:750;
+}
+.tab.active{background:#72caff1c;color:white;border-color:#72caff70}
+.game-layout{display:grid;grid-template-columns:1fr .75fr;gap:18px}
+.game-stage{min-width:0}
+.game-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.game-canvas{
+  display:block;width:100%;max-width:440px;margin:0 auto;
+  background:#06101d;border:1px solid var(--border);border-radius:16px;
+  image-rendering:pixelated;
+}
+.game-controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.game-select{
+  background:#071526;color:white;border:1px solid var(--border);
+  padding:10px;border-radius:10px;
+}
+.game-note{font-size:12px;color:var(--muted);line-height:1.7}
+.ttt-board{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:15px auto}
+.ttt-cell{
+  aspect-ratio:1;border:1px solid var(--border);border-radius:14px;
+  background:#0a1a2d;color:white;font-size:38px;font-weight:850;
+}
+.ttt-cell:hover{background:#16304a}
+.memory-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:380px;margin:15px auto}
+.memory-cell{
+  aspect-ratio:1;border:1px solid var(--border);border-radius:12px;
+  background:#112943;color:white;font-size:clamp(18px,4vw,28px);
+}
+.memory-cell.open{background:#21466b;border-color:#83d3ff}
+.memory-cell.matched{background:#12483f;border-color:#5fe7bf}
+.score-line{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.score-chip{background:#061526;border:1px solid var(--border);padding:9px 12px;border-radius:11px;font-size:13px}
+hr{border:0;border-top:1px solid var(--border);margin:22px 0}
+footer{border-top:1px solid var(--border);padding:25px 0;color:var(--muted);font-size:13px}
+.footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hidden{display:none!important}
+#toast{
+  position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);
+  opacity:0;pointer-events:none;z-index:200;
+  background:#122a43;border:1px solid var(--border);border-radius:13px;
+  padding:13px 18px;box-shadow:0 15px 40px #0007;
+  transition:.25s;max-width:90%;font-size:14px;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#69eac0;margin-right:7px}
+@media(max-width:850px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{grid-template-columns:1fr;gap:5px;padding-top:30px}
+  .hero-art{min-height:280px;grid-row:1}
+  .orb{width:210px}
+  .orbit{width:260px;height:90px}
+  .orbit.two{width:280px;height:105px}
+  .auth-layout,.game-layout{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .nav-wrap{min-height:68px}
+  .menu-toggle{display:block}
+  .nav-links{
+    display:none;position:absolute;top:68px;left:4%;right:4%;
+    padding:10px;background:rgba(7,20,37,.98);backdrop-filter:blur(20px);
+    border:1px solid var(--border);border-radius:17px;
+    box-shadow:0 20px 45px #0008;flex-direction:column;align-items:stretch;
+  }
+  .nav-links.open{display:flex}
+  .nav-btn{text-align:left;padding:13px}
+  .view{padding:35px 0 55px}
+  .hero{min-height:0}
+  h1{letter-spacing:-2px}
+  .grid{grid-template-columns:1fr}
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .stat strong{font-size:18px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .panel{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+<div class="background-grid"></div>
+
+<header class="topbar">
+  <div class="nav-wrap">
+    <a href="#" class="brand" data-view="home" aria-label="ScottCode home">
+      <span class="brand-icon">&lt;/&gt;</span>
+      <span>ScottCode<span style="color:var(--blue)">.fun</span></span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="home">Home</button>
+      <button class="nav-btn" data-view="about">About</button>
+      <button class="nav-btn" data-view="projects">Projects</button>
+      <button class="nav-btn" data-view="arcade">Arcade</button>
+      <button class="nav-btn" data-view="account">Account</button>
+      <button class="nav-btn" data-view="contact">Contact</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- HOME -->
+  <section class="view active" id="home">
+    <div class="hero">
+      <div>
+        <div class="eyebrow"><span class="status-dot"></span>Independent developer · Digital creator</div>
+        <h1>Ideas into<br><span class="gradient-text">digital reality.</span></h1>
+        <p class="lead">
+          Hey, I'm Scott. Welcome to my corner of the internet —
+          a place for coding experiments, personal projects, and browser games.
+        </p>
+        <div class="actions">
+          <button class="btn primary" data-view="projects">Explore my projects ↗</button>
+          <button class="btn" data-view="arcade">🎮 Play games</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>01</strong><span>Creator</span></div>
+          <div class="stat"><strong>∞</strong><span>Ideas to build</span></div>
+          <div class="stat"><strong>24/7</strong><span>On the web</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+        <div class="orb"></div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <div class="eyebrow">Explore</div>
+      <h2>One site. Many possibilities.</h2>
+      <p>Discover the projects, meet the creator, or take a break with a quick game.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">⌘</div>
+        <h3>Projects</h3>
+        <p>Explore the things I'm building and experimenting with on the web.</p>
+        <button class="btn" data-view="projects">View projects →</button>
+      </article>
+      <article class="card">
+        <div class="card-icon">🎮</div>
+        <h3>Browser Arcade</h3>
+        <p>Play quick games right here. No installation required.</p>
+        <button class="btn" data-view="arcade">Enter arcade →</button>
+      </article>
+      <article class="card">
+        <div class="card-icon">✉</div>
+        <h3>Get in touch</h3>
+        <p>Have an idea or want to send a message? The contact form is ready.</p>
+        <button class="btn" data-view="contact">Contact Scott →</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="view" id="about">
+    <div class="section-head">
+      <div class="eyebrow">A little introduction</div>
+      <h2>About <span class="gradient-text">Scott.</span></h2>
+      <p class="lead">Curious mind. Digital builder. Always learning something new.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">💻</div>
+        <h3>Development</h3>
+        <p>I enjoy exploring websites, HTML, CSS, JavaScript, and the systems that make digital products work.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">🧪</div>
+        <h3>Experimentation</h3>
+        <p>This website is a playground for trying ideas, learning through building, and improving projects over time.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">🚀</div>
+        <h3>What's next?</h3>
+        <p>More projects, better experiences, and new things to learn. This is a work in progress.</p>
+      </article>
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <h3>My current toolkit</h3>
+      <div>
+        <span class="tag">HTML</span><span class="tag">CSS</span>
+        <span class="tag">JavaScript</span><span class="tag">GitHub Pages</span>
+        <span class="tag">Cloudflare Workers</span><span class="tag">Web APIs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="view" id="projects">
+    <div class="section-head">
+      <div class="eyebrow">Things I've been working on</div>
+      <h2>My <span class="gradient-text">projects.</span></h2>
+      <p>Small experiments and digital ideas. Replace the example cards with your real projects as they grow.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">🌐</div>
+        <h3>ScottCode.fun</h3>
+        <p>A personal website with projects, a contact form, and a built-in arcade.</p>
+        <span class="tag">Personal website</span><span class="tag">HTML/CSS/JS</span>
+        <div class="actions"><button class="btn" data-view="home">Explore site ↗</button></div>
+      </article>
+      <article class="card">
+        <div class="card-icon">🎮</div>
+        <h3>Browser Arcade</h3>
+        <p>A collection of lightweight games that run directly in a modern browser.</p>
+        <span class="tag">JavaScript</span><span class="tag">Games</span>
+        <div class="actions"><button class="btn" data-view="arcade">Play games ↗</button></div>
+      </article>
+      <article class="card">
+        <div class="card-icon">☁️</div>
+        <h3>Cloud experiments</h3>
+        <p>Exploring how frontend projects can communicate with serverless APIs.</p>
+        <span class="tag">Cloudflare Workers</span><span class="tag">API</span>
+        <div class="actions"><button class="btn" data-view="account">Account demo ↗</button></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ARCADE -->
+  <section class="view" id="arcade">
+    <div class="section-head">
+      <div class="eyebrow">ScottCode entertainment</div>
+      <h2>Welcome to the <span class="gradient-text">arcade.</span></h2>
+      <p>Choose a game below. These games run in this page without opening another URL.</p>
+    </div>
+
+    <div class="panel">
+      <div class="game-top">
+        <div>
+          <h3>Choose your game</h3>
+          <p class="muted small">Each game tracks your score in this browser. Online saving requires a compatible backend API.</p>
+        </div>
+        <select id="gameSelect" class="game-select" aria-label="Choose game">
+          <option value="snake">🐍 Snake</option>
+          <option value="ttt">⭕ Tic-Tac-Toe</option>
+          <option value="memory">🧠 Memory Match</option>
+          <option value="reaction">⚡ Reaction Rush</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="game-layout" style="margin-top:18px">
+      <div class="panel game-stage">
+        <!-- SNAKE -->
+        <div class="game-screen" id="game-snake">
+          <div class="game-top">
+            <div><h3>🐍 Snake</h3><p class="muted small">Eat the food. Don't hit the wall or yourself.</p></div>
+            <div class="score-chip">Score: <strong id="snakeScore">0</strong></div>
+          </div>
+          <canvas id="snakeCanvas" class="game-canvas" width="400" height="400" aria-label="Snake game"></canvas>
+          <div class="game-controls">
+            <button class="btn primary" id="snakeStart">▶ Start / Restart</button>
+            <button class="btn" id="snakePause">Ⅱ Pause</button>
+          </div>
+          <div class="game-controls" style="justify-content:center">
+            <button class="btn" data-dir="up" aria-label="Up">▲</button>
+          </div>
+          <div class="game-controls" style="justify-content:center">
+            <button class="btn" data-dir="left" aria-label="Left">◀</button>
+            <button class="btn" data-dir="down" aria-label="Down">▼</button>
+            <button class="btn" data-dir="right" aria-label="Right">▶</button>
+          </div>
+          <p class="game-note">Controls: arrow keys, WASD, or the buttons. Swipe on the game board to change direction.</p>
+          <p id="snakeMessage" class="muted small" aria-live="polite">Press Start to play.</p>
+        </div>
+
+        <!-- TIC TAC TOE -->
+        <div class="game-screen hidden" id="game-ttt">
+          <div class="game-top">
+            <div><h3>⭕ Tic-Tac-Toe</h3><p class="muted small">Play against the computer.</p></div>
+          </div>
+          <div class="score-line">
+            <div class="score-chip">You: <strong id="tttWins">0</strong></div>
+            <div class="score-chip">Computer: <strong id="tttLosses">0</strong></div>
+            <div class="score-chip">Draws: <strong id="tttDraws">0</strong></div>
+          </div>
+          <div class="ttt-board" id="tttBoard"></div>
+          <p id="tttMessage" class="muted small" aria-live="polite">Your turn. You are X.</p>
+          <div class="game-controls"><button class="btn primary" id="tttRestart">↻ New round</button></div>
+        </div>
+
+        <!-- MEMORY -->
+        <div class="game-screen hidden" id="game-memory">
+          <div class="game-top">
+            <div><h3>🧠 Memory Match</h3><p class="muted small">Find all the matching pairs.</p></div>
+          </div>
+          <div class="score-line">
+            <div class="score-chip">Moves: <strong id="memoryMoves">0</strong></div>
+            <div class="score-chip">Pairs: <strong id="memoryPairs">0</strong>/8</div>
+          </div>
+          <div class="memory-board" id="memoryBoard"></div>
+          <p id="memoryMessage" class="muted small" aria-live="polite">Tap a card to reveal it.</p>
+          <div class="game-controls"><button class="btn primary" id="memoryRestart">↻ Shuffle cards</button></div>
+        </div>
+
+        <!-- REACTION -->
+        <div class="game-screen hidden" id="game-reaction">
+          <div class="game-top">
+            <div><h3>⚡ Reaction Rush</h3><p class="muted small">Wait for green, then tap as fast as you can.</p></div>
+            <div class="score-chip">Best: <strong id="reactionBest">—</strong></div>
+          </div>
+          <button id="reactionArea" style="width:100%;min-height:240px;border-radius:17px;border:1px solid var(--border);background:#17253a;color:white;font-size:22px;font-weight:850;padding:25px">
+            Tap here to start
+          </button>
+          <p id="reactionMessage" class="muted small" aria-live="polite">Don't tap before the screen turns green.</p>
+          <div class="score-line"><div class="score-chip">Last reaction: <strong id="reactionLast">—</strong></div></div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="eyebrow">Your game profile</div>
+        <h3 style="margin-top:12px">Player stats</h3>
+        <p class="muted small">These local stats are saved in this browser. They do not automatically transfer to another device.</p>
+        <hr>
+        <div class="score-line"><div class="score-chip">Player: <strong id="arcadePlayer">Guest</strong></div></div>
+        <div class="score-line"><div class="score-chip">Snake best: <strong id="snakeBest">0</strong></div></div>
+        <div class="score-line"><div class="score-chip">Memory best: <strong id="memoryBest">—</strong></div></div>
+        <div class="score-line"><div class="score-chip">Reaction best: <strong id="reactionSideBest">—</strong></div></div>
+        <hr>
+        <h3>Online leaderboard</h3>
+        <p class="muted small">Shown only if your Cloudflare Worker has a compatible leaderboard endpoint.</p>
+        <button class="btn" id="loadLeaderboard">↻ Load leaderboard</button>
+        <div id="leaderboard" class="small muted" style="margin-top:15px">Leaderboard hasn't been loaded.</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ACCOUNT -->
+  <section class="view" id="account">
+    <div class="section-head">
+      <div class="eyebrow">Player identity</div>
+      <h2>Your <span class="gradient-text">account.</span></h2>
+      <p>Register or log in to connect with the backend. For real multi-device accounts, the Worker must implement matching authentication endpoints.</p>
+    </div>
+
+    <div class="auth-layout">
+      <div class="panel">
+        <div class="card-icon">🔐</div>
+        <h3>Account & privacy</h3>
+        <p class="muted small">This page sends your login details only to the Worker URL configured in this HTML. Do not enter a password you use for another service.</p>
+        <div class="notice info">A username stored in this browser is not a real online account. Online authentication works only when the server supports it.</div>
+        <div id="accountStatus" class="notice info">You are browsing as a guest.</div>
+        <button id="logoutBtn" class="btn danger hidden">Log out</button>
+      </div>
+
+      <div class="panel">
+        <div class="tabs">
+          <button class="tab active" id="loginTab">Log in</button>
+          <button class="tab" id="registerTab">Create account</button>
+        </div>
+
+        <form id="authForm">
+          <div class="field">
+            <label for="authUsername">Username</label>
+            <input id="authUsername" name="username" minlength="3" maxlength="32" autocomplete="username" required placeholder="Choose a username">
+          </div>
+          <div class="field" style="margin-top:15px">
+            <label for="authPassword">Password</label>
+            <input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required placeholder="At least 8 characters">
+          </div>
+          <div id="confirmWrap" class="field hidden" style="margin-top:15px">
+            <label for="authConfirm">Confirm password</label>
+            <input id="authConfirm" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Enter password again">
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="authSubmit" type="submit">Log in</button>
+          </div>
+          <div id="authMessage" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view" id="contact">
+    <div class="section-head">
+      <div class="eyebrow">Let's talk</div>
+      <h2>Send me a <span class="gradient-text">message.</span></h2>
+      <p>Questions, ideas, or feedback? Fill in the form below. Messages are submitted through Formspree.</p>
+    </div>
+
+    <div class="auth-layout">
+      <div class="panel">
+        <div class="card-icon">✉️</div>
+        <h3>Contact Scott</h3>
+        <p class="muted">Use the form to send a message directly.</p>
+        <hr>
+        <p class="small muted">Website: scottcode.fun</p>
+        <p class="small muted">Messages are handled by Formspree. Its service and spam filters may affect delivery.</p>
+      </div>
+
+      <div class="panel">
+        <form id="contactForm" action="https://formspree.io/f/xgaogqjo" method="POST">
+          <div class="form-grid">
+            <div class="field">
+              <label for="contactName">Your name</label>
+              <input id="contactName" name="name" required maxlength="100" autocomplete="name" placeholder="Name">
+            </div>
+            <div class="field">
+              <label for="contactEmail">Your email</label>
+              <input id="contactEmail" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="field full">
+              <label for="contactSubject">Subject</label>
+              <input id="contactSubject" name="subject" required maxlength="160" placeholder="What is this about?">
+            </div>
+            <div class="field full">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" name="message" required maxlength="10000" placeholder="Write your message here..."></textarea>
+            </div>
+          </div>
+          <input type="hidden" name="_subject" value="New message from ScottCode.fun">
+          <div class="actions">
+            <button class="btn primary" id="contactSubmit" type="submit">Send message ↗</button>
+          </div>
+          <div id="contactStatus" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© <span id="year"></span> ScottCode.fun · Built with curiosity.</span>
+    <span>Designed for the web <span style="color:var(--blue)">✦</span></span>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   SCOTTCODE CONFIGURATION
+   ========================================================= */
+
+const CONFIG = {
+  // Your Cloudflare Worker
+  API_BASE: "https://scottcode-api.getlost24543.workers.dev",
+
+  // Your Formspree form
+  FORMSPREE_URL: "https://formspree.io/f/xgaogqjo",
+
+  // These are candidate paths, NOT confirmed routes.
+  // Update them to match your actual Worker implementation.
+  LOGIN_PATHS: ["/api/auth/login", "/auth/login", "/login"],
+  REGISTER_PATHS: ["/api/auth/register", "/auth/register", "/register"],
+  LEADERBOARD_PATHS: ["/api/leaderboard", "/leaderboard"],
+  SCORE_PATHS: ["/api/scores", "/scores"]
+};
+
+/* =========================================================
+   HELPERS & NAVIGATION
+   ========================================================= */
+
+const $ = id => document.getElementById(id);
+const toast = $("toast");
+let toastTimer;
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+function setNotice(element, message, type = "info") {
+  element.className = "notice " + type;
+  element.textContent = message;
+}
+
+function showView(name) {
+  const target = $(name);
+  if (!target || !target.classList.contains("view")) name = "home";
+
+  document.querySelectorAll(".view").forEach(el => {
+    el.classList.toggle("active", el.id === name);
+  });
+
+  document.querySelectorAll("[data-view]").forEach(el => {
+    if (el.classList.contains("nav-btn")) {
+      el.classList.toggle("active", el.dataset.view === name);
+    }
+  });
+
+  $("navLinks").classList.remove("open");
+  $("menuToggle").setAttribute("aria-expanded", "false");
+  $("menuToggle").textContent = "☰";
+
+  // Stop the current game loop when leaving the arcade.
+  if (name !== "arcade") stopSnakeLoop();
+
+  if (name === "arcade") updatePlayerStats();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll("[data-view]").forEach(el => {
+  el.addEventListener("click", event => {
+    event.preventDefault();
+    showView(el.dataset.view);
+  });
+});
+
+$("menuToggle").addEventListener("click", () => {
+  const opened = $("navLinks").classList.toggle("open");
+  $("menuToggle").setAttribute("aria-expanded", String(opened));
+  $("menuToggle").textContent = opened ? "✕" : "☰";
+});
+
+$("year").textContent = new Date().getFullYear();
+
+/* =========================================================
+   API HELPER
+   ========================================================= */
+
+async function apiRequest(path, options = {}) {
+  const url = CONFIG.API_BASE.replace(/\/+$/, "") + path;
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  const token = localStorage.getItem("scottcode_token");
+  if (token) headers.Authorization = "Bearer " + token;
+
+  const response = await fetch(url, {
+    ...options,
+    headers
+  });
+
+  const raw = await response.text();
+  let data;
+
+  try { data = raw ? JSON.parse(raw) : {}; }
+  catch { data = { message: raw }; }
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || data.error || `Server returned HTTP ${response.status}`
+    );
+  }
+
+  return data;
+}
+
+async function tryPaths(paths, options) {
+  let lastError;
+
+  for (const path of paths) {
+    try {
+      return await apiRequest(path, options);
+    } catch (error) {
+      lastError = error;
+
+      // Try another candidate only when the route is likely missing.
+      // Do not retry on a bad password or other ordinary 4xx response.
+      const message = String(error.message || "");
+      if (/401|403|invalid password|incorrect password|unauthorized/i.test(message)) {
+        throw error;
+      }
+      if (/404|not found|failed to fetch|networkerror|load failed/i.test(message)) {
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw lastError || new Error("No compatible API endpoint was found.");
+}
+
+/* =========================================================
+   ACCOUNT / AUTHENTICATION
+   ========================================================= */
+
+let authMode = "login";
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const registering = mode === "register";
+
+  $("loginTab").classList.toggle("active", !registering);
+  $("registerTab").classList.toggle("active", registering);
+  $("confirmWrap").classList.toggle("hidden", !registering);
+  $("authConfirm").required = registering;
+  $("authPassword").autocomplete = registering ? "new-password" : "current-password";
+  $("authSubmit").textContent = registering ? "Create account" : "Log in";
+  $("authMessage").textContent = "";
+}
+
+$("loginTab").addEventListener("click", () => setAuthMode("login"));
+$("registerTab").addEventListener("click", () => setAuthMode("register"));
+
+function updateAccountUI() {
+  const username = localStorage.getItem("scottcode_username");
+  const status = $("accountStatus");
+
+  if (username) {
+    setNotice(status, "Signed in as " + username + ".", "success");
+    $("logoutBtn").classList.remove("hidden");
+  } else {
+    setNotice(status, "You are browsing as a guest.", "info");
+    $("logoutBtn").classList.add("hidden");
+  }
+
+  $("arcadePlayer").textContent = username || "Guest";
+  updatePlayerStats();
+}
+
+$("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const username = $("authUsername").value.trim();
+  const password = $("authPassword").value;
+  const message = $("authMessage");
+
+  if (username.length < 3) {
+    setNotice(message, "Your username must be at least 3 characters.", "error");
+    return;
+  }
+
+  if (password.length < 8) {
+    setNotice(message, "Your password must be at least 8 characters.", "error");
+    return;
+  }
+
+  if (authMode === "register" && password !== $("authConfirm").value) {
+    setNotice(message, "The passwords do not match.", "error");
+    return;
+  }
+
+  const button = $("authSubmit");
+  button.disabled = true;
+  button.textContent = "Please wait…";
+
+  try {
+    const paths = authMode === "register"
+      ? CONFIG.REGISTER_PATHS
+      : CONFIG.LOGIN_PATHS;
+
+    const result = await tryPaths(paths, {
+      method: "POST",
+      body: JSON.stringify({ username, password })
+    });
+
+    // Common response shapes supported:
+    // {token:"...", username:"..."}
+    // {access_token:"...", user:{username:"..."}}
+    const token = result.token || result.access_token ||
+      result.accessToken || result.session?.token;
+
+    const returnedUser = result.user?.username ||
+      result.username || username;
+
+    if (!token) {
+      throw new Error(
+        "The server responded, but no login token was returned. Check your Worker API response format."
+      );
+    }
+
+    localStorage.setItem("scottcode_token", token);
+    localStorage.setItem("scottcode_username", returnedUser);
+
+    setNotice(message, "Success! You are signed in as " + returnedUser + ".", "success");
+    updateAccountUI();
+    showToast("Welcome, " + returnedUser + "!");
+  } catch (error) {
+    setNotice(
+      message,
+      "Account request failed: " + error.message +
+      " Check the Worker routes and CORS settings.",
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = authMode === "register" ? "Create account" : "Log in";
+  }
+});
+
+$("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("scottcode_token");
+  localStorage.removeItem("scottcode_username");
+  updateAccountUI();
+  showToast("Logged out.");
+});
+
+updateAccountUI();
+
+/* =========================================================
+   GAME STATS
+   ========================================================= */
+
+function getNumber(key, fallback = 0) {
+  const value = Number(localStorage.getItem(key));
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function saveBest(key, score, lowerIsBetter = false) {
+  const current = localStorage.getItem(key);
+  const old = current === null ? null : Number(current);
+
+  if (old === null ||
+      (lowerIsBetter ? score < old : score > old)) {
+    localStorage.setItem(key, String(score));
+    return true;
+  }
+
+  return false;
+}
+
+function updatePlayerStats() {
+  $("arcadePlayer").textContent =
+    localStorage.getItem("scottcode_username") || "Guest";
+
+  $("snakeBest").textContent = localStorage.getItem("scottcode_snake_best") || "0";
+  $("memoryBest").textContent = localStorage.getItem("scottcode_memory_best") || "—";
+  $("reactionSideBest").textContent = localStorage.getItem("scottcode_reaction_best") || "—";
+  $("reactionBest").textContent = localStorage.getItem("scottcode_reaction_best") || "—";
+
+  $("tttWins").textContent = getNumber("scottcode_ttt_wins");
+  $("tttLosses").textContent = getNumber("scottcode_ttt_losses");
+  $("tttDraws").textContent = getNumber("scottcode_ttt_draws");
+}
+
+/*
+ * The score endpoint is optional. The game itself still works without it.
+ * Your Worker must authenticate the token and validate submitted scores.
+ */
+async function submitScore(game, score) {
+  const token = localStorage.getItem("scottcode_token");
+  if (!token) return;
+
+  try {
+    await tryPaths(CONFIG.SCORE_PATHS, {
+      method: "POST",
+      body: JSON.stringify({ game, score })
+    });
+  } catch (error) {
+    console.warn("Online score was not saved:", error.message);
+  }
+}
+
+$("loadLeaderboard").addEventListener("click", async () => {
+  const board = $("leaderboard");
+  board.textContent = "Loading…";
+
+  try {
+    const result = await tryPaths(CONFIG.LEADERBOARD_PATHS, { method: "GET" });
+    const rows = Array.isArray(result) ? result :
+      (result.leaderboard || result.scores || result.data || []);
+
+    if (!Array.isArray(rows) || !rows.length) {
+      board.textContent = "The server returned no leaderboard entries.";
+      return;
+    }
+
+    board.replaceChildren();
+
+    rows.slice(0, 10).forEach((row, index) => {
+      const line = document.createElement("div");
+      line.style.padding = "9px 0";
+      line.style.borderBottom = "1px solid var(--border)";
+
+      const name = row.username || row.name || "Player";
+      const game = row.game || "Game";
+      const score = row.score ?? 0;
+
+      line.textContent = `${index + 1}. ${name} — ${game}: ${score}`;
+      board.appendChild(line);
+    });
+  } catch (error) {
+    board.textContent =
+      "Leaderboard unavailable. Your Worker may not have a compatible leaderboard endpoint yet.";
+  }
+});
+
+/* =========================================================
+   GAME SELECTOR
+   ========================================================= */
+
+const gameSelect = $("gameSelect");
+
+function showGame(name) {
+  document.querySelectorAll(".game-screen").forEach(el => {
+    el.classList.toggle("hidden", el.id !== "game-" + name);
+  });
+
+  if (name !== "snake") stopSnakeLoop();
+
+  if (name === "snake") drawSnake();
+  if (name === "ttt" && !tttBoardReady) initTicTacToe();
+  if (name === "memory" && !memoryReady) initMemory();
+  if (name === "reaction") updatePlayerStats();
+}
+
+gameSelect.addEventListener("change", () => showGame(gameSelect.value));
+
+/* =========================================================
+   SNAKE
+   ========================================================= */
+
+const snakeCanvas = $("snakeCanvas");
+const snakeCtx = snakeCanvas.getContext("2d");
+const CELL = 20;
+const GRID = snakeCanvas.width / CELL;
+
+let snake = [];
+let food = { x: 10, y: 10 };
+let snakeDir = { x: 1, y: 0 };
+let nextSnakeDir = { x: 1, y: 0 };
+let snakeScore = 0;
+let snakeTimer = null;
+let snakeRunning = false;
+let snakeOver = false;
+
+function placeFood() {
+  let attempts = 0;
+
+  do {
+    food = {
+      x: Math.floor(Math.random() * GRID),
+      y: Math.floor(Math.random() * GRID)
+    };
+    attempts++;
+  } while (snake.some(part => part.x === food.x && part.y === food.y) && attempts < 1000);
+}
+
+function resetSnake() {
+  stopSnakeLoop();
+  snake = [
+    { x: 9, y: 10 },
+    { x: 8, y: 10 },
+    { x: 7, y: 10 }
+  ];
+  snakeDir = { x: 1, y: 0 };
+  nextSnakeDir = { x: 1, y: 0 };
+  snakeScore = 0;
+  snakeOver = false;
+  $("snakeScore").textContent = "0";
+  $("snakeMessage").textContent = "Use the arrow keys or buttons to move.";
+  placeFood();
+  drawSnake();
+}
+
+function drawSnake() {
+  snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+  snakeCtx.fillStyle = "#06101d";
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+  snakeCtx.strokeStyle = "#a9d9ff0a";
+  snakeCtx.lineWidth = 1;
+
+  for (let i = 0; i <= GRID; i++) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(i * CELL, 0);
+    snakeCtx.lineTo(i * CELL, snakeCanvas.height);
+    snakeCtx.stroke();
+
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0, i * CELL);
+    snakeCtx.lineTo(snakeCanvas.width, i * CELL);
+    snakeCtx.stroke();
+  }
+
+  snakeCtx.fillStyle = "#ff7892";
+  snakeCtx.beginPath();
+  snakeCtx.arc(food.x * CELL + CELL / 2, food.y * CELL + CELL / 2, CELL * .34, 0, Math.PI * 2);
+  snakeCtx.fill();
+
+  snake.forEach((part, index) => {
+    snakeCtx.fillStyle = index === 0 ? "#74f1df" : "#6dbbff";
+    snakeCtx.beginPath();
+    snakeCtx.roundRect(
+      part.x * CELL + 2, part.y * CELL + 2,
+      CELL - 4, CELL - 4, 5
+    );
+    snakeCtx.fill();
+  });
+
+  if (!snakeRunning && !snakeOver) {
+    snakeCtx.fillStyle = "#eef7ff";
+    snakeCtx.textAlign = "center";
+    snakeCtx.font = "bold 18px system-ui";
+    snakeCtx.fillText("PRESS START", snakeCanvas.width / 2, snakeCanvas.height - 22);
+  }
+
+  if (snakeOver) {
+    snakeCtx.fillStyle = "#06101dcc";
+    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    snakeCtx.fillStyle = "#ffffff";
+    snakeCtx.textAlign = "center";
+    snakeCtx.font = "bold 28px system-ui";
+    snakeCtx.fillText("GAME OVER", snakeCanvas.width / 2, snakeCanvas.height / 2 - 8);
+    snakeCtx.font = "15px system-ui";
+    snakeCtx.fillText("Press Start to try again", snakeCanvas.width / 2, snakeCanvas.height / 2 + 23);
+  }
+}
+
+function stopSnakeLoop() {
+  if (snakeTimer) clearInterval(snakeTimer);
+  snakeTimer = null;
+  snakeRunning = false;
+}
+
+function startSnake() {
+  resetSnake();
+  snakeRunning = true;
+  $("snakeMessage").textContent = "Game on!";
+  snakeTimer = setInterval(tickSnake, 115);
+  drawSnake();
+}
+
+function tickSnake() {
+  if (!snakeRunning) return;
+
+  snakeDir = nextSnakeDir;
+
+  const head = {
+    x: snake[0].x + snakeDir.x,
+    y: snake[0].y + snakeDir.y
+  };
+
+  const eating = head.x === food.x && head.y === food.y;
+  const bodyToCheck = eating ? snake : snake.slice(0, -1);
+
+  if (
+    head.x < 0 || head.y < 0 || head.x >= GRID || head.y >= GRID ||
+    bodyToCheck.some(part => part.x === head.x && part.y === head.y)
+  ) {
+    stopSnakeLoop();
+    snakeOver = true;
+    $("snakeMessage").textContent = "Game over! Final score: " + snakeScore;
+    const newBest = saveBest("scottcode_snake_best", snakeScore);
+    if (newBest) submitScore("snake", snakeScore);
+    updatePlayerStats();
+    drawSnake();
+    return;
+  }
+
+  snake.unshift(head);
+
+  if (eating) {
+    snakeScore += 10;
+    $("snakeScore").textContent = snakeScore;
+    placeFood();
+  } else {
+    snake.pop();
+  }
+
+  drawSnake();
+}
+
+function changeSnakeDirection(direction) {
+  const directions = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 }
+  };
+
+  const next = directions[direction];
+  if (!next) return;
+
+  // Prevent an immediate 180-degree reversal.
+  if (next.x === -snakeDir.x && next.y === -snakeDir.y) return;
+  nextSnakeDir = next;
+}
+
+$("snakeStart").addEventListener("click", startSnake);
+
+$("snakePause").addEventListener("click", () => {
+  if (snakeOver) return;
+
+  if (snakeRunning) {
+    stopSnakeLoop();
+    $("snakePause").textContent = "▶ Resume";
+    $("snakeMessage").textContent = "Paused.";
+    drawSnake();
+  } else {
+    snakeRunning = true;
+    snakeTimer = setInterval(tickSnake, 115);
+    $("snakePause").textContent = "Ⅱ Pause";
+    $("snakeMessage").textContent = "Game on!";
+  }
+});
+
+document.querySelectorAll("[data-dir]").forEach(button => {
+  button.addEventListener("click", () => changeSnakeDirection(button.dataset.dir));
+});
+
+document.addEventListener("keydown", event => {
+  if (!$("arcade").classList.contains("active")) return;
+
+  const key = event.key.toLowerCase();
+  const directions = {
+    arrowup: "up", w: "up",
+    arrowdown: "down", s: "down",
+    arrowleft: "left", a: "left",
+    arrowright: "right", d: "right"
+  };
+
+  if (directions[key] && gameSelect.value === "snake") {
+    event.preventDefault();
+    changeSnakeDirection(directions[key]);
+  }
+});
+
+let touchStartX = 0, touchStartY = 0;
+
+snakeCanvas.addEventListener("touchstart", event => {
+  const touch = event.changedTouches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}, { passive: true });
+
+snakeCanvas.addEventListener("touchend", event => {
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    changeSnakeDirection(dx > 0 ? "right" : "left");
+  } else {
+    changeSnakeDirection(dy > 0 ? "down" : "up");
+  }
+}, { passive: true });
+
+resetSnake();
+
+/* =========================================================
+   TIC-TAC-TOE
+   ========================================================= */
+
+let tttBoard = Array(9).fill("");
+let tttOver = false;
+let tttBoardReady = false;
+
+function initTicTacToe() {
+  tttBoardReady = true;
+  renderTicTacToe();
+}
+
+function renderTicTacToe() {
+  const board = $("tttBoard");
+  board.replaceChildren();
+
+  tttBoard.forEach((value, index) => {
+    const cell = document.createElement("button");
+    cell.className = "ttt-cell";
+    cell.textContent = value;
+    cell.setAttribute("aria-label", "Cell " + (index + 1) + (value ? ": " + value : ""));
+    cell.disabled = Boolean(value) || tttOver;
+    cell.addEventListener("click", () => tttMove(index));
+    board.appendChild(cell);
+  });
+}
+
+function winningLine(board, player) {
+  const lines = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  return lines.some(line => line.every(index => board[index] === player));
+}
+
+function finishTicTacToe(result) {
+  tttOver = true;
+
+  if (result === "X") {
+    $("tttMessage").textContent = "You win! Nice one.";
+    localStorage.setItem("scottcode_ttt_wins", String(getNumber("scottcode_ttt_wins") + 1));
+  } else if (result === "O") {
+    $("tttMessage").textContent = "The computer wins this round.";
+    localStorage.setItem("scottcode_ttt_losses", String(getNumber("scottcode_ttt_losses") + 1));
+  } else {
+    $("tttMessage").textContent = "It's a draw!";
+    localStorage.setItem("scottcode_ttt_draws", String(getNumber("scottcode_ttt_draws") + 1));
+  }
+
+  renderTicTacToe();
+  updatePlayerStats();
+}
+
+function tttMove(index) {
+  if (tttOver || tttBoard[index]) return;
+
+  tttBoard[index] = "X";
+
+  if (winningLine(tttBoard, "X")) {
+    finishTicTacToe("X");
+    return;
+  }
+
+  if (tttBoard.every(Boolean)) {
+    finishTicTacToe("draw");
+    return;
+  }
+
+  const available = tttBoard
+    .map((value, i) => value ? -1 : i)
+    .filter(i => i !== -1);
+
+  // Try a winning move, then block the player, then choose a strategic square.
+  let computerMove = null;
+
+  for (const player of ["O", "X"]) {
+    for (const indexToTest of available) {
+      const copy = [...tttBoard];
+      copy[indexToTest] = player;
+      if (winningLine(copy, player)) {
+        computerMove = indexToTest;
+        break;
+      }
+    }
+    if (computerMove !== null) break;
+  }
+
+  if (computerMove === null && available.includes(4)) {
+    computerMove = 4;
+  }
+
+  if (computerMove === null) {
+    const corners = [0,2,6,8].filter(i => available.includes(i));
+    if (corners.length) {
+      computerMove = corners[Math.floor(Math.random() * corners.length)];
+    }
+  }
+
+  if (computerMove === null) {
+    computerMove = available[Math.floor(Math.random() * available.length)];
+  }
+
+  tttBoard[computerMove] = "O";
+
+  if (winningLine(tttBoard, "O")) {
+    finishTicTacToe("O");
+  } else if (tttBoard.every(Boolean)) {
+    finishTicTacToe("draw");
+  } else {
+    $("tttMessage").textContent = "Your turn. You are X.";
+    renderTicTacToe();
+  }
+}
+
+function resetTicTacToe() {
+  tttBoard = Array(9).fill("");
+  tttOver = false;
+  $("tttMessage").textContent = "Your turn. You are X.";
+  renderTicTacToe();
+}
+
+$("tttRestart").addEventListener("click", resetTicTacToe);
+initTicTacToe();
+
+/* =========================================================
+   MEMORY MATCH
+   ========================================================= */
+
+const memorySymbols = ["🌙","🚀","💎","🌈","🪐","⚡","🎧","🧊"];
+let memoryCards = [];
+let memoryOpened = [];
+let memoryMatched = [];
+let memoryMoves = 0;
+let memoryLocked = false;
+let memoryReady = false;
+let memoryTimeout = null;
+
+function initMemory() {
+  memoryReady = true;
+  resetMemory();
+}
+
+function resetMemory() {
+  clearTimeout(memoryTimeout);
+  memoryCards = [...memorySymbols, ...memorySymbols]
+    .sort(() => Math.random() - .5);
+  memoryOpened = [];
+  memoryMatched = [];
+  memoryMoves = 0;
+  memoryLocked = false;
+  $("memoryMoves").textContent = "0";
+  $("memoryPairs").textContent = "0";
+  $("memoryMessage").textContent = "Tap two cards to find a pair.";
+  renderMemory();
+}
+
+function renderMemory() {
+  const board = $("memoryBoard");
+  board.replaceChildren();
+
+  memoryCards.forEach((symbol, index) => {
+    const card = document.createElement("button");
+    const isOpen = memoryOpened.includes(index);
+    const isMatched = memoryMatched.includes(index);
+
+    card.className = "memory-cell" +
+      (isOpen ? " open" : "") + (isMatched ? " matched" : "");
+    card.textContent = isOpen || isMatched ? symbol : "?";
+    card.setAttribute("aria-label", isOpen || isMatched ? symbol : "Hidden card");
+    card.disabled = isOpen || isMatched || memoryLocked;
+    card.addEventListener("click", () => flipMemory(index));
+    board.appendChild(card);
+  });
+}
+
+function flipMemory(index) {
+  if (memoryLocked || memoryOpened.includes(index) || memoryMatched.includes(index)) return;
+
+  memoryOpened.push(index);
+  renderMemory();
+
+  if (memoryOpened.length < 2) return;
+
+  memoryMoves++;
+  $("memoryMoves").textContent = memoryMoves;
+
+  const [first, second] = memoryOpened;
+
+  if (memoryCards[first] === memoryCards[second]) {
+    memoryMatched.push(first, second);
+    memoryOpened = [];
+    $("memoryPairs").textContent = String(memoryMatched.length / 2);
+    renderMemory();
+
+    if (memoryMatched.length === memoryCards.length) {
+      $("memoryMessage").textContent = `Completed in ${memoryMoves} moves!`;
+      const isBest = saveBest("scottcode_memory_best", memoryMoves, true);
+      if (isBest) submitScore("memory", memoryMoves);
+      updatePlayerStats();
+    } else {
+      $("memoryMessage").textContent = "Match found!";
+    }
+  } else {
+    memoryLocked = true;
+    $("memoryMessage").textContent = "Not a match. Try again.";
+    memoryTimeout = setTimeout(() => {
+      memoryOpened = [];
+      memoryLocked = false;
+      renderMemory();
+    }, 750);
+  }
+}
+
+$("memoryRestart").addEventListener("click", resetMemory);
+initMemory();
+
+/* =========================================================
+   REACTION RUSH
+   ========================================================= */
+
+let reactionState = "idle";
+let reactionTimer = null;
+let reactionStartedAt = 0;
+
+function reactionStart() {
+  clearTimeout(reactionTimer);
+  reactionState = "waiting";
+  $("reactionArea").style.background = "#7b3549";
+  $("reactionArea").textContent = "Wait for green…";
+  $("reactionMessage").textContent = "Don't tap yet!";
+
+  const delay = 1500 + Math.random() * 3500;
+
+  reactionTimer = setTimeout(() => {
+    reactionState = "ready";
+    reactionStartedAt = performance.now();
+    $("reactionArea").style.background = "#126e50";
+    $("reactionArea").textContent = "TAP NOW!";
+    $("reactionMessage").textContent = "Go! Tap as quickly as you can.";
+  }, delay);
+}
+
+$("reactionArea").addEventListener("click", () => {
+  if (reactionState === "idle" || reactionState === "done") {
+    reactionStart();
+    return;
+  }
+
+  if (reactionState === "waiting") {
+    clearTimeout(reactionTimer);
+    reactionState = "done";
+    $("reactionArea").style.background = "#7b3549";
+    $("reactionArea").textContent = "Too early!";
+    $("reactionMessage").textContent = "You tapped before green. Tap again to retry.";
+    return;
+  }
+
+  if (reactionState === "ready") {
+    const elapsed = Math.round(performance.now() - reactionStartedAt);
+    reactionState = "done";
+    $("reactionArea").style.background = "#14334b";
+    $("reactionArea").textContent = elapsed + " ms";
+    $("reactionLast").textContent = elapsed + " ms";
+    $("reactionMessage").textContent = elapsed < 250
+      ? "Super quick!"
+      : "Nice! Try to beat that time.";
+
+    const isBest = saveBest("scottcode_reaction_best", elapsed, true);
+    if (isBest) submitScore("reaction", elapsed);
+    updatePlayerStats();
+  }
+});
+
+updatePlayerStats();
+
+/* =========================================================
+   CONTACT FORM — FORMSPREE
+   ========================================================= */
+
+const contactForm = $("contactForm");
+contactForm.action = CONFIG.FORMSPREE_URL;
+
+contactForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const status = $("contactStatus");
+  const button = $("contactSubmit");
+
+  if (!contactForm.reportValidity()) return;
+
+  button.disabled = true;
+  button.textContent = "Sending…";
+  status.replaceChildren();
+
+  try {
+    const response = await fetch(CONFIG.FORMSPREE_URL, {
+      method: "POST",
+      body: new FormData(contactForm),
+      headers: { "Accept": "application/json" }
+    });
+
+    let result = {};
+    try { result = await response.json(); } catch {}
+
+    if (!response.ok) {
+      const errorMessage = result.errors?.map(e => e.message).join(", ");
+      throw new Error(errorMessage || "Formspree returned HTTP " + response.status);
+    }
+
+    const success = document.createElement("div");
+    success.className = "notice success";
+    success.textContent = "Message sent successfully! Thanks for contacting Scott.";
+    status.appendChild(success);
+
+    contactForm.reset();
+    showToast("Your message was sent!");
+
+    // No URL change; show the thank-you message on this same page.
+  } catch (error) {
+    const failure = document.createElement("div");
+    failure.className = "notice error";
+    failure.textContent =
+      "Couldn't send your message. " + error.message +
+      " Check your internet connection and Formspree form settings, then try again.";
+    status.appendChild(failure);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send message ↗";
+  }
+});
+</script>
+</body>
+          </html>
