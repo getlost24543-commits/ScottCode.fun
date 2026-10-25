@@ -3,709 +3,1169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071426">
-<meta name="description" content="ScottCode — software, projects, games, and digital experiments by Scott.">
+<meta name="theme-color" content="#eaf5ff">
+<meta name="description" content="ScottCode — software, games, projects, and digital experiments by Scott.">
 <title>ScottCode — Digital Playground</title>
 
 <style>
 :root{
-  --bg:#06111f;
-  --panel:rgba(17,36,59,.72);
-  --panel2:rgba(22,46,73,.68);
-  --border:rgba(158,205,255,.15);
-  --text:#eef7ff;
-  --muted:#9eb4cc;
-  --blue:#78c8ff;
-  --cyan:#65f0ed;
-  --purple:#a9a5ff;
-  --danger:#ff7c91;
+  --bg:#f1f8ff;
+  --surface:#ffffff;
+  --surface2:#e7f2ff;
+  --blue:#1769e8;
+  --blue2:#439bff;
+  --blue3:#a9d8ff;
+  --navy:#102c50;
+  --text:#183451;
+  --muted:#647b96;
+  --border:#d7e8fb;
+  --green:#13865d;
+  --red:#c43e56;
+  --shadow:0 18px 55px rgba(38,103,177,.11);
   --radius:22px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:95px}
 body{
   margin:0;
-  min-height:100vh;
-  color:var(--text);
   background:var(--bg);
+  color:var(--text);
   font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   overflow-x:hidden;
 }
-body:before,body:after{
-  content:"";
-  position:fixed;
-  width:400px;height:400px;
-  border-radius:50%;
-  filter:blur(110px);
-  opacity:.16;
-  pointer-events:none;
-  z-index:-2;
-  animation:float 13s ease-in-out infinite alternate;
-}
-body:before{background:#168bff;top:-150px;left:-140px}
-body:after{background:#4e5bff;right:-170px;bottom:-170px;animation-delay:-5s}
-@keyframes float{
-  from{transform:translate(0,0)}
-  to{transform:translate(80px,60px)}
-}
 button,input,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--cyan);outline-offset:3px
+  outline:3px solid #78baff;
+  outline-offset:3px;
 }
-::selection{background:#77caff55}
-.background-grid{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.12;
-  background-image:linear-gradient(#b4d9ff14 1px,transparent 1px),
-  linear-gradient(90deg,#b4d9ff14 1px,transparent 1px);
-  background-size:45px 45px;
-  mask-image:linear-gradient(to bottom,black,transparent 85%);
+::selection{background:#b9dcff;color:#102c50}
+
+/* Animated light-blue background */
+.ambient{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  overflow:hidden;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 12% 8%,#cce7ff 0,transparent 38%),
+    radial-gradient(ellipse at 90% 30%,#dceaff 0,transparent 35%),
+    linear-gradient(140deg,#f8fcff,#edf6ff 60%,#f7fbff);
 }
+.ambient:before,.ambient:after{
+  content:"";
+  position:absolute;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  filter:blur(65px);
+  opacity:.45;
+  animation:float 14s ease-in-out infinite alternate;
+}
+.ambient:before{background:#8ec9ff;top:5%;left:-230px}
+.ambient:after{background:#9caeff;right:-230px;top:45%;animation-delay:-7s}
+@keyframes float{
+  from{transform:translate(0,0)}
+  to{transform:translate(90px,65px)}
+}
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.24;
+  background-image:
+    linear-gradient(#9dc6f41c 1px,transparent 1px),
+    linear-gradient(90deg,#9dc6f41c 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+/* Navigation */
 .topbar{
-  position:sticky;top:0;z-index:100;
-  background:rgba(5,15,29,.84);
-  backdrop-filter:blur(22px);
-  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(248,252,255,.86);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(189,216,246,.75);
 }
 .nav-wrap{
   width:min(1180px,92%);
-  margin:auto;
   min-height:76px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
 .brand{
-  display:flex;align-items:center;gap:11px;
-  font-size:19px;font-weight:850;letter-spacing:-.5px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:-.6px;
   white-space:nowrap;
 }
-.brand-icon{
-  width:39px;height:39px;display:grid;place-items:center;
-  color:#06111f;background:linear-gradient(135deg,var(--blue),var(--cyan));
-  border-radius:13px;font-weight:1000;box-shadow:0 0 30px #5acbff20;
+.brand-mark{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:linear-gradient(140deg,#58b6ff,#1769e8);
+  color:white;
+  box-shadow:0 7px 20px #1769e82b;
+  position:relative;
+  overflow:hidden;
 }
-.nav-links{display:flex;align-items:center;gap:5px}
+.brand-mark svg{width:25px;height:25px}
+.brand span{color:var(--blue)}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
 .nav-btn{
-  color:var(--muted);border:0;background:transparent;
-  padding:11px 13px;border-radius:12px;font-weight:650;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:11px 13px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:750;
   transition:.2s;
 }
-.nav-btn:hover,.nav-btn.active{color:white;background:#a3d7ff12}
-.nav-btn.active{box-shadow:inset 0 -2px var(--blue)}
-.menu-toggle{
-  display:none;border:1px solid var(--border);background:var(--panel);
-  color:white;border-radius:12px;width:44px;height:44px;font-size:22px;
+.nav-btn:hover,.nav-btn.active{
+  color:var(--blue);
+  background:#e5f1ff;
 }
+.nav-btn.active{box-shadow:inset 0 -2px var(--blue)}
+.nav-account{
+  background:var(--blue);
+  color:white;
+  border:0;
+  padding:11px 16px;
+  border-radius:12px;
+  font-weight:800;
+  white-space:nowrap;
+  box-shadow:0 6px 17px #1769e82a;
+}
+.menu-toggle{
+  display:none;
+  width:44px;
+  height:44px;
+  border:1px solid var(--border);
+  background:white;
+  color:var(--navy);
+  border-radius:13px;
+  font-size:22px;
+}
+
+/* Layout */
 .container{width:min(1120px,92%);margin:auto}
-.view{display:none;min-height:72vh;padding:48px 0 75px}
-.view.active{display:block;animation:appear .25s ease}
-@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.hero{
-  min-height:500px;display:grid;grid-template-columns:1.15fr .85fr;
-  align-items:center;gap:45px;padding:40px 0;
+.view{display:none;min-height:75vh;padding:48px 0 76px}
+.view.active{display:block;animation:appear .28s ease}
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
 }
 .eyebrow{
-  color:var(--cyan);font-size:12px;letter-spacing:2px;
-  text-transform:uppercase;font-weight:850;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--blue);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
 }
-h1{font-size:clamp(42px,7vw,76px);line-height:1.02;letter-spacing:-3px;margin:18px 0}
-h2{font-size:clamp(29px,4vw,43px);letter-spacing:-1.5px;margin:0 0 13px}
-h3{margin:0 0 10px}
+.eyebrow:before{
+  content:"";
+  width:22px;
+  height:3px;
+  border-radius:5px;
+  background:var(--blue2);
+}
+h1{
+  margin:17px 0;
+  color:var(--navy);
+  font-size:clamp(43px,7vw,78px);
+  line-height:1.04;
+  letter-spacing:-3.5px;
+}
+h2{
+  margin:0 0 12px;
+  color:var(--navy);
+  font-size:clamp(29px,4vw,43px);
+  letter-spacing:-1.5px;
+}
+h3{margin:0 0 10px;color:var(--navy)}
+p{line-height:1.8}
 .gradient-text{
-  background:linear-gradient(100deg,#fff,var(--blue),var(--cyan));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+  background:linear-gradient(100deg,#1769e8,#48aaff);
+  color:transparent;
+  -webkit-background-clip:text;
+  background-clip:text;
 }
-.lead{color:var(--muted);font-size:17px;line-height:1.8;max-width:650px}
+.lead{
+  max-width:650px;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.9;
+}
 .muted{color:var(--muted)}
 .small{font-size:13px;line-height:1.7}
+.section-heading{margin-bottom:26px}
+.section-heading p{max-width:650px;color:var(--muted)}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
 .btn{
-  border:1px solid var(--border);border-radius:13px;
-  padding:12px 17px;background:var(--panel2);color:var(--text);
-  font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  transition:transform .2s,border-color .2s,background .2s;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  padding:13px 18px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:white;
+  color:var(--navy);
+  font-weight:800;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
 }
-.btn:hover{transform:translateY(-2px);border-color:#78c8ff80}
-.btn.primary{background:linear-gradient(120deg,#83d2ff,#65e8e3);color:#061421;border:0}
-.btn.danger{border-color:#ff7c9144;color:#ff9bad}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn:hover{
+  transform:translateY(-2px);
+  border-color:#90c5ff;
+  box-shadow:0 9px 22px #1769e813;
+}
+.btn.primary{
+  color:white;
+  border-color:transparent;
+  background:linear-gradient(115deg,#1769e8,#439bff);
+  box-shadow:0 9px 22px #1769e826;
+}
+.btn.soft{background:#e8f3ff;color:var(--blue);border-color:#d9eaff}
+.btn.danger{color:var(--red);background:#fff5f6;border-color:#f6d4db}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Home */
+.hero{
+  min-height:510px;
+  display:grid;
+  grid-template-columns:1.12fr .88fr;
+  align-items:center;
+  gap:45px;
+  padding:32px 0 50px;
+}
+.hero h1{max-width:680px}
 .hero-art{
-  position:relative;min-height:340px;display:grid;place-items:center;
-}
-.orb{
-  width:min(300px,70vw);aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 32% 25%,#d4f4ff,#74c8ff 25%,#355cc7 60%,#111c45 78%);
-  box-shadow:0 0 70px #53caff35,inset -20px -25px 50px #08142e88;
-  animation:orbfloat 5s ease-in-out infinite;
+  min-height:340px;
+  display:grid;
+  place-items:center;
   position:relative;
 }
-.orb:after{
-  content:"</>";position:absolute;inset:0;display:grid;place-items:center;
-  font-size:74px;font-weight:1000;color:#07182c;
-  text-shadow:0 2px 0 #fff8;
+.art-card{
+  width:min(390px,100%);
+  min-height:285px;
+  position:relative;
+  padding:25px;
+  overflow:hidden;
+  border:1px solid #ffffff;
+  border-radius:30px;
+  background:linear-gradient(145deg,#ffffffeb,#e3f1ffdb);
+  box-shadow:0 28px 80px #286bb52b;
+  transform:rotate(2deg);
+  animation:cardfloat 6s ease-in-out infinite;
 }
-.orbit{
-  position:absolute;width:340px;height:115px;border:1px solid #8ad7ff7a;
-  border-radius:50%;transform:rotate(-28deg);
+@keyframes cardfloat{
+  0%,100%{transform:translateY(0) rotate(2deg)}
+  50%{transform:translateY(-10px) rotate(-1deg)}
 }
-.orbit.two{transform:rotate(58deg);width:370px;height:135px;border-color:#85f4ec5c}
-@keyframes orbfloat{50%{transform:translateY(-12px)}}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:30px}
-.stat,.card,.panel{
-  background:linear-gradient(145deg,var(--panel),rgba(9,23,41,.76));
-  border:1px solid var(--border);border-radius:var(--radius);
-  box-shadow:0 15px 50px #00000012;
+.art-top{display:flex;gap:7px;margin-bottom:25px}
+.art-dot{width:9px;height:9px;border-radius:50%;background:#b3d8ff}
+.art-title{font-size:13px;color:var(--muted);font-weight:800}
+.art-code{
+  margin-top:17px;
+  padding:18px;
+  border-radius:17px;
+  background:#edf6ff;
+  color:#37618f;
+  font-family:ui-monospace,SFMono-Regular,monospace;
+  font-size:13px;
+  line-height:2;
+  border:1px solid #d9eaff;
 }
-.stat{padding:18px}
-.stat strong{display:block;font-size:22px}
-.stat span{font-size:12px;color:var(--muted)}
-.section-head{margin-bottom:26px}
-.section-head p{color:var(--muted);line-height:1.8;max-width:720px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
-.card{padding:23px;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-3px);border-color:#8fd6ff50}
-.card p{color:var(--muted);line-height:1.75;font-size:14px}
+.code-blue{color:#1769e8;font-weight:900}
+.code-green{color:#11865f;font-weight:900}
+.art-chip{
+  display:inline-flex;
+  padding:8px 12px;
+  border-radius:11px;
+  background:#1769e8;
+  color:white;
+  font-size:12px;
+  font-weight:850;
+  margin-top:16px;
+}
+.float-chip{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:13px 15px;
+  border:1px solid #fff;
+  border-radius:15px;
+  background:#ffffffeb;
+  box-shadow:var(--shadow);
+  color:var(--navy);
+  font-size:13px;
+  font-weight:850;
+  animation:cardfloat 5s ease-in-out infinite;
+}
+.float-chip.one{top:9%;right:-1%;animation-delay:-2s}
+.float-chip.two{bottom:6%;left:-2%;animation-delay:-4s}
+.chip-icon{
+  width:30px;height:30px;
+  display:grid;place-items:center;
+  border-radius:10px;
+  background:#e4f1ff;
+  color:var(--blue);
+  font-size:17px;
+}
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin:15px 0 55px;
+}
+.stat{
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:#ffffffb8;
+}
+.stat strong{display:block;color:var(--blue);font-size:24px}
+.stat span{color:var(--muted);font-size:13px;font-weight:700}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{
+  padding:23px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:rgba(255,255,255,.85);
+  box-shadow:0 8px 30px #2c6fb20b;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+  border-color:#b2d5fb;
+}
 .card-icon{
-  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-  font-size:23px;background:#7dcfff16;border:1px solid var(--border);margin-bottom:17px;
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  margin-bottom:18px;
+  border-radius:15px;
+  background:linear-gradient(140deg,#e7f4ff,#d4eaff);
+  color:var(--blue);
+  font-size:22px;
 }
+.card p{color:var(--muted);font-size:14px;line-height:1.8}
+.card .btn{margin-top:10px}
 .tag{
-  display:inline-flex;padding:5px 9px;border-radius:8px;
-  color:#aee1ff;background:#7dcfff12;border:1px solid #7dcfff20;
-  font-size:11px;font-weight:750;margin:3px 3px 3px 0;
+  display:inline-flex;
+  padding:6px 9px;
+  border-radius:8px;
+  background:#e7f2ff;
+  color:var(--blue);
+  font-size:11px;
+  font-weight:850;
 }
-.panel{padding:25px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.field{display:flex;flex-direction:column;gap:8px}
-.field.full{grid-column:1/-1}
-.field label{font-size:13px;font-weight:750;color:#d5e8fa}
-.field input,.field textarea{
-  width:100%;padding:13px 14px;color:white;
-  background:#071526;border:1px solid var(--border);
-  border-radius:12px;outline:none;
+
+/* Auth */
+.auth-layout{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:30px;
+  align-items:start;
+  max-width:930px;
+  margin:15px auto;
 }
-.field input:focus,.field textarea:focus{border-color:var(--blue)}
-.field textarea{min-height:150px;resize:vertical}
-.notice{padding:13px 15px;border-radius:12px;margin:15px 0;font-size:13px;line-height:1.6}
-.notice.info{background:#69c9ff12;border:1px solid #69c9ff35;color:#bce7ff}
-.notice.success{background:#64f1c512;border:1px solid #64f1c535;color:#a8f9dc}
-.notice.error{background:#ff7c9112;border:1px solid #ff7c9135;color:#ffb4c0}
-.auth-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
-.tabs{display:flex;gap:8px;margin-bottom:20px}
+.auth-info{
+  padding:28px 12px;
+}
+.auth-info h2{font-size:clamp(32px,4vw,45px)}
+.auth-panel{
+  padding:29px;
+  border:1px solid #d7e8fb;
+  border-radius:25px;
+  background:rgba(255,255,255,.94);
+  box-shadow:var(--shadow);
+}
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  padding:5px;
+  margin-bottom:24px;
+  background:#edf5ff;
+  border-radius:14px;
+}
 .tab{
-  flex:1;padding:12px;border-radius:11px;background:transparent;
-  color:var(--muted);border:1px solid var(--border);font-weight:750;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:850;
 }
-.tab.active{background:#72caff1c;color:white;border-color:#72caff70}
-.game-layout{display:grid;grid-template-columns:1fr .75fr;gap:18px}
-.game-stage{min-width:0}
-.game-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.game-canvas{
-  display:block;width:100%;max-width:440px;margin:0 auto;
-  background:#06101d;border:1px solid var(--border);border-radius:16px;
-  image-rendering:pixelated;
+.tab.active{background:white;color:var(--blue);box-shadow:0 3px 12px #1b65b411}
+.field{margin-bottom:17px}
+.field label{
+  display:block;
+  margin-bottom:8px;
+  color:var(--navy);
+  font-size:13px;
+  font-weight:850;
 }
-.game-controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-.game-select{
-  background:#071526;color:white;border:1px solid var(--border);
-  padding:10px;border-radius:10px;
+.field input,.field textarea{
+  display:block;
+  width:100%;
+  padding:14px;
+  border:1px solid #d5e4f5;
+  border-radius:12px;
+  background:#fbfdff;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
 }
-.game-note{font-size:12px;color:var(--muted);line-height:1.7}
-.ttt-board{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:15px auto}
-.ttt-cell{
-  aspect-ratio:1;border:1px solid var(--border);border-radius:14px;
-  background:#0a1a2d;color:white;font-size:38px;font-weight:850;
+.field input:focus,.field textarea:focus{
+  border-color:#69adff;
+  box-shadow:0 0 0 4px #64aaff1c;
 }
-.ttt-cell:hover{background:#16304a}
-.memory-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:380px;margin:15px auto}
-.memory-cell{
-  aspect-ratio:1;border:1px solid var(--border);border-radius:12px;
-  background:#112943;color:white;font-size:clamp(18px,4vw,28px);
-}
-.memory-cell.open{background:#21466b;border-color:#83d3ff}
-.memory-cell.matched{background:#12483f;border-color:#5fe7bf}
-.score-line{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
-.score-chip{background:#061526;border:1px solid var(--border);padding:9px 12px;border-radius:11px;font-size:13px}
-hr{border:0;border-top:1px solid var(--border);margin:22px 0}
-footer{border-top:1px solid var(--border);padding:25px 0;color:var(--muted);font-size:13px}
-.footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.field textarea{min-height:145px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:#9aadc3}
+.full{grid-column:1/-1}
 .hidden{display:none!important}
+.notice{
+  margin:14px 0;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#f1f7ff;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+.notice.success{background:#effbf6;border-color:#c5efdc;color:#16744f}
+.notice.error{background:#fff2f4;border-color:#f3cdd5;color:#ad334b}
+.notice.warning{background:#fff8e9;border-color:#f4e2b5;color:#805a13}
+.account-box{
+  padding:18px;
+  margin-bottom:20px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:#f7fbff;
+}
+.account-box strong{color:var(--blue)}
+.account-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+
+/* Arcade */
+.arcade-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-bottom:22px;
+}
+.game-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 260px;
+  gap:20px;
+  align-items:start;
+}
+.game-shell{
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:23px;
+  background:white;
+  box-shadow:var(--shadow);
+}
+.game-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+.score-box{
+  padding:9px 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#f1f7ff;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+}
+.score-box strong{color:var(--blue)}
+#snakeCanvas{
+  display:block;
+  width:100%;
+  max-width:560px;
+  margin:auto;
+  aspect-ratio:1;
+  border:1px solid #d4e7fc;
+  border-radius:16px;
+  background:#f5faff;
+  touch-action:none;
+}
+.game-controls{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:17px;
+}
+.dpad{
+  display:grid;
+  grid-template-columns:repeat(3,48px);
+  grid-template-rows:repeat(2,44px);
+  gap:5px;
+  justify-content:center;
+  margin-top:15px;
+}
+.dpad button{
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#edf6ff;
+  color:var(--blue);
+  font-size:19px;
+  font-weight:900;
+}
+.dpad button:nth-child(1){grid-column:2;grid-row:1}
+.dpad button:nth-child(2){grid-column:1;grid-row:2}
+.dpad button:nth-child(3){grid-column:2;grid-row:2}
+.dpad button:nth-child(4){grid-column:3;grid-row:2}
+.game-side{display:grid;gap:15px}
+.game-side .card{padding:19px}
+.game-side ul{padding-left:18px;color:var(--muted);font-size:13px;line-height:2}
+.game-status{min-height:25px;color:var(--muted);font-size:13px}
+
+/* Contact */
+.contact-layout{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:30px;
+  align-items:start;
+}
+.contact-info{padding:10px 0}
+.contact-form{
+  padding:27px;
+  border:1px solid var(--border);
+  border-radius:23px;
+  background:white;
+  box-shadow:var(--shadow);
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}
+.contact-form .btn{width:100%}
+
+/* Footer / toast */
+footer{
+  padding:25px 0;
+  border-top:1px solid var(--border);
+  background:#ffffff85;
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  color:var(--muted);
+  font-size:12px;
+}
 #toast{
-  position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);
-  opacity:0;pointer-events:none;z-index:200;
-  background:#122a43;border:1px solid var(--border);border-radius:13px;
-  padding:13px 18px;box-shadow:0 15px 40px #0007;
-  transition:.25s;max-width:90%;font-size:14px;
+  position:fixed;
+  z-index:200;
+  left:50%;
+  bottom:22px;
+  max-width:90%;
+  padding:13px 18px;
+  border:1px solid #d2e5fb;
+  border-radius:13px;
+  background:white;
+  color:var(--navy);
+  box-shadow:var(--shadow);
+  font-size:14px;
+  font-weight:750;
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,15px);
+  transition:.25s;
 }
 #toast.show{opacity:1;transform:translate(-50%,0)}
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#69eac0;margin-right:7px}
+
 @media(max-width:850px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hero{grid-template-columns:1fr;gap:5px;padding-top:30px}
-  .hero-art{min-height:280px;grid-row:1}
-  .orb{width:210px}
-  .orbit{width:260px;height:90px}
-  .orbit.two{width:280px;height:105px}
-  .auth-layout,.game-layout{grid-template-columns:1fr}
-}
-@media(max-width:650px){
   .nav-wrap{min-height:68px}
   .menu-toggle{display:block}
   .nav-links{
-    display:none;position:absolute;top:68px;left:4%;right:4%;
-    padding:10px;background:rgba(7,20,37,.98);backdrop-filter:blur(20px);
-    border:1px solid var(--border);border-radius:17px;
-    box-shadow:0 20px 45px #0008;flex-direction:column;align-items:stretch;
+    display:none;
+    position:absolute;
+    top:68px;
+    left:0;right:0;
+    padding:12px 4% 18px;
+    border-bottom:1px solid var(--border);
+    background:#f8fcfff7;
+    backdrop-filter:blur(20px);
+    box-shadow:0 18px 25px #285e9210;
   }
-  .nav-links.open{display:flex}
+  .nav-links.open{display:grid;grid-template-columns:1fr 1fr}
   .nav-btn{text-align:left;padding:13px}
-  .view{padding:35px 0 55px}
-  .hero{min-height:0}
-  h1{letter-spacing:-2px}
+  .nav-account{width:100%;margin-top:4px}
+  .hero{grid-template-columns:1fr;gap:5px;padding-top:25px}
+  .hero-art{min-height:340px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .auth-layout,.contact-layout{grid-template-columns:1fr;gap:10px}
+  .auth-info{padding:10px 0}
+  .game-layout{grid-template-columns:1fr}
+  .game-side{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:540px){
+  .container,.nav-wrap{width:91%}
+  .view{padding:32px 0 55px}
+  h1{font-size:46px;letter-spacing:-2.4px}
+  .lead{font-size:15px}
   .grid{grid-template-columns:1fr}
-  .stats{gap:8px}
-  .stat{padding:12px}
-  .stat strong{font-size:18px}
+  .stats-row{gap:8px}
+  .stat{padding:13px}
+  .stat strong{font-size:20px}
+  .stat span{font-size:11px}
+  .art-card{padding:20px;min-height:260px}
+  .float-chip.one{right:-1%;top:1%}
+  .float-chip.two{left:-1%;bottom:0}
+  .auth-panel,.contact-form{padding:20px}
+  .game-shell{padding:12px}
+  .game-side{grid-template-columns:1fr}
   .form-grid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
-  .panel{padding:18px}
+  .footer-inner{flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  *,*:before,*:after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
 }
 </style>
 </head>
 
 <body>
-<div class="background-grid"></div>
+<div class="ambient"></div>
+<div class="bg-grid"></div>
 
 <header class="topbar">
   <div class="nav-wrap">
-    <a href="#" class="brand" data-view="home" aria-label="ScottCode home">
-      <span class="brand-icon">&lt;/&gt;</span>
-      <span>ScottCode<span style="color:var(--blue)">.fun</span></span>
+    <a class="brand" href="#home" data-view="home" aria-label="ScottCode home">
+      <div class="brand-mark" aria-hidden="true">
+        <!-- New geometric logo: no S-circle -->
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M11 8 4 16l7 8" stroke="white" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m21 8 7 8-7 8" stroke="white" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m18 6-4 20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      Scott<span>Code</span>
     </a>
 
-    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
     <nav class="nav-links" id="navLinks" aria-label="Main navigation">
       <button class="nav-btn active" data-view="home">Home</button>
-      <button class="nav-btn" data-view="about">About</button>
       <button class="nav-btn" data-view="projects">Projects</button>
       <button class="nav-btn" data-view="arcade">Arcade</button>
-      <button class="nav-btn" data-view="account">Account</button>
+      <button class="nav-btn" data-view="about">About</button>
       <button class="nav-btn" data-view="contact">Contact</button>
+      <button class="nav-account" data-view="account" id="navAccount">Log in ↗</button>
     </nav>
   </div>
 </header>
 
-<main class="container">
-
+<main>
   <!-- HOME -->
   <section class="view active" id="home">
-    <div class="hero">
-      <div>
-        <div class="eyebrow"><span class="status-dot"></span>Independent developer · Digital creator</div>
-        <h1>Ideas into<br><span class="gradient-text">digital reality.</span></h1>
-        <p class="lead">
-          Hey, I'm Scott. Welcome to my corner of the internet —
-          a place for coding experiments, personal projects, and browser games.
-        </p>
-        <div class="actions">
-          <button class="btn primary" data-view="projects">Explore my projects ↗</button>
-          <button class="btn" data-view="arcade">🎮 Play games</button>
+    <div class="container">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Welcome to my digital playground</div>
+          <h1>Ideas become<br><span class="gradient-text">real things.</span></h1>
+          <p class="lead">
+            Hey, I'm Scott. I build websites, experiment with technology,
+            and create little things for the internet. Welcome to ScottCode.
+          </p>
+          <div class="actions">
+            <button class="btn primary" data-view="projects">Explore projects ↗</button>
+            <button class="btn" data-view="arcade">Play a game 🎮</button>
+          </div>
         </div>
-        <div class="stats">
-          <div class="stat"><strong>01</strong><span>Creator</span></div>
-          <div class="stat"><strong>∞</strong><span>Ideas to build</span></div>
-          <div class="stat"><strong>24/7</strong><span>On the web</span></div>
+
+        <div class="hero-art" aria-label="Decorative code illustration">
+          <div class="art-card">
+            <div class="art-top">
+              <span class="art-dot"></span>
+              <span class="art-dot"></span>
+              <span class="art-dot"></span>
+              <span class="art-title">scottcode / ideas.html</span>
+            </div>
+            <div class="art-code">
+              <div><span class="code-blue">const</span> creator = <span class="code-green">"Scott"</span>;</div>
+              <div><span class="code-blue">const</span> ideas = [</div>
+              <div>&nbsp;&nbsp;"web development",</div>
+              <div>&nbsp;&nbsp;"games & experiments",</div>
+              <div>&nbsp;&nbsp;"learning something new"</div>
+              <div>];</div>
+              <div style="margin-top:8px;color:#7188a5">// keep building ✦</div>
+            </div>
+            <span class="art-chip">● All systems curious</span>
+          </div>
+          <div class="float-chip one">
+            <span class="chip-icon">⌘</span>
+            Creative coding
+          </div>
+          <div class="float-chip two">
+            <span class="chip-icon">✦</span>
+            Always learning
+          </div>
         </div>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="orbit"></div>
-        <div class="orbit two"></div>
-        <div class="orb"></div>
+
+      <div class="stats-row">
+        <div class="stat"><strong>01</strong><span>Curiosity first</span></div>
+        <div class="stat"><strong>∞</strong><span>Things to learn</span></div>
+        <div class="stat"><strong>100%</strong><span>Made to explore</span></div>
       </div>
-    </div>
 
-    <div class="section-head">
-      <div class="eyebrow">Explore</div>
-      <h2>One site. Many possibilities.</h2>
-      <p>Discover the projects, meet the creator, or take a break with a quick game.</p>
-    </div>
+      <div class="section-heading">
+        <div class="eyebrow">Take a look around</div>
+        <h2 style="margin-top:12px">Your next click starts here.</h2>
+        <p>Explore the things I've built, play a game, or send me a message.</p>
+      </div>
 
-    <div class="grid">
-      <article class="card">
-        <div class="card-icon">⌘</div>
-        <h3>Projects</h3>
-        <p>Explore the things I'm building and experimenting with on the web.</p>
-        <button class="btn" data-view="projects">View projects →</button>
-      </article>
-      <article class="card">
-        <div class="card-icon">🎮</div>
-        <h3>Browser Arcade</h3>
-        <p>Play quick games right here. No installation required.</p>
-        <button class="btn" data-view="arcade">Enter arcade →</button>
-      </article>
-      <article class="card">
-        <div class="card-icon">✉</div>
-        <h3>Get in touch</h3>
-        <p>Have an idea or want to send a message? The contact form is ready.</p>
-        <button class="btn" data-view="contact">Contact Scott →</button>
-      </article>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="view" id="about">
-    <div class="section-head">
-      <div class="eyebrow">A little introduction</div>
-      <h2>About <span class="gradient-text">Scott.</span></h2>
-      <p class="lead">Curious mind. Digital builder. Always learning something new.</p>
-    </div>
-    <div class="grid">
-      <article class="card">
-        <div class="card-icon">💻</div>
-        <h3>Development</h3>
-        <p>I enjoy exploring websites, HTML, CSS, JavaScript, and the systems that make digital products work.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">🧪</div>
-        <h3>Experimentation</h3>
-        <p>This website is a playground for trying ideas, learning through building, and improving projects over time.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">🚀</div>
-        <h3>What's next?</h3>
-        <p>More projects, better experiences, and new things to learn. This is a work in progress.</p>
-      </article>
-    </div>
-    <div class="panel" style="margin-top:20px">
-      <h3>My current toolkit</h3>
-      <div>
-        <span class="tag">HTML</span><span class="tag">CSS</span>
-        <span class="tag">JavaScript</span><span class="tag">GitHub Pages</span>
-        <span class="tag">Cloudflare Workers</span><span class="tag">Web APIs</span>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">⌘</div>
+          <h3>Projects</h3>
+          <p>Web experiments, digital ideas, and projects that I'm working on.</p>
+          <button class="btn soft" data-view="projects">Explore projects →</button>
+        </article>
+        <article class="card">
+          <div class="card-icon">🎮</div>
+          <h3>Arcade</h3>
+          <p>Take a break with a quick browser game. No extra installation required.</p>
+          <button class="btn soft" data-view="arcade">Enter arcade →</button>
+        </article>
+        <article class="card">
+          <div class="card-icon">✉</div>
+          <h3>Contact</h3>
+          <p>Have a question, idea, or collaboration in mind? Send me a message.</p>
+          <button class="btn soft" data-view="contact">Get in touch →</button>
+        </article>
       </div>
     </div>
   </section>
 
   <!-- PROJECTS -->
   <section class="view" id="projects">
-    <div class="section-head">
-      <div class="eyebrow">Things I've been working on</div>
-      <h2>My <span class="gradient-text">projects.</span></h2>
-      <p>Small experiments and digital ideas. Replace the example cards with your real projects as they grow.</p>
-    </div>
-    <div class="grid">
-      <article class="card">
-        <div class="card-icon">🌐</div>
-        <h3>ScottCode.fun</h3>
-        <p>A personal website with projects, a contact form, and a built-in arcade.</p>
-        <span class="tag">Personal website</span><span class="tag">HTML/CSS/JS</span>
-        <div class="actions"><button class="btn" data-view="home">Explore site ↗</button></div>
-      </article>
-      <article class="card">
-        <div class="card-icon">🎮</div>
-        <h3>Browser Arcade</h3>
-        <p>A collection of lightweight games that run directly in a modern browser.</p>
-        <span class="tag">JavaScript</span><span class="tag">Games</span>
-        <div class="actions"><button class="btn" data-view="arcade">Play games ↗</button></div>
-      </article>
-      <article class="card">
-        <div class="card-icon">☁️</div>
-        <h3>Cloud experiments</h3>
-        <p>Exploring how frontend projects can communicate with serverless APIs.</p>
-        <span class="tag">Cloudflare Workers</span><span class="tag">API</span>
-        <div class="actions"><button class="btn" data-view="account">Account demo ↗</button></div>
-      </article>
+    <div class="container">
+      <div class="section-heading">
+        <div class="eyebrow">Things I've been building</div>
+        <h2 style="margin-top:12px">Projects & experiments.</h2>
+        <p>A small collection of software, ideas, and digital playgrounds.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">🌐</div>
+          <span class="tag">WEB</span>
+          <h3 style="margin-top:14px">ScottCode</h3>
+          <p>This website: a personal home for projects, games, and web experiments.</p>
+          <button class="btn soft" data-view="home">You're here ↗</button>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🎮</div>
+          <span class="tag">JAVASCRIPT</span>
+          <h3 style="margin-top:14px">ScottCode Arcade</h3>
+          <p>A little browser arcade. Play Snake right here without downloading anything.</p>
+          <button class="btn soft" data-view="arcade">Play now →</button>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">💡</div>
+          <span class="tag">IN PROGRESS</span>
+          <h3 style="margin-top:14px">Future experiments</h3>
+          <p>More web projects and ideas will appear here as they are built.</p>
+          <button class="btn soft" data-view="contact">Suggest an idea →</button>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- ARCADE -->
   <section class="view" id="arcade">
-    <div class="section-head">
-      <div class="eyebrow">ScottCode entertainment</div>
-      <h2>Welcome to the <span class="gradient-text">arcade.</span></h2>
-      <p>Choose a game below. These games run in this page without opening another URL.</p>
-    </div>
-
-    <div class="panel">
-      <div class="game-top">
+    <div class="container">
+      <div class="arcade-top">
         <div>
-          <h3>Choose your game</h3>
-          <p class="muted small">Each game tracks your score in this browser. Online saving requires a compatible backend API.</p>
+          <div class="eyebrow">ScottCode arcade</div>
+          <h2 style="margin-top:12px">A tiny game break.</h2>
+          <p class="muted">Eat the blue food, grow your snake, and avoid crashing.</p>
         </div>
-        <select id="gameSelect" class="game-select" aria-label="Choose game">
-          <option value="snake">🐍 Snake</option>
-          <option value="ttt">⭕ Tic-Tac-Toe</option>
-          <option value="memory">🧠 Memory Match</option>
-          <option value="reaction">⚡ Reaction Rush</option>
-        </select>
+        <div class="card" style="padding:14px 18px">
+          <div class="small muted">Current player</div>
+          <strong id="arcadePlayer">Guest</strong>
+        </div>
       </div>
-    </div>
 
-    <div class="game-layout" style="margin-top:18px">
-      <div class="panel game-stage">
-        <!-- SNAKE -->
-        <div class="game-screen" id="game-snake">
-          <div class="game-top">
-            <div><h3>🐍 Snake</h3><p class="muted small">Eat the food. Don't hit the wall or yourself.</p></div>
-            <div class="score-chip">Score: <strong id="snakeScore">0</strong></div>
+      <div class="game-layout">
+        <div class="game-shell">
+          <div class="game-bar">
+            <div class="score-box">Score: <strong id="snakeScore">0</strong></div>
+            <div class="score-box">Local best: <strong id="snakeBest">0</strong></div>
+            <div class="score-box" id="snakeState">Ready to play</div>
           </div>
-          <canvas id="snakeCanvas" class="game-canvas" width="400" height="400" aria-label="Snake game"></canvas>
+          <canvas id="snakeCanvas" width="480" height="480"
+            aria-label="Snake game. Use arrow keys, WASD, or the buttons below."></canvas>
           <div class="game-controls">
             <button class="btn primary" id="snakeStart">▶ Start / Restart</button>
             <button class="btn" id="snakePause">Ⅱ Pause</button>
           </div>
-          <div class="game-controls" style="justify-content:center">
-            <button class="btn" data-dir="up" aria-label="Up">▲</button>
+          <div class="dpad" aria-label="Touch controls">
+            <button data-dir="up" aria-label="Up">↑</button>
+            <button data-dir="left" aria-label="Left">←</button>
+            <button data-dir="down" aria-label="Down">↓</button>
+            <button data-dir="right" aria-label="Right">→</button>
           </div>
-          <div class="game-controls" style="justify-content:center">
-            <button class="btn" data-dir="left" aria-label="Left">◀</button>
-            <button class="btn" data-dir="down" aria-label="Down">▼</button>
-            <button class="btn" data-dir="right" aria-label="Right">▶</button>
-          </div>
-          <p class="game-note">Controls: arrow keys, WASD, or the buttons. Swipe on the game board to change direction.</p>
-          <p id="snakeMessage" class="muted small" aria-live="polite">Press Start to play.</p>
+          <p class="small muted" style="text-align:center;margin-bottom:0">
+            Keyboard: Arrow keys or WASD. On a phone, use the directional buttons.
+          </p>
+          <div class="game-status" id="gameStatus" aria-live="polite"></div>
         </div>
 
-        <!-- TIC TAC TOE -->
-        <div class="game-screen hidden" id="game-ttt">
-          <div class="game-top">
-            <div><h3>⭕ Tic-Tac-Toe</h3><p class="muted small">Play against the computer.</p></div>
+        <aside class="game-side">
+          <div class="card">
+            <div class="card-icon">🏆</div>
+            <h3>Your score</h3>
+            <p>Try to beat your highest score on this device.</p>
+            <p class="small muted">Guest and local scores are stored only on this browser. Cross-device score saving requires a score endpoint on the Worker.</p>
           </div>
-          <div class="score-line">
-            <div class="score-chip">You: <strong id="tttWins">0</strong></div>
-            <div class="score-chip">Computer: <strong id="tttLosses">0</strong></div>
-            <div class="score-chip">Draws: <strong id="tttDraws">0</strong></div>
+          <div class="card">
+            <div class="card-icon">💡</div>
+            <h3>How to play</h3>
+            <ul>
+              <li>Eat the blue squares.</li>
+              <li>Don't hit the walls.</li>
+              <li>Don't run into yourself.</li>
+              <li>Each food gives you one point.</li>
+            </ul>
           </div>
-          <div class="ttt-board" id="tttBoard"></div>
-          <p id="tttMessage" class="muted small" aria-live="polite">Your turn. You are X.</p>
-          <div class="game-controls"><button class="btn primary" id="tttRestart">↻ New round</button></div>
-        </div>
+        </aside>
+      </div>
+    </div>
+  </section>
 
-        <!-- MEMORY -->
-        <div class="game-screen hidden" id="game-memory">
-          <div class="game-top">
-            <div><h3>🧠 Memory Match</h3><p class="muted small">Find all the matching pairs.</p></div>
-          </div>
-          <div class="score-line">
-            <div class="score-chip">Moves: <strong id="memoryMoves">0</strong></div>
-            <div class="score-chip">Pairs: <strong id="memoryPairs">0</strong>/8</div>
-          </div>
-          <div class="memory-board" id="memoryBoard"></div>
-          <p id="memoryMessage" class="muted small" aria-live="polite">Tap a card to reveal it.</p>
-          <div class="game-controls"><button class="btn primary" id="memoryRestart">↻ Shuffle cards</button></div>
-        </div>
-
-        <!-- REACTION -->
-        <div class="game-screen hidden" id="game-reaction">
-          <div class="game-top">
-            <div><h3>⚡ Reaction Rush</h3><p class="muted small">Wait for green, then tap as fast as you can.</p></div>
-            <div class="score-chip">Best: <strong id="reactionBest">—</strong></div>
-          </div>
-          <button id="reactionArea" style="width:100%;min-height:240px;border-radius:17px;border:1px solid var(--border);background:#17253a;color:white;font-size:22px;font-weight:850;padding:25px">
-            Tap here to start
-          </button>
-          <p id="reactionMessage" class="muted small" aria-live="polite">Don't tap before the screen turns green.</p>
-          <div class="score-line"><div class="score-chip">Last reaction: <strong id="reactionLast">—</strong></div></div>
-        </div>
+  <!-- ABOUT -->
+  <section class="view" id="about">
+    <div class="container">
+      <div class="section-heading">
+        <div class="eyebrow">A little about this place</div>
+        <h2 style="margin-top:12px">Built with curiosity.</h2>
+        <p class="lead">
+          ScottCode is my personal digital playground — a place to experiment,
+          build things for the web, learn new skills, and share projects.
+        </p>
       </div>
 
-      <aside class="panel">
-        <div class="eyebrow">Your game profile</div>
-        <h3 style="margin-top:12px">Player stats</h3>
-        <p class="muted small">These local stats are saved in this browser. They do not automatically transfer to another device.</p>
-        <hr>
-        <div class="score-line"><div class="score-chip">Player: <strong id="arcadePlayer">Guest</strong></div></div>
-        <div class="score-line"><div class="score-chip">Snake best: <strong id="snakeBest">0</strong></div></div>
-        <div class="score-line"><div class="score-chip">Memory best: <strong id="memoryBest">—</strong></div></div>
-        <div class="score-line"><div class="score-chip">Reaction best: <strong id="reactionSideBest">—</strong></div></div>
-        <hr>
-        <h3>Online leaderboard</h3>
-        <p class="muted small">Shown only if your Cloudflare Worker has a compatible leaderboard endpoint.</p>
-        <button class="btn" id="loadLeaderboard">↻ Load leaderboard</button>
-        <div id="leaderboard" class="small muted" style="margin-top:15px">Leaderboard hasn't been loaded.</div>
-      </aside>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">🧩</div>
+          <h3>Build</h3>
+          <p>Turn ideas into websites, tools, and small interactive experiences.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">📚</div>
+          <h3>Learn</h3>
+          <p>Try new technologies, understand how things work, and improve through practice.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Experiment</h3>
+          <p>Test ideas, learn from mistakes, and keep making the next version better.</p>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- ACCOUNT -->
   <section class="view" id="account">
-    <div class="section-head">
-      <div class="eyebrow">Player identity</div>
-      <h2>Your <span class="gradient-text">account.</span></h2>
-      <p>Register or log in to connect with the backend. For real multi-device accounts, the Worker must implement matching authentication endpoints.</p>
-    </div>
-
-    <div class="auth-layout">
-      <div class="panel">
-        <div class="card-icon">🔐</div>
-        <h3>Account & privacy</h3>
-        <p class="muted small">This page sends your login details only to the Worker URL configured in this HTML. Do not enter a password you use for another service.</p>
-        <div class="notice info">A username stored in this browser is not a real online account. Online authentication works only when the server supports it.</div>
-        <div id="accountStatus" class="notice info">You are browsing as a guest.</div>
-        <button id="logoutBtn" class="btn danger hidden">Log out</button>
-      </div>
-
-      <div class="panel">
-        <div class="tabs">
-          <button class="tab active" id="loginTab">Log in</button>
-          <button class="tab" id="registerTab">Create account</button>
+    <div class="container">
+      <div class="auth-layout">
+        <div class="auth-info">
+          <div class="eyebrow">ScottCode account</div>
+          <h2 style="margin-top:14px">Your corner of the internet.</h2>
+          <p class="lead">
+            Sign in or create an account using the connected server.
+            Your account must be handled by the Worker, not just this browser.
+          </p>
+          <div class="card" style="margin-top:22px">
+            <div class="card-icon">🔐</div>
+            <h3>Account security</h3>
+            <p>
+              Passwords should be hashed and checked by the server.
+              This page never stores your password in local storage.
+            </p>
+          </div>
         </div>
 
-        <form id="authForm">
-          <div class="field">
-            <label for="authUsername">Username</label>
-            <input id="authUsername" name="username" minlength="3" maxlength="32" autocomplete="username" required placeholder="Choose a username">
+        <div class="auth-panel">
+          <div id="signedInPanel" class="hidden">
+            <div class="eyebrow">You're signed in</div>
+            <h2 style="font-size:30px;margin-top:12px">Welcome back.</h2>
+            <div class="account-box">
+              <div class="small muted">Signed in as</div>
+              <strong id="accountUsername"></strong>
+              <p class="small muted" id="accountDetails">Your session is active.</p>
+            </div>
+            <div id="accountNotice" class="notice success">Signed in.</div>
+            <div class="account-actions">
+              <button class="btn primary" data-view="arcade">Go to arcade →</button>
+              <button class="btn danger" id="logoutBtn">Log out</button>
+            </div>
           </div>
-          <div class="field" style="margin-top:15px">
-            <label for="authPassword">Password</label>
-            <input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required placeholder="At least 8 characters">
+
+          <div id="authFormPanel">
+            <div class="tabs">
+              <button class="tab active" id="loginTab" type="button">Log in</button>
+              <button class="tab" id="registerTab" type="button">Create account</button>
+            </div>
+
+            <form id="authForm">
+              <div class="field">
+                <label for="authUsername">Username</label>
+                <input id="authUsername" name="username"
+                  autocomplete="username" minlength="3" maxlength="24"
+                  pattern="[A-Za-z0-9_.-]{3,24}" required
+                  placeholder="Your username">
+                <div class="small muted" style="margin-top:6px">
+                  3–24 characters: letters, numbers, dots, underscores, or hyphens.
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="authPassword">Password</label>
+                <input id="authPassword" name="password" type="password"
+                  autocomplete="current-password" minlength="8" maxlength="128"
+                  required placeholder="At least 8 characters">
+              </div>
+
+              <div class="field hidden" id="confirmWrap">
+                <label for="authConfirm">Confirm password</label>
+                <input id="authConfirm" name="confirmPassword" type="password"
+                  autocomplete="new-password" minlength="8" maxlength="128"
+                  placeholder="Enter your password again">
+              </div>
+
+              <button class="btn primary" id="authSubmit" type="submit" style="width:100%">
+                Log in
+              </button>
+              <div id="authMessage" class="notice" aria-live="polite">
+                Your account is managed by the ScottCode API.
+              </div>
+              <p class="small muted">
+                Don't use a password that you use for another important account.
+              </p>
+            </form>
           </div>
-          <div id="confirmWrap" class="field hidden" style="margin-top:15px">
-            <label for="authConfirm">Confirm password</label>
-            <input id="authConfirm" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Enter password again">
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="authSubmit" type="submit">Log in</button>
-          </div>
-          <div id="authMessage" aria-live="polite"></div>
-        </form>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="view" id="contact">
-    <div class="section-head">
-      <div class="eyebrow">Let's talk</div>
-      <h2>Send me a <span class="gradient-text">message.</span></h2>
-      <p>Questions, ideas, or feedback? Fill in the form below. Messages are submitted through Formspree.</p>
-    </div>
+    <div class="container">
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div class="eyebrow">Say hello</div>
+          <h2 style="margin-top:14px">Let's talk.</h2>
+          <p class="lead">
+            Have a question, found an issue, or want to share an idea?
+            Send me a message through the contact form.
+          </p>
+          <div class="card" style="margin-top:23px">
+            <div class="card-icon">✉</div>
+            <h3>Contact form</h3>
+            <p>Messages are submitted to Formspree. Don't include passwords or other sensitive information.</p>
+          </div>
+        </div>
 
-    <div class="auth-layout">
-      <div class="panel">
-        <div class="card-icon">✉️</div>
-        <h3>Contact Scott</h3>
-        <p class="muted">Use the form to send a message directly.</p>
-        <hr>
-        <p class="small muted">Website: scottcode.fun</p>
-        <p class="small muted">Messages are handled by Formspree. Its service and spam filters may affect delivery.</p>
-      </div>
-
-      <div class="panel">
-        <form id="contactForm" action="https://formspree.io/f/xgaogqjo" method="POST">
+        <form class="contact-form" id="contactForm">
           <div class="form-grid">
             <div class="field">
               <label for="contactName">Your name</label>
-              <input id="contactName" name="name" required maxlength="100" autocomplete="name" placeholder="Name">
+              <input id="contactName" name="name" required maxlength="100"
+                autocomplete="name" placeholder="Name">
             </div>
             <div class="field">
               <label for="contactEmail">Your email</label>
-              <input id="contactEmail" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@example.com">
+              <input id="contactEmail" name="email" type="email" required
+                maxlength="200" autocomplete="email" placeholder="you@example.com">
             </div>
             <div class="field full">
               <label for="contactSubject">Subject</label>
-              <input id="contactSubject" name="subject" required maxlength="160" placeholder="What is this about?">
+              <input id="contactSubject" name="subject" required maxlength="160"
+                placeholder="What is this about?">
             </div>
             <div class="field full">
               <label for="contactMessage">Message</label>
-              <textarea id="contactMessage" name="message" required maxlength="10000" placeholder="Write your message here..."></textarea>
+              <textarea id="contactMessage" name="message" required maxlength="10000"
+                placeholder="Write your message here..."></textarea>
             </div>
           </div>
+
           <input type="hidden" name="_subject" value="New message from ScottCode.fun">
-          <div class="actions">
-            <button class="btn primary" id="contactSubmit" type="submit">Send message ↗</button>
+          <button class="btn primary" id="contactSubmit" type="submit">Send message ↗</button>
+          <div id="contactStatus" class="notice" aria-live="polite">
+            Your message will be sent using Formspree.
           </div>
-          <div id="contactStatus" aria-live="polite"></div>
         </form>
       </div>
     </div>
   </section>
-
 </main>
 
 <footer>
   <div class="container footer-inner">
     <span>© <span id="year"></span> ScottCode.fun · Built with curiosity.</span>
-    <span>Designed for the web <span style="color:var(--blue)">✦</span></span>
+    <span>Light blue. Big ideas. <span style="color:var(--blue)">✦</span></span>
   </div>
 </footer>
 
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
+"use strict";
+
 /* =========================================================
-   SCOTTCODE CONFIGURATION
+   CONFIGURATION
    ========================================================= */
-
 const CONFIG = {
-  // Your Cloudflare Worker
-  API_BASE: "https://scottcode-api1.getlost24543.workers.dev/",
-
-  // Your Formspree form
+  API_BASE: "https://scottcode-api1.getlost24543.workers.dev",
   FORMSPREE_URL: "https://formspree.io/f/xgaogqjo",
 
-  // These are candidate paths, NOT confirmed routes.
-  // Update them to match your actual Worker implementation.
-  LOGIN_PATHS: ["/api/auth/login", "/auth/login", "/login"],
-  REGISTER_PATHS: ["/api/auth/register", "/auth/register", "/register"],
-  LEADERBOARD_PATHS: ["/api/leaderboard", "/leaderboard"],
-  SCORE_PATHS: ["/api/scores", "/scores"]
+  /*
+    These routes must exist in your Cloudflare Worker.
+
+    POST /api/auth/register
+      JSON: { "username": "...", "password": "..." }
+
+    POST /api/auth/login
+      JSON: { "username": "...", "password": "..." }
+
+    Suggested successful response:
+      {
+        "token": "YOUR_SESSION_TOKEN",
+        "user": { "username": "scott" }
+      }
+
+    The API may instead return access_token or accessToken.
+    If your Worker uses different routes or response fields,
+    the frontend must be adjusted to match it.
+  */
+
+  REGISTER_PATH: "/api/auth/register",
+  LOGIN_PATH: "/api/auth/login",
+  ME_PATH: "/api/auth/me",
+  LOGOUT_PATH: "/api/auth/logout"
 };
 
 /* =========================================================
-   HELPERS & NAVIGATION
+   HELPERS
    ========================================================= */
-
 const $ = id => document.getElementById(id);
-const toast = $("toast");
+
 let toastTimer;
 
 function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
 
 function setNotice(element, message, type = "info") {
-  element.className = "notice " + type;
+  element.className = "notice" + (type ? " " + type : "");
   element.textContent = message;
 }
 
+function getStoredToken() {
+  return localStorage.getItem("scottcode_token") || "";
+}
+
+function getStoredUsername() {
+  return localStorage.getItem("scottcode_username") || "";
+}
+
+function clearStoredSession() {
+  localStorage.removeItem("scottcode_token");
+  localStorage.removeItem("scottcode_username");
+}
+
+function safeErrorMessage(data, fallback) {
+  if (data && typeof data.message === "string") return data.message;
+  if (data && typeof data.error === "string") return data.error;
+  return fallback;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 function showView(name) {
   const target = $(name);
   if (!target || !target.classList.contains("view")) name = "home";
 
-  document.querySelectorAll(".view").forEach(el => {
-    el.classList.toggle("active", el.id === name);
+  document.querySelectorAll(".view").forEach(view => {
+    view.classList.toggle("active", view.id === name);
   });
 
-  document.querySelectorAll("[data-view]").forEach(el => {
-    if (el.classList.contains("nav-btn")) {
-      el.classList.toggle("active", el.dataset.view === name);
-    }
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.view === name);
   });
 
   $("navLinks").classList.remove("open");
   $("menuToggle").setAttribute("aria-expanded", "false");
   $("menuToggle").textContent = "☰";
 
-  // Stop the current game loop when leaving the arcade.
   if (name !== "arcade") stopSnakeLoop();
+  if (name === "arcade") drawSnake();
+  if (name === "account") updateAccountUI();
 
-  if (name === "arcade") updatePlayerStats();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.querySelectorAll("[data-view]").forEach(el => {
-  el.addEventListener("click", event => {
-    event.preventDefault();
-    showView(el.dataset.view);
-  });
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-view]");
+  if (!button) return;
+
+  event.preventDefault();
+  showView(button.dataset.view);
 });
 
 $("menuToggle").addEventListener("click", () => {
@@ -716,70 +1176,78 @@ $("menuToggle").addEventListener("click", () => {
 
 $("year").textContent = new Date().getFullYear();
 
-/* =========================================================
-   API HELPER
-   ========================================================= */
+/* Support normal page links and browser back/forward */
+window.addEventListener("hashchange", () => {
+  const name = location.hash.replace("#", "");
+  if ($(name) && $(name).classList.contains("view")) showView(name);
+});
 
+/* =========================================================
+   API CLIENT
+   ========================================================= */
 async function apiRequest(path, options = {}) {
-  const url = CONFIG.API_BASE.replace(/\/+$/, "") + path;
   const headers = {
-    "Content-Type": "application/json",
+    "Accept": "application/json",
+    ...(options.body ? {"Content-Type": "application/json"} : {}),
     ...(options.headers || {})
   };
 
-  const token = localStorage.getItem("scottcode_token");
+  const token = getStoredToken();
   if (token) headers.Authorization = "Bearer " + token;
 
-  const response = await fetch(url, {
-    ...options,
-    headers
-  });
+  let response;
+
+  try {
+    response = await fetch(CONFIG.API_BASE.replace(/\/+$/, "") + path, {
+      method: options.method || "GET",
+      headers,
+      body: options.body,
+      cache: "no-store"
+    });
+  } catch (error) {
+    throw new Error(
+      "Could not connect to the API. Check the Worker URL and its CORS settings."
+    );
+  }
 
   const raw = await response.text();
-  let data;
+  let data = {};
 
-  try { data = raw ? JSON.parse(raw) : {}; }
-  catch { data = { message: raw }; }
+  if (raw) {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      data = { message: raw };
+    }
+  }
 
   if (!response.ok) {
     throw new Error(
-      data.message || data.error || `Server returned HTTP ${response.status}`
+      safeErrorMessage(data, "API request failed with HTTP " + response.status)
     );
   }
 
   return data;
 }
 
-async function tryPaths(paths, options) {
-  let lastError;
+function getResponseToken(result) {
+  return result.token ||
+    result.access_token ||
+    result.accessToken ||
+    result.session?.token ||
+    "";
+}
 
-  for (const path of paths) {
-    try {
-      return await apiRequest(path, options);
-    } catch (error) {
-      lastError = error;
-
-      // Try another candidate only when the route is likely missing.
-      // Do not retry on a bad password or other ordinary 4xx response.
-      const message = String(error.message || "");
-      if (/401|403|invalid password|incorrect password|unauthorized/i.test(message)) {
-        throw error;
-      }
-      if (/404|not found|failed to fetch|networkerror|load failed/i.test(message)) {
-        continue;
-      }
-
-      throw error;
-    }
-  }
-
-  throw lastError || new Error("No compatible API endpoint was found.");
+function getResponseUsername(result, fallback) {
+  return result.user?.username ||
+    result.user?.name ||
+    result.username ||
+    fallback;
 }
 
 /* =========================================================
-   ACCOUNT / AUTHENTICATION
+   AUTHENTICATION
    ========================================================= */
-
 let authMode = "login";
 
 function setAuthMode(mode) {
@@ -788,30 +1256,43 @@ function setAuthMode(mode) {
 
   $("loginTab").classList.toggle("active", !registering);
   $("registerTab").classList.toggle("active", registering);
+
   $("confirmWrap").classList.toggle("hidden", !registering);
   $("authConfirm").required = registering;
-  $("authPassword").autocomplete = registering ? "new-password" : "current-password";
-  $("authSubmit").textContent = registering ? "Create account" : "Log in";
-  $("authMessage").textContent = "";
+
+  $("authPassword").autocomplete =
+    registering ? "new-password" : "current-password";
+
+  $("authSubmit").textContent =
+    registering ? "Create account" : "Log in";
+
+  $("authMessage").textContent = registering
+    ? "Create an account using the connected API."
+    : "Enter your account details to sign in.";
+
+  $("authMessage").className = "notice";
 }
 
 $("loginTab").addEventListener("click", () => setAuthMode("login"));
 $("registerTab").addEventListener("click", () => setAuthMode("register"));
 
 function updateAccountUI() {
-  const username = localStorage.getItem("scottcode_username");
-  const status = $("accountStatus");
+  const username = getStoredUsername();
+  const signedIn = Boolean(getStoredToken() && username);
 
-  if (username) {
-    setNotice(status, "Signed in as " + username + ".", "success");
-    $("logoutBtn").classList.remove("hidden");
-  } else {
-    setNotice(status, "You are browsing as a guest.", "info");
-    $("logoutBtn").classList.add("hidden");
+  $("authFormPanel").classList.toggle("hidden", signedIn);
+  $("signedInPanel").classList.toggle("hidden", !signedIn);
+
+  $("navAccount").textContent = signedIn
+    ? username + " ▾"
+    : "Log in ↗";
+
+  $("arcadePlayer").textContent = signedIn ? username : "Guest";
+
+  if (signedIn) {
+    $("accountUsername").textContent = username;
+    $("accountDetails").textContent = "Your account session is saved in this browser.";
   }
-
-  $("arcadePlayer").textContent = username || "Guest";
-  updatePlayerStats();
 }
 
 $("authForm").addEventListener("submit", async event => {
@@ -820,14 +1301,19 @@ $("authForm").addEventListener("submit", async event => {
   const username = $("authUsername").value.trim();
   const password = $("authPassword").value;
   const message = $("authMessage");
+  const button = $("authSubmit");
 
-  if (username.length < 3) {
-    setNotice(message, "Your username must be at least 3 characters.", "error");
+  if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) {
+    setNotice(
+      message,
+      "Username must be 3–24 characters and use only letters, numbers, dots, underscores, or hyphens.",
+      "error"
+    );
     return;
   }
 
-  if (password.length < 8) {
-    setNotice(message, "Your password must be at least 8 characters.", "error");
+  if (password.length < 8 || password.length > 128) {
+    setNotice(message, "Password must be between 8 and 128 characters.", "error");
     return;
   }
 
@@ -836,270 +1322,298 @@ $("authForm").addEventListener("submit", async event => {
     return;
   }
 
-  const button = $("authSubmit");
   button.disabled = true;
   button.textContent = "Please wait…";
 
   try {
-    const paths = authMode === "register"
-      ? CONFIG.REGISTER_PATHS
-      : CONFIG.LOGIN_PATHS;
+    const path = authMode === "register"
+      ? CONFIG.REGISTER_PATH
+      : CONFIG.LOGIN_PATH;
 
-    const result = await tryPaths(paths, {
+    const result = await apiRequest(path, {
       method: "POST",
       body: JSON.stringify({ username, password })
     });
 
-    // Common response shapes supported:
-    // {token:"...", username:"..."}
-    // {access_token:"...", user:{username:"..."}}
-    const token = result.token || result.access_token ||
-      result.accessToken || result.session?.token;
+    const token = getResponseToken(result);
+    const returnedUsername = getResponseUsername(result, username);
 
-    const returnedUser = result.user?.username ||
-      result.username || username;
-
+    /*
+      A successful login must return a session token.
+      We intentionally do not make a local-only account when it doesn't.
+    */
     if (!token) {
       throw new Error(
-        "The server responded, but no login token was returned. Check your Worker API response format."
+        "The Worker responded without a session token. Its response format or auth route needs to be fixed."
       );
     }
 
     localStorage.setItem("scottcode_token", token);
-    localStorage.setItem("scottcode_username", returnedUser);
+    localStorage.setItem("scottcode_username", returnedUsername);
 
-    setNotice(message, "Success! You are signed in as " + returnedUser + ".", "success");
-    updateAccountUI();
-    showToast("Welcome, " + returnedUser + "!");
-  } catch (error) {
     setNotice(
       message,
-      "Account request failed: " + error.message +
-      " Check the Worker routes and CORS settings.",
-      "error"
+      authMode === "register"
+        ? "Account created and signed in successfully."
+        : "You are now signed in.",
+      "success"
     );
+
+    updateAccountUI();
+    showToast("Welcome, " + returnedUsername + "!");
+  } catch (error) {
+    setNotice(message, error.message, "error");
   } finally {
     button.disabled = false;
-    button.textContent = authMode === "register" ? "Create account" : "Log in";
+    button.textContent = authMode === "register"
+      ? "Create account"
+      : "Log in";
   }
 });
 
-$("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("scottcode_token");
-  localStorage.removeItem("scottcode_username");
+$("logoutBtn").addEventListener("click", async () => {
+  try {
+    if (getStoredToken()) {
+      await apiRequest(CONFIG.LOGOUT_PATH, { method: "POST" });
+    }
+  } catch (error) {
+    /*
+      Clear the local session even if the API's logout route
+      is unavailable. For token-based auth, the server should
+      also support token expiry/revocation.
+    */
+    console.warn("Server logout request:", error.message);
+  }
+
+  clearStoredSession();
   updateAccountUI();
-  showToast("Logged out.");
+  showToast("You have logged out.");
 });
-
-updateAccountUI();
-
-/* =========================================================
-   GAME STATS
-   ========================================================= */
-
-function getNumber(key, fallback = 0) {
-  const value = Number(localStorage.getItem(key));
-  return Number.isFinite(value) ? value : fallback;
-}
-
-function saveBest(key, score, lowerIsBetter = false) {
-  const current = localStorage.getItem(key);
-  const old = current === null ? null : Number(current);
-
-  if (old === null ||
-      (lowerIsBetter ? score < old : score > old)) {
-    localStorage.setItem(key, String(score));
-    return true;
-  }
-
-  return false;
-}
-
-function updatePlayerStats() {
-  $("arcadePlayer").textContent =
-    localStorage.getItem("scottcode_username") || "Guest";
-
-  $("snakeBest").textContent = localStorage.getItem("scottcode_snake_best") || "0";
-  $("memoryBest").textContent = localStorage.getItem("scottcode_memory_best") || "—";
-  $("reactionSideBest").textContent = localStorage.getItem("scottcode_reaction_best") || "—";
-  $("reactionBest").textContent = localStorage.getItem("scottcode_reaction_best") || "—";
-
-  $("tttWins").textContent = getNumber("scottcode_ttt_wins");
-  $("tttLosses").textContent = getNumber("scottcode_ttt_losses");
-  $("tttDraws").textContent = getNumber("scottcode_ttt_draws");
-}
 
 /*
- * The score endpoint is optional. The game itself still works without it.
- * Your Worker must authenticate the token and validate submitted scores.
- */
-async function submitScore(game, score) {
-  const token = localStorage.getItem("scottcode_token");
-  if (!token) return;
+  Verify an existing session on page load.
+
+  If your Worker doesn't implement GET /api/auth/me,
+  this check will fail and the browser session will be cleared.
+  Implement the route or change CONFIG.ME_PATH to your actual route.
+*/
+async function restoreSession() {
+  if (!getStoredToken()) {
+    updateAccountUI();
+    return;
+  }
 
   try {
-    await tryPaths(CONFIG.SCORE_PATHS, {
-      method: "POST",
-      body: JSON.stringify({ game, score })
-    });
+    const result = await apiRequest(CONFIG.ME_PATH);
+    const username = getResponseUsername(result, getStoredUsername());
+
+    if (!username) throw new Error("No user was returned.");
+
+    localStorage.setItem("scottcode_username", username);
+    updateAccountUI();
   } catch (error) {
-    console.warn("Online score was not saved:", error.message);
+    console.warn("Could not verify saved session:", error.message);
+    clearStoredSession();
+    updateAccountUI();
   }
 }
 
-$("loadLeaderboard").addEventListener("click", async () => {
-  const board = $("leaderboard");
-  board.textContent = "Loading…";
+updateAccountUI();
+restoreSession();
+
+/* =========================================================
+   CONTACT FORM — FORMSPREE
+   ========================================================= */
+$("contactForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const form = $("contactForm");
+  const button = $("contactSubmit");
+  const status = $("contactStatus");
+
+  if (!form.reportValidity()) return;
+
+  button.disabled = true;
+  button.textContent = "Sending…";
+  setNotice(status, "Sending your message…");
 
   try {
-    const result = await tryPaths(CONFIG.LEADERBOARD_PATHS, { method: "GET" });
-    const rows = Array.isArray(result) ? result :
-      (result.leaderboard || result.scores || result.data || []);
+    const formData = new FormData(form);
 
-    if (!Array.isArray(rows) || !rows.length) {
-      board.textContent = "The server returned no leaderboard entries.";
-      return;
+    const response = await fetch(CONFIG.FORMSPREE_URL, {
+      method: "POST",
+      body: formData,
+      headers: { "Accept": "application/json" }
+    });
+
+    let result = {};
+    try { result = await response.json(); } catch {}
+
+    if (!response.ok) {
+      const errors = Array.isArray(result.errors)
+        ? result.errors.map(item => item.message).join(" ")
+        : "";
+
+      throw new Error(
+        errors || "Formspree could not accept the message. Please try again."
+      );
     }
 
-    board.replaceChildren();
+    setNotice(status, "Message sent successfully! Redirecting…", "success");
+    form.reset();
 
-    rows.slice(0, 10).forEach((row, index) => {
-      const line = document.createElement("div");
-      line.style.padding = "9px 0";
-      line.style.borderBottom = "1px solid var(--border)";
+    /*
+      Keep your existing /thanks destination.
+      If your real thanks page is /thanks.html instead,
+      change this line to window.location.href = "/thanks.html";
+    */
+    setTimeout(() => {
+      window.location.href = "/thanks";
+    }, 900);
 
-      const name = row.username || row.name || "Player";
-      const game = row.game || "Game";
-      const score = row.score ?? 0;
-
-      line.textContent = `${index + 1}. ${name} — ${game}: ${score}`;
-      board.appendChild(line);
-    });
   } catch (error) {
-    board.textContent =
-      "Leaderboard unavailable. Your Worker may not have a compatible leaderboard endpoint yet.";
+    setNotice(status, error.message, "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send message ↗";
   }
 });
 
 /* =========================================================
-   GAME SELECTOR
+   SNAKE GAME
    ========================================================= */
+const canvas = $("snakeCanvas");
+const ctx = canvas.getContext("2d");
 
-const gameSelect = $("gameSelect");
-
-function showGame(name) {
-  document.querySelectorAll(".game-screen").forEach(el => {
-    el.classList.toggle("hidden", el.id !== "game-" + name);
-  });
-
-  if (name !== "snake") stopSnakeLoop();
-
-  if (name === "snake") drawSnake();
-  if (name === "ttt" && !tttBoardReady) initTicTacToe();
-  if (name === "memory" && !memoryReady) initMemory();
-  if (name === "reaction") updatePlayerStats();
-}
-
-gameSelect.addEventListener("change", () => showGame(gameSelect.value));
-
-/* =========================================================
-   SNAKE
-   ========================================================= */
-
-const snakeCanvas = $("snakeCanvas");
-const snakeCtx = snakeCanvas.getContext("2d");
-const CELL = 20;
-const GRID = snakeCanvas.width / CELL;
+const CELLS = 24;
+const CELL = canvas.width / CELLS;
 
 let snake = [];
-let food = { x: 10, y: 10 };
-let snakeDir = { x: 1, y: 0 };
-let nextSnakeDir = { x: 1, y: 0 };
-let snakeScore = 0;
+let food = {x:12,y:12};
+let direction = {x:1,y:0};
+let nextDirection = {x:1,y:0};
+let score = 0;
 let snakeTimer = null;
 let snakeRunning = false;
 let snakeOver = false;
 
-function placeFood() {
+const BEST_KEY = "scottcode_snake_best";
+
+function readBest() {
+  const value = Number(localStorage.getItem(BEST_KEY) || 0);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function updateSnakeScore() {
+  $("snakeScore").textContent = String(score);
+  $("snakeBest").textContent = String(readBest());
+}
+
+function randomFood() {
+  let candidate;
   let attempts = 0;
 
   do {
-    food = {
-      x: Math.floor(Math.random() * GRID),
-      y: Math.floor(Math.random() * GRID)
+    candidate = {
+      x: Math.floor(Math.random() * CELLS),
+      y: Math.floor(Math.random() * CELLS)
     };
     attempts++;
-  } while (snake.some(part => part.x === food.x && part.y === food.y) && attempts < 1000);
+  } while (
+    snake.some(part => part.x === candidate.x && part.y === candidate.y) &&
+    attempts < 1000
+  );
+
+  food = candidate;
 }
 
 function resetSnake() {
-  stopSnakeLoop();
   snake = [
-    { x: 9, y: 10 },
-    { x: 8, y: 10 },
-    { x: 7, y: 10 }
+    {x:8,y:12},
+    {x:7,y:12},
+    {x:6,y:12},
+    {x:5,y:12}
   ];
-  snakeDir = { x: 1, y: 0 };
-  nextSnakeDir = { x: 1, y: 0 };
-  snakeScore = 0;
+
+  direction = {x:1,y:0};
+  nextDirection = {x:1,y:0};
+  score = 0;
   snakeOver = false;
-  $("snakeScore").textContent = "0";
-  $("snakeMessage").textContent = "Use the arrow keys or buttons to move.";
-  placeFood();
+  snakeRunning = false;
+
+  randomFood();
+  updateSnakeScore();
+
+  $("snakeState").textContent = "Ready to play";
+  $("gameStatus").textContent = "Press Start / Restart to begin.";
   drawSnake();
 }
 
 function drawSnake() {
-  snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-  snakeCtx.fillStyle = "#06101d";
-  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+  if (!ctx) return;
 
-  snakeCtx.strokeStyle = "#a9d9ff0a";
-  snakeCtx.lineWidth = 1;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#f5faff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i <= GRID; i++) {
-    snakeCtx.beginPath();
-    snakeCtx.moveTo(i * CELL, 0);
-    snakeCtx.lineTo(i * CELL, snakeCanvas.height);
-    snakeCtx.stroke();
+  /* Subtle grid */
+  ctx.strokeStyle = "#e6f0fc";
+  ctx.lineWidth = 1;
 
-    snakeCtx.beginPath();
-    snakeCtx.moveTo(0, i * CELL);
-    snakeCtx.lineTo(snakeCanvas.width, i * CELL);
-    snakeCtx.stroke();
+  for (let i = 0; i <= CELLS; i++) {
+    const pos = i * CELL;
+
+    ctx.beginPath();
+    ctx.moveTo(pos, 0);
+    ctx.lineTo(pos, canvas.height);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, pos);
+    ctx.lineTo(canvas.width, pos);
+    ctx.stroke();
   }
 
-  snakeCtx.fillStyle = "#ff7892";
-  snakeCtx.beginPath();
-  snakeCtx.arc(food.x * CELL + CELL / 2, food.y * CELL + CELL / 2, CELL * .34, 0, Math.PI * 2);
-  snakeCtx.fill();
+  /* Food */
+  ctx.fillStyle = "#398fff";
+  ctx.beginPath();
+  ctx.roundRect(
+    food.x * CELL + 3,
+    food.y * CELL + 3,
+    CELL - 6,
+    CELL - 6,
+    5
+  );
+  ctx.fill();
 
+  /* Snake */
   snake.forEach((part, index) => {
-    snakeCtx.fillStyle = index === 0 ? "#74f1df" : "#6dbbff";
-    snakeCtx.beginPath();
-    snakeCtx.roundRect(
-      part.x * CELL + 2, part.y * CELL + 2,
-      CELL - 4, CELL - 4, 5
+    ctx.fillStyle = index === 0 ? "#1769e8" : "#62adff";
+    ctx.beginPath();
+    ctx.roundRect(
+      part.x * CELL + 2,
+      part.y * CELL + 2,
+      CELL - 4,
+      CELL - 4,
+      5
     );
-    snakeCtx.fill();
+    ctx.fill();
   });
 
-  if (!snakeRunning && !snakeOver) {
-    snakeCtx.fillStyle = "#eef7ff";
-    snakeCtx.textAlign = "center";
-    snakeCtx.font = "bold 18px system-ui";
-    snakeCtx.fillText("PRESS START", snakeCanvas.width / 2, snakeCanvas.height - 22);
-  }
+  if (!snakeRunning) {
+    ctx.fillStyle = "rgba(245,250,255,.82)";
+    ctx.fillRect(0, canvas.height / 2 - 32, canvas.width, 64);
 
-  if (snakeOver) {
-    snakeCtx.fillStyle = "#06101dcc";
-    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-    snakeCtx.fillStyle = "#ffffff";
-    snakeCtx.textAlign = "center";
-    snakeCtx.font = "bold 28px system-ui";
-    snakeCtx.fillText("GAME OVER", snakeCanvas.width / 2, snakeCanvas.height / 2 - 8);
-    snakeCtx.font = "15px system-ui";
-    snakeCtx.fillText("Press Start to try again", snakeCanvas.width / 2, snakeCanvas.height / 2 + 23);
+    ctx.fillStyle = "#183451";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 18px system-ui";
+
+    ctx.fillText(
+      snakeOver ? "Game over — restart to play" : "Press Start to play",
+      canvas.width / 2,
+      canvas.height / 2
+    );
   }
 }
 
@@ -1110,46 +1624,82 @@ function stopSnakeLoop() {
 }
 
 function startSnake() {
+  stopSnakeLoop();
   resetSnake();
+
   snakeRunning = true;
-  $("snakeMessage").textContent = "Game on!";
-  snakeTimer = setInterval(tickSnake, 115);
+  $("snakeState").textContent = "Playing";
+  $("gameStatus").textContent = "Good luck!";
+  snakeTimer = setInterval(stepSnake, 125);
+
   drawSnake();
 }
 
-function tickSnake() {
-  if (!snakeRunning) return;
+function pauseSnake() {
+  if (snakeOver) return;
 
-  snakeDir = nextSnakeDir;
+  if (snakeRunning) {
+    stopSnakeLoop();
+    $("snakeState").textContent = "Paused";
+    $("gameStatus").textContent = "Game paused.";
+  } else {
+    snakeRunning = true;
+    $("snakeState").textContent = "Playing";
+    $("gameStatus").textContent = "Game resumed.";
+
+    if (snakeTimer) clearInterval(snakeTimer);
+    snakeTimer = setInterval(stepSnake, 125);
+  }
+
+  drawSnake();
+}
+
+function finishSnake() {
+  stopSnakeLoop();
+  snakeOver = true;
+  $("snakeState").textContent = "Game over";
+
+  const previousBest = readBest();
+
+  if (score > previousBest) {
+    localStorage.setItem(BEST_KEY, String(score));
+    $("gameStatus").textContent = "New local best: " + score + "! 🎉";
+  } else {
+    $("gameStatus").textContent = "Game over. Final score: " + score + ".";
+  }
+
+  updateSnakeScore();
+  drawSnake();
+}
+
+function stepSnake() {
+  direction = nextDirection;
 
   const head = {
-    x: snake[0].x + snakeDir.x,
-    y: snake[0].y + snakeDir.y
+    x: snake[0].x + direction.x,
+    y: snake[0].y + direction.y
   };
 
-  const eating = head.x === food.x && head.y === food.y;
-  const bodyToCheck = eating ? snake : snake.slice(0, -1);
+  const ateFood = head.x === food.x && head.y === food.y;
+
+  /* Allow the snake to move into its old tail cell when not growing. */
+  const collisionBody = ateFood ? snake : snake.slice(0, -1);
 
   if (
-    head.x < 0 || head.y < 0 || head.x >= GRID || head.y >= GRID ||
-    bodyToCheck.some(part => part.x === head.x && part.y === head.y)
+    head.x < 0 || head.y < 0 ||
+    head.x >= CELLS || head.y >= CELLS ||
+    collisionBody.some(part => part.x === head.x && part.y === head.y)
   ) {
-    stopSnakeLoop();
-    snakeOver = true;
-    $("snakeMessage").textContent = "Game over! Final score: " + snakeScore;
-    const newBest = saveBest("scottcode_snake_best", snakeScore);
-    if (newBest) submitScore("snake", snakeScore);
-    updatePlayerStats();
-    drawSnake();
+    finishSnake();
     return;
   }
 
   snake.unshift(head);
 
-  if (eating) {
-    snakeScore += 10;
-    $("snakeScore").textContent = snakeScore;
-    placeFood();
+  if (ateFood) {
+    score++;
+    randomFood();
+    updateSnakeScore();
   } else {
     snake.pop();
   }
@@ -1157,417 +1707,89 @@ function tickSnake() {
   drawSnake();
 }
 
-function changeSnakeDirection(direction) {
+function setDirection(name) {
   const directions = {
-    up: { x: 0, y: -1 },
-    down: { x: 0, y: 1 },
-    left: { x: -1, y: 0 },
-    right: { x: 1, y: 0 }
+    up: {x:0,y:-1},
+    down: {x:0,y:1},
+    left: {x:-1,y:0},
+    right: {x:1,y:0}
   };
 
-  const next = directions[direction];
-  if (!next) return;
+  const proposed = directions[name];
+  if (!proposed) return;
 
-  // Prevent an immediate 180-degree reversal.
-  if (next.x === -snakeDir.x && next.y === -snakeDir.y) return;
-  nextSnakeDir = next;
+  /* Prevent an instant 180-degree turn */
+  if (
+    proposed.x === -direction.x &&
+    proposed.y === -direction.y
+  ) return;
+
+  nextDirection = proposed;
 }
 
 $("snakeStart").addEventListener("click", startSnake);
-
-$("snakePause").addEventListener("click", () => {
-  if (snakeOver) return;
-
-  if (snakeRunning) {
-    stopSnakeLoop();
-    $("snakePause").textContent = "▶ Resume";
-    $("snakeMessage").textContent = "Paused.";
-    drawSnake();
-  } else {
-    snakeRunning = true;
-    snakeTimer = setInterval(tickSnake, 115);
-    $("snakePause").textContent = "Ⅱ Pause";
-    $("snakeMessage").textContent = "Game on!";
-  }
-});
+$("snakePause").addEventListener("click", pauseSnake);
 
 document.querySelectorAll("[data-dir]").forEach(button => {
-  button.addEventListener("click", () => changeSnakeDirection(button.dataset.dir));
+  button.addEventListener("click", () => setDirection(button.dataset.dir));
 });
 
 document.addEventListener("keydown", event => {
-  if (!$("arcade").classList.contains("active")) return;
+  const activeView = document.querySelector(".view.active");
+  if (!activeView || activeView.id !== "arcade") return;
 
   const key = event.key.toLowerCase();
-  const directions = {
-    arrowup: "up", w: "up",
-    arrowdown: "down", s: "down",
-    arrowleft: "left", a: "left",
-    arrowright: "right", d: "right"
+
+  const mapping = {
+    arrowup:"up", w:"up",
+    arrowdown:"down", s:"down",
+    arrowleft:"left", a:"left",
+    arrowright:"right", d:"right"
   };
 
-  if (directions[key] && gameSelect.value === "snake") {
+  if (mapping[key]) {
     event.preventDefault();
-    changeSnakeDirection(directions[key]);
+    setDirection(mapping[key]);
+  }
+
+  if (key === " " && !event.repeat) {
+    event.preventDefault();
+    if (snakeRunning) pauseSnake();
+    else if (!snakeOver) pauseSnake();
   }
 });
 
-let touchStartX = 0, touchStartY = 0;
+/* Basic swipe controls for phones */
+let touchStartX = 0;
+let touchStartY = 0;
 
-snakeCanvas.addEventListener("touchstart", event => {
+canvas.addEventListener("touchstart", event => {
   const touch = event.changedTouches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
-}, { passive: true });
+}, {passive:true});
 
-snakeCanvas.addEventListener("touchend", event => {
+canvas.addEventListener("touchend", event => {
   const touch = event.changedTouches[0];
   const dx = touch.clientX - touchStartX;
   const dy = touch.clientY - touchStartY;
 
-  if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
 
   if (Math.abs(dx) > Math.abs(dy)) {
-    changeSnakeDirection(dx > 0 ? "right" : "left");
+    setDirection(dx > 0 ? "right" : "left");
   } else {
-    changeSnakeDirection(dy > 0 ? "down" : "up");
+    setDirection(dy > 0 ? "down" : "up");
   }
-}, { passive: true });
+}, {passive:true});
 
 resetSnake();
 
-/* =========================================================
-   TIC-TAC-TOE
-   ========================================================= */
-
-let tttBoard = Array(9).fill("");
-let tttOver = false;
-let tttBoardReady = false;
-
-function initTicTacToe() {
-  tttBoardReady = true;
-  renderTicTacToe();
+/* Open the correct view when the site loads with a hash */
+const initialView = location.hash.replace("#", "");
+if ($(initialView) && $(initialView).classList.contains("view")) {
+  showView(initialView);
 }
-
-function renderTicTacToe() {
-  const board = $("tttBoard");
-  board.replaceChildren();
-
-  tttBoard.forEach((value, index) => {
-    const cell = document.createElement("button");
-    cell.className = "ttt-cell";
-    cell.textContent = value;
-    cell.setAttribute("aria-label", "Cell " + (index + 1) + (value ? ": " + value : ""));
-    cell.disabled = Boolean(value) || tttOver;
-    cell.addEventListener("click", () => tttMove(index));
-    board.appendChild(cell);
-  });
-}
-
-function winningLine(board, player) {
-  const lines = [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ];
-  return lines.some(line => line.every(index => board[index] === player));
-}
-
-function finishTicTacToe(result) {
-  tttOver = true;
-
-  if (result === "X") {
-    $("tttMessage").textContent = "You win! Nice one.";
-    localStorage.setItem("scottcode_ttt_wins", String(getNumber("scottcode_ttt_wins") + 1));
-  } else if (result === "O") {
-    $("tttMessage").textContent = "The computer wins this round.";
-    localStorage.setItem("scottcode_ttt_losses", String(getNumber("scottcode_ttt_losses") + 1));
-  } else {
-    $("tttMessage").textContent = "It's a draw!";
-    localStorage.setItem("scottcode_ttt_draws", String(getNumber("scottcode_ttt_draws") + 1));
-  }
-
-  renderTicTacToe();
-  updatePlayerStats();
-}
-
-function tttMove(index) {
-  if (tttOver || tttBoard[index]) return;
-
-  tttBoard[index] = "X";
-
-  if (winningLine(tttBoard, "X")) {
-    finishTicTacToe("X");
-    return;
-  }
-
-  if (tttBoard.every(Boolean)) {
-    finishTicTacToe("draw");
-    return;
-  }
-
-  const available = tttBoard
-    .map((value, i) => value ? -1 : i)
-    .filter(i => i !== -1);
-
-  // Try a winning move, then block the player, then choose a strategic square.
-  let computerMove = null;
-
-  for (const player of ["O", "X"]) {
-    for (const indexToTest of available) {
-      const copy = [...tttBoard];
-      copy[indexToTest] = player;
-      if (winningLine(copy, player)) {
-        computerMove = indexToTest;
-        break;
-      }
-    }
-    if (computerMove !== null) break;
-  }
-
-  if (computerMove === null && available.includes(4)) {
-    computerMove = 4;
-  }
-
-  if (computerMove === null) {
-    const corners = [0,2,6,8].filter(i => available.includes(i));
-    if (corners.length) {
-      computerMove = corners[Math.floor(Math.random() * corners.length)];
-    }
-  }
-
-  if (computerMove === null) {
-    computerMove = available[Math.floor(Math.random() * available.length)];
-  }
-
-  tttBoard[computerMove] = "O";
-
-  if (winningLine(tttBoard, "O")) {
-    finishTicTacToe("O");
-  } else if (tttBoard.every(Boolean)) {
-    finishTicTacToe("draw");
-  } else {
-    $("tttMessage").textContent = "Your turn. You are X.";
-    renderTicTacToe();
-  }
-}
-
-function resetTicTacToe() {
-  tttBoard = Array(9).fill("");
-  tttOver = false;
-  $("tttMessage").textContent = "Your turn. You are X.";
-  renderTicTacToe();
-}
-
-$("tttRestart").addEventListener("click", resetTicTacToe);
-initTicTacToe();
-
-/* =========================================================
-   MEMORY MATCH
-   ========================================================= */
-
-const memorySymbols = ["🌙","🚀","💎","🌈","🪐","⚡","🎧","🧊"];
-let memoryCards = [];
-let memoryOpened = [];
-let memoryMatched = [];
-let memoryMoves = 0;
-let memoryLocked = false;
-let memoryReady = false;
-let memoryTimeout = null;
-
-function initMemory() {
-  memoryReady = true;
-  resetMemory();
-}
-
-function resetMemory() {
-  clearTimeout(memoryTimeout);
-  memoryCards = [...memorySymbols, ...memorySymbols]
-    .sort(() => Math.random() - .5);
-  memoryOpened = [];
-  memoryMatched = [];
-  memoryMoves = 0;
-  memoryLocked = false;
-  $("memoryMoves").textContent = "0";
-  $("memoryPairs").textContent = "0";
-  $("memoryMessage").textContent = "Tap two cards to find a pair.";
-  renderMemory();
-}
-
-function renderMemory() {
-  const board = $("memoryBoard");
-  board.replaceChildren();
-
-  memoryCards.forEach((symbol, index) => {
-    const card = document.createElement("button");
-    const isOpen = memoryOpened.includes(index);
-    const isMatched = memoryMatched.includes(index);
-
-    card.className = "memory-cell" +
-      (isOpen ? " open" : "") + (isMatched ? " matched" : "");
-    card.textContent = isOpen || isMatched ? symbol : "?";
-    card.setAttribute("aria-label", isOpen || isMatched ? symbol : "Hidden card");
-    card.disabled = isOpen || isMatched || memoryLocked;
-    card.addEventListener("click", () => flipMemory(index));
-    board.appendChild(card);
-  });
-}
-
-function flipMemory(index) {
-  if (memoryLocked || memoryOpened.includes(index) || memoryMatched.includes(index)) return;
-
-  memoryOpened.push(index);
-  renderMemory();
-
-  if (memoryOpened.length < 2) return;
-
-  memoryMoves++;
-  $("memoryMoves").textContent = memoryMoves;
-
-  const [first, second] = memoryOpened;
-
-  if (memoryCards[first] === memoryCards[second]) {
-    memoryMatched.push(first, second);
-    memoryOpened = [];
-    $("memoryPairs").textContent = String(memoryMatched.length / 2);
-    renderMemory();
-
-    if (memoryMatched.length === memoryCards.length) {
-      $("memoryMessage").textContent = `Completed in ${memoryMoves} moves!`;
-      const isBest = saveBest("scottcode_memory_best", memoryMoves, true);
-      if (isBest) submitScore("memory", memoryMoves);
-      updatePlayerStats();
-    } else {
-      $("memoryMessage").textContent = "Match found!";
-    }
-  } else {
-    memoryLocked = true;
-    $("memoryMessage").textContent = "Not a match. Try again.";
-    memoryTimeout = setTimeout(() => {
-      memoryOpened = [];
-      memoryLocked = false;
-      renderMemory();
-    }, 750);
-  }
-}
-
-$("memoryRestart").addEventListener("click", resetMemory);
-initMemory();
-
-/* =========================================================
-   REACTION RUSH
-   ========================================================= */
-
-let reactionState = "idle";
-let reactionTimer = null;
-let reactionStartedAt = 0;
-
-function reactionStart() {
-  clearTimeout(reactionTimer);
-  reactionState = "waiting";
-  $("reactionArea").style.background = "#7b3549";
-  $("reactionArea").textContent = "Wait for green…";
-  $("reactionMessage").textContent = "Don't tap yet!";
-
-  const delay = 1500 + Math.random() * 3500;
-
-  reactionTimer = setTimeout(() => {
-    reactionState = "ready";
-    reactionStartedAt = performance.now();
-    $("reactionArea").style.background = "#126e50";
-    $("reactionArea").textContent = "TAP NOW!";
-    $("reactionMessage").textContent = "Go! Tap as quickly as you can.";
-  }, delay);
-}
-
-$("reactionArea").addEventListener("click", () => {
-  if (reactionState === "idle" || reactionState === "done") {
-    reactionStart();
-    return;
-  }
-
-  if (reactionState === "waiting") {
-    clearTimeout(reactionTimer);
-    reactionState = "done";
-    $("reactionArea").style.background = "#7b3549";
-    $("reactionArea").textContent = "Too early!";
-    $("reactionMessage").textContent = "You tapped before green. Tap again to retry.";
-    return;
-  }
-
-  if (reactionState === "ready") {
-    const elapsed = Math.round(performance.now() - reactionStartedAt);
-    reactionState = "done";
-    $("reactionArea").style.background = "#14334b";
-    $("reactionArea").textContent = elapsed + " ms";
-    $("reactionLast").textContent = elapsed + " ms";
-    $("reactionMessage").textContent = elapsed < 250
-      ? "Super quick!"
-      : "Nice! Try to beat that time.";
-
-    const isBest = saveBest("scottcode_reaction_best", elapsed, true);
-    if (isBest) submitScore("reaction", elapsed);
-    updatePlayerStats();
-  }
-});
-
-updatePlayerStats();
-
-/* =========================================================
-   CONTACT FORM — FORMSPREE
-   ========================================================= */
-
-const contactForm = $("contactForm");
-contactForm.action = CONFIG.FORMSPREE_URL;
-
-contactForm.addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const status = $("contactStatus");
-  const button = $("contactSubmit");
-
-  if (!contactForm.reportValidity()) return;
-
-  button.disabled = true;
-  button.textContent = "Sending…";
-  status.replaceChildren();
-
-  try {
-    const response = await fetch(CONFIG.FORMSPREE_URL, {
-      method: "POST",
-      body: new FormData(contactForm),
-      headers: { "Accept": "application/json" }
-    });
-
-    let result = {};
-    try { result = await response.json(); } catch {}
-
-    if (!response.ok) {
-      const errorMessage = result.errors?.map(e => e.message).join(", ");
-      throw new Error(errorMessage || "Formspree returned HTTP " + response.status);
-    }
-
-    const success = document.createElement("div");
-    success.className = "notice success";
-    success.textContent = "Message sent successfully! Thanks for contacting Scott.";
-    status.appendChild(success);
-
-    contactForm.reset();
-    showToast("Your message was sent!");
-
-    // No URL change; show the thank-you message on this same page.
-  } catch (error) {
-    const failure = document.createElement("div");
-    failure.className = "notice error";
-    failure.textContent =
-      "Couldn't send your message. " + error.message +
-      " Check your internet connection and Formspree form settings, then try again.";
-    status.appendChild(failure);
-  } finally {
-    button.disabled = false;
-    button.textContent = "Send message ↗";
-  }
-});
 </script>
 </body>
-          </html>
+</html>
