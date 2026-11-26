@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Mono:wght@400;700&display=swap');
+:root{color-scheme:dark;--mint:#d2f2dc;--muted:rgba(211,232,216,.52);--sun-strength:0;--wind-strength:0;--frost-opacity:.78}
+*{box-sizing:border-box}
+html,body{width:100%;min-height:100%;margin:0}
+body{min-height:100svh;overflow:hidden;background:#070908;color:#e5f0e8;font-family:"Space Mono","Courier New",monospace}
+button,input{font:inherit;color:inherit}
+.experience{position:relative;width:100%;height:100svh;min-height:500px;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,rgba(30,48,36,.24),transparent 60%),#070908}
+.brand{position:absolute;z-index:8;top:clamp(18px,4.4vh,42px);left:clamp(18px,2.5vw,42px);display:flex;align-items:baseline;gap:13px;text-shadow:0 0 12px rgba(190,255,210,.35)}
+.brand-name{color:#d6f6df;text-decoration:none;font-size:clamp(10px,1vw,14px);letter-spacing:.18em;font-weight:700}
+.brand-note{color:rgba(209,240,216,.42);font-size:8px;letter-spacing:.14em}
+.control-cluster{position:absolute;z-index:9;top:3.2vh;right:clamp(16px,3vw,48px);width:150px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.master-dial{width:108px;height:108px;position:relative;border-radius:50%;display:grid;place-items:center;touch-action:none;user-select:none}
+.dial-track{position:absolute;inset:5px;border:2px dotted rgba(201,255,218,.38);border-radius:50%;box-shadow:0 0 18px rgba(151,255,184,.12),inset 0 0 12px rgba(151,255,184,.06)}
+.dial-ticks{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(rgba(199,255,216,.68) 0deg 1deg,transparent 1deg 10deg);mask:radial-gradient(circle,transparent 0 47px,#000 48px 51px,transparent 52px)}
+.dial-pointer{position:absolute;inset:0;border-radius:50%;transform:rotate(-135deg);pointer-events:none;transition:transform .08s linear}
+.dial-pointer:before{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:#d8ffe2;box-shadow:0 0 9px #b8ffd0;top:1px;left:calc(50% - 2.5px)}
+.dial-center{position:absolute;inset:26px;border:1px solid rgba(199,255,216,.28);border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(210,255,222,.12),rgba(5,10,7,.94) 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;box-shadow:0 0 18px rgba(153,255,183,.1)}
+.dial-value{font-size:18px;line-height:1;color:#d9ffe3;font-variant-numeric:tabular-nums}
+.dial-unit{font-size:6px;letter-spacing:.12em;color:rgba(216,245,224,.62)}
+.mode-dot{position:absolute;width:23px;height:23px;padding:0;border-radius:50%;border:1px solid rgba(198,232,207,.25);background:#101813;color:rgba(214,241,220,.7);font-size:12px;display:grid;place-items:center;cursor:pointer;z-index:2;transition:.2s}
+.mode-dot.selected{border-color:rgba(201,255,218,.95);color:#e2ffea;box-shadow:0 0 13px rgba(151,255,184,.4);background:#1c3022}
+.mode-frost{top:-1px;left:calc(50% - 11px)}.mode-wind{right:-1px;top:calc(50% - 11px)}.mode-sun{bottom:-1px;left:calc(50% - 11px)}.mode-garden{left:-1px;top:calc(50% - 11px)}
+.dial-help{margin:0;color:rgba(211,237,218,.42);font-size:6px;letter-spacing:.1em;white-space:nowrap}
+.mode-slider{width:142px;height:25px;display:flex;align-items:center;gap:8px;padding:0 8px;border:1px solid rgba(201,255,218,.16);border-radius:20px;background:rgba(8,15,11,.68);backdrop-filter:blur(10px)}
+.mode-slider[hidden]{display:none}.slider-icon,.slider-value{font-size:10px;color:rgba(220,245,226,.78)}.slider-value{min-width:20px;text-align:right;font-size:8px}
+.mode-slider input{width:100%;height:3px;accent-color:#c8f5d6;cursor:pointer}
+.glass-stage{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);width:min(72vw,1120px);height:min(61vh,570px);min-height:260px;display:grid;place-items:center}
+.garden-scene{position:absolute;inset:2%;overflow:hidden;border-radius:9% / 12%;background:#15251c}
+.garden-scene img{width:100%;height:100%;display:block;object-fit:cover;transform:scale(1.05);filter:saturate(.84) brightness(.78);transition:filter .7s ease}
+.scene-wash{position:absolute;inset:0;pointer-events:none;background:rgba(255,220,175,0);mix-blend-mode:soft-light}
+.sunlight{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(115deg,rgba(255,231,181,.25),transparent 45%),radial-gradient(ellipse at 70% 12%,rgba(255,241,202,.28),transparent 50%);mix-blend-mode:screen;transition:opacity .4s}
+.wind-overlay{position:absolute;inset:-20%;opacity:0;pointer-events:none;background:repeating-linear-gradient(105deg,transparent 0 110px,rgba(230,255,234,.12) 112px,transparent 115px 190px);transform:translateX(-8%)}
+.wind-on .wind-overlay{opacity:calc(.12 + var(--wind-strength)*.32);animation:breeze calc(7s - var(--wind-strength)*4s) ease-in-out infinite alternate}
+.wind-on .garden-scene img{animation:foliage-sway calc(9s - var(--wind-strength)*4s) ease-in-out infinite alternate;transform-origin:50% 80%}
+@keyframes breeze{to{transform:translateX(8%)}}@keyframes foliage-sway{to{transform:scale(1.075) rotate(.35deg)}}
+.glass-shape{position:absolute;inset:0;overflow:hidden;border-radius:9% / 12%;isolation:isolate;box-shadow:0 18px 65px rgba(0,0,0,.42),inset 0 2px 9px rgba(255,255,255,.6),inset 0 -5px 13px rgba(220,255,226,.2);border:1px solid rgba(255,255,255,.22)}
+#frostCanvas,#waterCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#frostCanvas{z-index:2;cursor:crosshair}#waterCanvas{z-index:3;pointer-events:none}
+.glass-brand{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);font-family:"DM Serif Display",Georgia,serif;font-size:clamp(36px,6vw,82px);white-space:nowrap;letter-spacing:.015em;color:rgba(246,255,248,.7);text-shadow:0 2px 5px rgba(0,0,0,.32),0 0 24px rgba(235,255,240,.26);pointer-events:none;user-select:none}.letter-drip{position:absolute;top:76%;width:3px;height:7px;border-radius:50% 50% 60% 60%;background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(226,247,244,.88),rgba(255,255,255,.2));filter:drop-shadow(0 1px 2px rgba(220,255,250,.5));animation:letter-drip 4.8s ease-in infinite}.drip-one{left:29%;animation-delay:.4s}.drip-two{left:66%;height:10px;animation-delay:2.1s}.drip-three{left:82%;height:6px;animation-delay:3.3s}@keyframes letter-drip{0%,58%{transform:translateY(0) scaleY(.7);opacity:0}64%{opacity:.9}88%{transform:translateY(22px) scaleY(1.5);opacity:.65}100%{transform:translateY(29px) scaleY(.6);opacity:0}}
+.glass-shine{pointer-events:none;position:absolute;z-index:5;inset:0;background:linear-gradient(112deg,rgba(255,255,255,.26),transparent 13%,transparent 75%,rgba(255,255,255,.1)),linear-gradient(180deg,rgba(255,255,255,.16),transparent 18%,transparent 82%,rgba(255,255,255,.1));mix-blend-mode:screen}
+.glass-edge{pointer-events:none;position:absolute;z-index:6;inset:1px;border-radius:inherit;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 0 22px rgba(255,255,255,.13)}
+.touch-ring{display:none;position:absolute;z-index:7;width:26px;height:26px;border-radius:50%;border:1px solid rgba(8,12,10,.82);pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,255,255,.2)}
+.touch-ring.visible{display:block}
+.hint{position:absolute;z-index:8;bottom:-37px;left:50%;transform:translateX(-50%);white-space:nowrap;color:rgba(219,240,224,.42);font-size:8px;letter-spacing:.16em;pointer-events:none}
+.footer{position:absolute;z-index:8;bottom:clamp(18px,4.3vh,42px);left:clamp(18px,2.5vw,42px);right:clamp(18px,2.5vw,42px);display:flex;align-items:center;gap:22px}
+.footer-button{border:0;padding:5px 0;background:none;cursor:pointer;color:rgba(209,234,215,.55);font-size:9px;letter-spacing:.12em}.footer-button:hover{color:#e5ffec}
+.footer-note{color:rgba(209,234,215,.3);font-size:7px;letter-spacing:.13em}.footer #resetButton{margin-left:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:700px){.brand{top:18px;left:16px;flex-direction:column;gap:4px}.brand-note{font-size:7px}.control-cluster{top:12px;right:12px;width:104px}.master-dial{width:82px;height:82px}.dial-track{inset:4px}.dial-ticks{mask:radial-gradient(circle,transparent 0 35px,#000 36px 39px,transparent 40px)}.dial-center{inset:20px}.dial-value{font-size:14px}.dial-unit{font-size:5px}.mode-dot{width:19px;height:19px;font-size:10px}.mode-frost{left:calc(50% - 9px)}.mode-wind{right:-1px;top:calc(50% - 9px)}.mode-sun{left:calc(50% - 9px)}.mode-garden{top:calc(50% - 9px)}.dial-help{font-size:5px}.mode-slider{width:104px;height:22px;gap:5px;padding:0 6px}.glass-stage{width:91vw;height:49vh;min-height:230px;top:53%}.glass-brand{font-size:clamp(34px,9vw,54px)}.hint{bottom:-27px;font-size:6px;letter-spacing:.1em}.footer{bottom:18px;left:16px;right:16px;gap:12px}.footer-button{font-size:7px}.footer-note{display:none}}
+@media(max-height:520px){.glass-stage{height:58vh}.control-cluster{top:8px}.footer{bottom:10px}}

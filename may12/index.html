@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080a09">
+  <meta name="description" content="May Panche — an interactive garden behind frosted glass.">
+  <title>MAY PANCHE — a little garden</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main class="experience" id="experience">
+  <header class="brand">
+    <a href="./" class="brand-name">MAY PANCHE</a>
+    <span class="brand-note">A LITTLE GARDEN</span>
+  </header>
+
+  <section class="control-cluster" aria-label="Environment controls">
+    <div class="master-dial" id="masterDial">
+      <div class="dial-track"></div><div class="dial-ticks"></div>
+      <div class="dial-pointer" id="dialPointer"></div>
+      <button class="mode-dot mode-frost" data-mode="frost" aria-label="Frost mode" title="Frost">❄</button>
+      <button class="mode-dot mode-wind" data-mode="wind" aria-label="Wind mode" title="Wind">〰</button>
+      <button class="mode-dot mode-sun" data-mode="sun" aria-label="Sunlight mode" title="Sunlight">☼</button>
+      <button class="mode-dot mode-garden" data-mode="garden" aria-label="Garden mode" title="Garden">✿</button>
+      <button class="dial-center" id="dialCenter" aria-label="Deselect or cycle modes">
+        <span class="dial-value" id="dialValue">—</span>
+        <span class="dial-unit" id="dialUnit">NO MODE</span>
+      </button>
+    </div>
+    <p class="dial-help" id="dialHelp">CHOOSE A MODE · TURN THE DIAL</p>
+    <div class="mode-slider" id="modeSliderWrap" hidden>
+      <span class="slider-icon" id="sliderIcon">❄</span>
+      <input id="modeSlider" type="range" min="0" max="100" value="55" aria-label="Selected mode intensity">
+      <span class="slider-value" id="sliderValue">55</span>
+    </div>
+  </section>
+
+  <section class="glass-stage" aria-label="Frosted garden window">
+    <div class="garden-scene" id="gardenScene">
+      <img id="gardenImage" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=2000&q=88" alt="A lush green garden">
+      <div class="scene-wash"></div>
+      <div class="sunlight" id="sunlight"></div>
+      <div class="wind-overlay" id="windOverlay"></div>
+    </div>
+    <div class="glass-shape">
+      <canvas id="frostCanvas" aria-label="Touch and drag to wipe condensation from the glass"></canvas>
+      <canvas id="waterCanvas" aria-hidden="true"></canvas>
+      <div class="glass-brand" aria-hidden="true">May Panche<i class="letter-drip drip-one"></i><i class="letter-drip drip-two"></i><i class="letter-drip drip-three"></i></div>
+      <div class="glass-shine"></div><div class="glass-edge"></div>
+      <div class="touch-ring" id="touchRing"></div>
+    </div>
+    <p class="hint" id="hint">TOUCH AND WIPE THE FROSTED GLASS</p>
+  </section>
+
+  <footer class="footer">
+    <button id="soundButton" class="footer-button" aria-pressed="false">SOUND OFF</button>
+    <span class="footer-note">A WINDOW INTO A QUIETER PLACE</span>
+    <button id="resetButton" class="footer-button">↻ RESET</button>
+  </footer>
+  <div class="sr-only" id="status" aria-live="polite"></div>
+</main>
+</body>
+</html>
