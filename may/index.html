@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080a09">
+  <meta name="description" content="May Panche — an interactive garden behind frosted glass.">
+  <title>MAY PANCHE — a little garden</title>
+  <link rel="preload" href="assets/garden.svg" as="image" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="experience" id="experience">
+    <header class="brand" aria-label="May Panche">
+      <a href="./" class="brand-name">MAY PANCHE</a>
+      <span class="brand-note">A LITTLE GARDEN</span>
+    </header>
+
+    <section class="control-cluster" aria-label="Environment dial">
+      <div class="master-dial" id="masterDial" aria-label="Circular environment controls">
+        <div class="dial-track" aria-hidden="true"></div>
+        <div class="dial-ticks" aria-hidden="true"></div>
+        <div class="dial-pointer" id="dialPointer" aria-hidden="true"></div>
+        <button class="mode-dot mode-frost selected" data-mode="frost" type="button" aria-label="Frosting" title="Frosting"><span>F</span></button>
+        <button class="mode-dot mode-glass" data-mode="glass" type="button" aria-label="Glass colour temperature" title="Glass colour"><span>C</span></button>
+        <button class="mode-dot mode-sun" data-mode="sun" type="button" aria-label="Sun temperature" title="Sun temperature"><span>☼</span></button>
+        <button class="mode-dot mode-scene" data-mode="scene" type="button" aria-label="Garden background" title="Background"><span>✿</span></button>
+        <button class="dial-center" id="dialCenter" type="button" aria-label="Switch control">
+          <span class="dial-value" id="dialValue">75</span>
+          <span class="dial-unit" id="dialUnit">FROST</span>
+        </button>
+      </div>
+      <p class="dial-help" id="dialHelp">SELECT A DOT · DRAG THE RING</p>
+    </section>
+
+    <section class="glass-stage" aria-label="Interactive frosted glass. Drag to wipe or tap to clear all frost.">
+      <div class="garden-scene" id="gardenScene" data-scene="garden" aria-hidden="true">
+        <img src="assets/garden.svg" alt="">
+        <div class="scene-wash"></div>
+        <div class="sun-glow" id="sunGlow"></div>
+        <div class="wind-layer"></div>
+      </div>
+      <div class="glass-shape">
+        <canvas id="frostCanvas" aria-label="Drag to wipe away frost. Tap once to clear all frost."></canvas>
+        <div class="glass-shine" aria-hidden="true"></div>
+        <div class="glass-edge" aria-hidden="true"></div>
+        <div class="touch-ring" id="touchRing" aria-hidden="true"></div>
+      </div>
+      <p class="hint" id="hint">DRAG TO WIPE · TAP TO CLEAR THE WHOLE GLASS</p>
+    </section>
+
+    <footer class="footer">
+      <button id="soundButton" class="sound-button" type="button" aria-pressed="false">SOUND OFF</button>
+      <button id="windButton" class="footer-control" type="button" aria-pressed="false">WIND OFF</button>
+      <button id="resetButton" class="reset-button" type="button">↻ &nbsp; RESET</button>
+      <span class="footer-mark">MAY PANCHE ©</span>
+    </footer>
+    <div class="sr-only" id="status" aria-live="polite"></div>
+  </main>
+</body>
+</html>
