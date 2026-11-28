@@ -2,138 +2,101 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Universe Facts — by Scott</title>
-<meta name="description" content="Scroll through the universe: wild space facts, planets and black holes. Made by Scott, a young vibe coder.">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;800&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>VOID — a tiny universe by Scott</title>
+<meta name="description" content="Drag, drift and zoom through a tiny universe built by Scott. Live chat included.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;800&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="pre" id="pre"><b id="preN">0</b><span>SCOTT CODE</span></div>
-<div class="neb" aria-hidden="true"></div>
 <canvas id="bg" aria-hidden="true"></canvas>
-<div class="progress" id="progress"></div>
-<div class="cursor" id="cursor"></div>
+<div id="viewport">
+  <div class="layer" data-d=".25" id="far"></div>
+  <div class="layer" data-d=".6" id="mid"></div>
+  <div class="layer" data-d="1" id="main">
 
-<header class="nav">
-  <a href="#top" class="logo">SCOTT CODE</a>
-  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
-</header>
-<div class="menu" id="menu" aria-hidden="true">
-  <nav>
-    <a href="#top" style="--i:0">Home</a>
-    <a href="#stats" style="--i:1">Big numbers</a>
-    <a href="#chapters" style="--i:2">Universe tour</a>
-    <a href="#hscroll" style="--i:3">Places to visit</a>
-    <a href="#path" style="--i:4">Rocket journey</a>
-    <a href="#facts" style="--i:5">Wild facts</a>
-    <a href="#about" style="--i:6">About Scott</a>
-    <button id="menuChat" style="--i:7">Live chat</button>
-  </nav>
+    <section class="st hero" data-name="Home" style="left:-560px;top:-330px;width:1120px">
+      <p class="kick">a tiny universe by Scott</p>
+      <h1>VOID</h1>
+      <p class="lead">Drag anywhere. Scroll to drift. Pinch, or hold Ctrl and scroll, to zoom. Every direction leads somewhere.</p>
+    </section>
+
+    <section class="st" data-name="Orbit" style="left:1450px;top:-380px;width:1000px">
+      <h2>Orbit</h2>
+      <div class="cards">
+        <div class="glass"><b>8 planets</b><span>around one star</span><em class="zr" data-zmin="1.5">and the star is completely average.</em></div>
+        <div class="glass"><b>13.8 billion</b><span>years of universe</span><em class="zr" data-zmin="1.5">and it is still stretching.</em></div>
+        <div class="glass"><b>299,792 km/s</b><span>the speed of light</span><em class="zr" data-zmin="1.5">the speed limit of everything.</em></div>
+      </div>
+      <div class="orbitart"><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="st" data-name="Signal" style="left:-450px;top:-1560px;width:900px">
+      <h2>Signal</h2>
+      <p class="lead">Talk to anyone who is online right now. Make a free account, say hi, and the conversation stays.</p>
+      <button class="cta" id="sigBtn">Open live chat</button>
+    </section>
+
+    <section class="st" data-name="Maker" style="left:-520px;top:1150px;width:1040px">
+      <h2>Maker</h2>
+      <p class="lead">I'm Scott, 13, a vibe coder. I describe what I want, shape it with AI, then tweak the code myself.</p>
+      <div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vibe coding</span></div>
+      <div class="cards">
+        <a class="glass link" href="Panche/"><b>ORBITAL</b><span>A scroll-driven space journey.</span><u>Open</u></a>
+        <div class="glass"><b>VOID</b><span>The place you are floating in.</span></div>
+        <div class="glass dim"><b>Next</b><span>Something new is loading.</span></div>
+      </div>
+    </section>
+
+    <section class="st" data-name="Depth" style="left:-2350px;top:120px;width:800px">
+      <div class="rings"><i></i><i></i><i></i><i></i></div>
+      <h2>Depth</h2>
+      <p class="lead">Zoom in. Keep going.</p>
+      <p class="zr s1" data-zmin="1.6">closer.</p>
+      <p class="zr s2" data-zmin="2.6">closer still.</p>
+      <p class="zr s3" data-zmin="4">Hi. Most people never get this far.</p>
+    </section>
+
+    <section class="st dot" data-name="The edge" style="left:3000px;top:2200px;width:400px">
+      <i></i><p class="zr" data-zmin="2.4">You found the edge of the void.</p>
+    </section>
+  </div>
+  <div class="layer" data-d="1.5" id="near"></div>
 </div>
-<button class="warp-btn" id="warpBtn" aria-label="Hold for hyperdrive">Hold: hyperdrive</button>
 
-<section class="hero" data-sec="hero" id="top">
-  <h1 aria-label="Universe facts">
-    <span class="line" data-letters>UNIVERSE</span>
-    <span class="line l2" data-letters>FACTS</span>
-  </h1>
-  <p class="tagline">Scroll to fall through space.</p>
-  <p class="hint">Scroll. Everything moves. Hold <kbd>H</kbd> for hyperdrive.</p>
-</section>
+<a href="#" class="logo" id="logo">SCOTT</a>
+<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
+<div class="menu" id="menu" aria-hidden="true"><nav id="menuNav"></nav></div>
 
-<div class="marquees" id="marquees" aria-hidden="true">
-  <div class="mrow"><div class="mgroup">STARDUST • DEEP FIELD • EVENT HORIZON • SOLAR WIND • </div><div class="mgroup">STARDUST • DEEP FIELD • EVENT HORIZON • SOLAR WIND • </div></div>
-  <div class="mrow outline rev"><div class="mgroup">ORBIT • DRIFT • IGNITE • ASCEND • WANDER • </div><div class="mgroup">ORBIT • DRIFT • IGNITE • ASCEND • WANDER • </div></div>
+<div class="hud">
+  <canvas id="mini" width="180" height="120" aria-label="Map"></canvas>
+  <small id="readout">0, 0 · ×1.0</small>
 </div>
-
-<section class="words" data-sec="words">
-  <p id="words">Hi, I am Scott. Everything out there is very big, very old, very hot or very strange, and usually all four at once. Scroll down and fall through the best facts I found, from our Sun to the edge of everything we can see.</p>
-</section>
-
-<section class="stats" id="stats">
-  <h2 class="sec-title">Numbers that do not fit in your head</h2>
-  <div class="stat-grid">
-    <div class="stat"><b data-count="8">0</b><span>planets orbit our Sun</span></div>
-    <div class="stat"><b data-count="4.6" data-dec="1">0</b><span>billion years old is the Solar System</span></div>
-    <div class="stat"><b data-count="299792">0</b><span>km every second: the speed of light</span></div>
-    <div class="stat"><b data-count="8.3" data-dec="1">0</b><span>minutes for sunlight to reach Earth</span></div>
-    <div class="stat"><b data-count="99.86" data-dec="2">0</b><span>% of the Solar System's mass is the Sun</span></div>
-    <div class="stat"><b data-count="93">0</b><span>billion light-years across the observable universe</span></div>
-  </div>
-</section>
-
-<section class="chapters" id="chapters" aria-label="Universe tour"></section>
-
-<section class="hscroll" data-sec="hscroll" id="hscroll">
-  <div class="sticky">
-    <h2 class="htitle">Five places worth the trip</h2>
-    <div class="track" id="track">
-      <article class="card c1"><div class="orb"></div><h3>Moon</h3><p>1.3 light-seconds away. Footprints from 1969 are still there.</p></article>
-      <article class="card c2"><div class="orb"></div><h3>Mars</h3><p>Rust-red dust, ancient riverbeds and the tallest volcano known.</p></article>
-      <article class="card c3"><div class="orb"></div><h3>Europa</h3><p>A shell of ice over an ocean with more water than all of Earth's.</p></article>
-      <article class="card c4"><div class="orb"></div><h3>Titan</h3><p>Methane rain, orange haze and lakes you could not drink.</p></article>
-      <article class="card c5"><div class="orb"></div><h3>Saturn</h3><p>Rings 280,000 km wide and sometimes only ten metres thick.</p></article>
-    </div>
-  </div>
-</section>
-
-<section class="path" data-sec="path" id="path">
-  <svg viewBox="0 0 1000 3200" aria-hidden="true">
-    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff6a3d"/><stop offset=".5" stop-color="#6a4bff"/><stop offset="1" stop-color="#bfe9ff"/></linearGradient></defs>
-    <path d="M500 0 C950 250 50 450 500 700 S950 1150 500 1400 S50 1850 500 2100 S950 2550 500 2800 S500 3100 500 3200" fill="none" stroke="#ffffff18" stroke-width="3" stroke-dasharray="4 14"/>
-    <path id="trail" d="M500 0 C950 250 50 450 500 700 S950 1150 500 1400 S50 1850 500 2100 S950 2550 500 2800 S500 3100 500 3200" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
-    <g id="rocket"><path d="M22 0 L-14 -12 L-6 0 L-14 12 Z" fill="#eef2ff"/><circle cx="2" cy="0" r="3" fill="#6a4bff"/><path d="M-8 0 L-30 0" stroke="#ff6a3d" stroke-width="6" stroke-linecap="round"/></g>
-  </svg>
-  <div class="note n1" data-at=".08"><h3>Liftoff</h3><p>The first nine minutes use most of the fuel.</p></div>
-  <div class="note n2 r" data-at=".30"><h3>Max Q</h3><p>Peak stress on the rocket. Then the air thins and it gets easy.</p></div>
-  <div class="note n3" data-at=".52"><h3>Coast</h3><p>No engines needed. Momentum carries you for months.</p></div>
-  <div class="note n4 r" data-at=".74"><h3>Burn</h3><p>One precise push to drop into orbit around a new world.</p></div>
-</section>
-
-<section class="facts" id="facts">
-  <h2 class="sec-title">Facts that sound fake</h2>
-  <p class="sub">Tap a card to flip it.</p>
-  <div class="flip-grid" id="flipGrid"></div>
-
-  <div class="rand">
-    <p id="randText" aria-live="polite">Press the button for a random fact.</p>
-    <button id="randBtn" class="btn">Give me a fact</button>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <h2 class="sec-title">About Scott</h2>
-  <p class="bio">I'm Scott, a 13-year-old vibe coder. I build websites by describing what I want and shaping it with AI, then tweaking the code myself. This page is one of my first big projects.</p>
-  <div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vibe coding</span><span>Space nerd</span></div>
-  <h3 class="mini">My portfolio</h3>
-  <div class="proj-grid">
-    <a class="proj live" href="Panche/"><span class="badge">Live</span><h3>ORBITAL</h3><p>A scroll-driven space journey with wiggly letters, sideways planets and a rocket on a wavy path.</p><span class="go">Open project</span></a>
-    <a class="proj live" href="#top"><span class="badge">You're here</span><h3>Universe Facts</h3><p>The page you are scrolling right now: facts, a menu, live chat and lots of motion.</p><span class="go">Back to top</span></a>
-    <div class="proj soon"><span class="badge">Soon</span><h3>Next project</h3><p>Something new is cooking.</p></div>
-  </div>
-</section>
-
-<section class="dive" data-sec="dive" id="dive">
-  <div class="sticky">
-    <div class="planet" id="planet"></div>
-    <h2 class="d1" id="d1">Descend.</h2>
-    <h2 class="d2" id="d2">Look up again.</h2>
-  </div>
-</section>
-
-<footer>
-  <p>Made to be scrolled slowly.</p>
-  <button class="btn" id="top-btn">Back to top</button>
-  <small>© <span id="yr"></span> Scott Code</small>
-</footer>
-<button class="fab" id="chatFab" aria-label="Open chat">Chat</button>
-<div class="chat" id="chat" hidden>
-  <div class="chat-h"><div><b>Scott Bot</b><small>Usually replies instantly</small></div><button id="chatX" aria-label="Close chat">×</button></div>
-  <div class="chat-m" id="chatM" aria-live="polite"></div>
-  <div class="chat-q" id="chatQ"><button>Space fact</button><button>Your projects</button><button>Contact</button></div>
-  <form class="chat-f" id="chatF"><input id="chatI" placeholder="Type a message…" autocomplete="off"><button>Send</button></form>
+<div class="zoomctl">
+  <button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button><button id="zhome" aria-label="Home">⌂</button>
 </div>
+<p class="hint" id="hint">Drag · Scroll · Pinch to zoom</p>
+
+<aside class="chat" id="chat" aria-hidden="true">
+  <header><b>Signal</b><span id="who"></span><button id="idBtn" hidden title="Copy my ID">ID</button><button id="outBtn" hidden>Log out</button><button id="chatX" aria-label="Close chat">×</button></header>
+  <div id="authView">
+    <div class="tabs"><button id="tUp" class="on">Sign up</button><button id="tIn">Log in</button></div>
+    <form id="authF">
+      <input id="aName" placeholder="Username" maxlength="20" autocomplete="nickname">
+      <input id="aMail" type="email" placeholder="Email" autocomplete="email" required>
+      <input id="aPass" type="password" placeholder="Password (6+ characters)" autocomplete="current-password" required>
+      <button class="cta">Create account</button>
+      <p id="authMsg" role="alert"></p>
+    </form>
+    <p class="note">Your email is private and never shown. Only your username appears in chat.</p>
+  </div>
+  <div id="chatView" hidden>
+    <div id="msgs"></div>
+    <p class="note">Be kind. Never share personal info like your real name, school or address.</p>
+    <form id="sendF"><input id="msgI" maxlength="300" placeholder="Say something…" autocomplete="off"><button>Send</button></form>
+  </div>
+</aside>
+<script src="firebase-config.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

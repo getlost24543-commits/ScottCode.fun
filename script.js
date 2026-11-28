@@ -1,291 +1,171 @@
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, A = reduce ? 0 : 1;
-let vw, vh, cur = 0, vel = 0, T = {}, docH;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let vw = innerWidth, vh = innerHeight;
+const MINZ = .06, MAXZ = 6, B = { x0: -2700, x1: 3900, y0: -2300, y1: 3100 };
+const cam = { x: 0, y: 0, z: .04 }, tgt = { x: 0, y: 0, z: .04 };
+const vp = $('#viewport'), layers = $$('.layer'), sts = $$('.st');
 
-/* universe tour chapters */
-const CH = [["SUN", "The Sun is 99.86% of everything", "Almost all the mass in our Solar System is the Sun. Every planet, moon and asteroid together is a rounding error."], ["MERCURY", "Sunrise to sunrise takes 176 days", "Mercury zips round the Sun in 88 days but spins so slowly that one day on it lasts about 176 Earth days."], ["VENUS", "A day is longer than a year", "Venus spins in about 243 Earth days and orbits the Sun in about 225. It also spins backwards."], ["EARTH", "Home is 71% ocean", "Water covers about 71% of Earth. It is the only place we know with life."], ["MOON", "The Moon is drifting away", "It moves about 3.8 cm farther from us every year, roughly as fast as your fingernails grow."], ["MARS", "A volcano 2.5 times taller than Everest", "Olympus Mons is about 22 km high, the tallest volcano known in the Solar System."], ["JUPITER", "A storm wider than Earth", "The Great Red Spot has raged for centuries. Jupiter also has over 90 moons."], ["SATURN", "It would float in water", "Saturn is less dense than water. Its rings are 280,000 km wide but often only about ten metres thick."], ["URANUS", "The planet that rolls", "Uranus is tipped on its side, about 98 degrees, so it rolls around the Sun like a ball."], ["NEPTUNE", "Winds faster than sound", "Winds above 2,000 km/h blow on Neptune. One trip around the Sun takes 165 years."], ["BLACK HOLE", "Not even light escapes", "The black hole at the centre of our galaxy is about 4 million times heavier than the Sun."], ["NEUTRON", "A teaspoon weighs billions of tonnes", "Neutron stars are squashed so hard that atoms nearly vanish. Some spin hundreds of times a second."], ["LIGHT", "Old light in your eyes", "Sunlight is 8 minutes old. Light from the Andromeda galaxy left about 2.5 million years ago."], ["GALAXY", "Hundreds of billions of stars", "The Milky Way has 100 to 400 billion stars, and it is on course to merge with Andromeda in about 4 to 5 billion years."], ["UNIVERSE", "13.8 billion years and still growing", "The part we can see is about 93 billion light-years across, and space is still expanding."], ["YOU", "You are made of stars", "The iron in your blood and the calcium in your bones were forged inside stars that died long ago."]];
-$('#chapters').innerHTML = CH.map((c, i) => `<article class="chap"><div class="cbig">${c[0]}</div><div class="cbody"><span class="cn">${i + 1} of ${CH.length}</span><h3>${c[1]}</h3><p>${c[2]}</p></div></article>`).join('');
-const chaps = $$('.chap');
+/* depth layers: far nebulae + near bokeh */
+const rnd = (a, b) => a + Math.random() * (b - a), COL = ['#7cf3ff', '#b388ff', '#ff7ab8', '#5b3df0'];
+const blobs = (el, n, s0, s1, op, blur, spread) => { for (let i = 0; i < n; i++) { const b = document.createElement('div'), s = rnd(s0, s1), c = COL[i % 4]; b.className = 'blob'; b.style.cssText = `left:${rnd(-spread, spread)}px;top:${rnd(-spread, spread)}px;width:${s}px;height:${s}px;background:radial-gradient(circle,${c}${op},transparent 68%);filter:blur(${blur}px)`; el.appendChild(b); } };
+blobs($('#far'), 26, 900, 2200, '40', 30, 6000);
+blobs($('#mid'), 18, 300, 800, '2a', 20, 4500);
+blobs($('#near'), 16, 120, 420, '22', 14, 2500);
 
-/* split hero letters */
-$$('[data-letters]').forEach(el => {
-  el.innerHTML = [...el.textContent].map(c => `<span>${c}</span>`).join('');
+/* camera */
+function zoomAt(f, sx, sy) {
+  const z2 = clamp(tgt.z * f, MINZ, MAXZ), wx = tgt.x + (sx - vw / 2) / tgt.z, wy = tgt.y + (sy - vh / 2) / tgt.z;
+  tgt.z = z2; tgt.x = wx - (sx - vw / 2) / z2; tgt.y = wy - (sy - vh / 2) / z2;
+}
+const fly = (x, y, z) => {
+  hideHint(); tgt.z = Math.min(tgt.z, .16);
+  setTimeout(() => { tgt.x = x; tgt.y = y; }, 380);
+  setTimeout(() => { tgt.z = z; }, 1050);
+};
+const flyTo = el => fly(el.offsetLeft + el.offsetWidth / 2, el.offsetTop + el.offsetHeight / 2 - (el.classList.contains('hero') ? 0 : 40), clamp(vw * .86 / el.offsetWidth, .18, 1));
+const home = () => flyTo(sts[0]);
+let hinted = false; const hideHint = () => { if (!hinted) { hinted = true; $('#hint').classList.add('off'); } };
+
+/* input: wheel pans, ctrl/pinch zooms */
+vp.addEventListener('wheel', e => {
+  e.preventDefault(); hideHint();
+  if (e.ctrlKey) zoomAt(Math.exp(-e.deltaY * .012), e.clientX, e.clientY);
+  else { tgt.x += e.deltaX / cam.z; tgt.y += e.deltaY / cam.z; }
+}, { passive: false });
+const ptrs = new Map(); let vx = 0, vy = 0, lastD = 0, dragging = false;
+vp.addEventListener('pointerdown', e => { if (e.target.closest('a,button')) return; vp.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, e); dragging = true; vx = vy = 0; vp.classList.add('drag'); hideHint(); lastD = 0; });
+vp.addEventListener('pointermove', e => {
+  const p = ptrs.get(e.pointerId); if (!p) return;
+  if (ptrs.size === 1) { const dx = e.clientX - p.clientX, dy = e.clientY - p.clientY; tgt.x -= dx / cam.z; tgt.y -= dy / cam.z; vx = dx; vy = dy; }
+  ptrs.set(e.pointerId, e);
+  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY); if (lastD) zoomAt(d / lastD, (a.clientX + b.clientX) / 2, (a.clientY + b.clientY) / 2); lastD = d; }
 });
-const letters = $$('.line span');
+const up = e => { ptrs.delete(e.pointerId); lastD = 0; if (!ptrs.size) { dragging = false; vp.classList.remove('drag'); } };
+vp.addEventListener('pointerup', up); vp.addEventListener('pointercancel', up);
+vp.addEventListener('dblclick', e => zoomAt(2, e.clientX, e.clientY));
+addEventListener('keydown', e => {
+  if (/INPUT/.test(e.target.tagName)) return;
+  const s = 120 / cam.z, k = e.key;
+  if (k === 'ArrowLeft') tgt.x -= s; if (k === 'ArrowRight') tgt.x += s; if (k === 'ArrowUp') tgt.y -= s; if (k === 'ArrowDown') tgt.y += s;
+  if (k === '+' || k === '=') zoomAt(1.4, vw / 2, vh / 2); if (k === '-') zoomAt(1 / 1.4, vw / 2, vh / 2); if (k === '0') home();
+});
+$('#zin').onclick = () => zoomAt(1.5, vw / 2, vh / 2); $('#zout').onclick = () => zoomAt(1 / 1.5, vw / 2, vh / 2); $('#zhome').onclick = home; $('#logo').onclick = e => { e.preventDefault(); home(); };
 
-/* split words for scroll reveal */
-const wp = $('#words');
-wp.innerHTML = wp.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' ');
-const words = $$('.w');
-
-const track = $('#track'), cards = $$('.card'), hs = $('#hscroll');
-const rows = $$('.mrow'), mq = $('#marquees');
-const trail = $('#trail'), rocket = $('#rocket'), len = trail.getTotalLength();
-trail.style.strokeDasharray = len; trail.style.strokeDashoffset = len;
-const notes = $$('.note'), planet = $('#planet'), d1 = $('#d1'), d2 = $('#d2');
-
-function measure() {
-  vw = innerWidth; vh = innerHeight;
-  hs.style.height = (track.scrollWidth - vw + vh * 1.2) + 'px';
-  $$('[data-sec]').forEach(el => {
-    const r = el.getBoundingClientRect();
-    T[el.dataset.sec] = { top: r.top + scrollY, h: el.offsetHeight };
-  });
-  T.mq = { top: mq.getBoundingClientRect().top + scrollY, h: mq.offsetHeight };
-  docH = document.documentElement.scrollHeight;
-}
-addEventListener('resize', measure);
-addEventListener('load', measure);
-measure();
-
-/* background stars with parallax */
-const bg = $('#bg'), ctx = bg.getContext('2d');
-const comets = [];
-let stars = [], warp = 0, drift = 0, warpOn = false;
-function sizeBg() {
-  bg.width = innerWidth; bg.height = innerHeight;
-  stars = Array.from({ length: 220 }, () => ({ x: Math.random() * bg.width, y: Math.random() * bg.height, z: Math.random() * .9 + .1, p: Math.random() * 6 }));
-}
+/* stars with motion streaks */
+const bg = $('#bg'), ctx = bg.getContext('2d'); let stars = [];
+const sizeBg = () => { vw = innerWidth; vh = innerHeight; bg.width = vw; bg.height = vh; stars = Array.from({ length: 280 }, () => ({ x: Math.random(), y: Math.random(), d: Math.random() * .9 + .1, p: Math.random() * 6 })); };
 addEventListener('resize', sizeBg); sizeBg();
 
-/* cursor */
-const cur_el = $('#cursor'); let cx = 0, cy = 0, tx = 0, ty = 0;
-addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-$$('.card, .hero h1, .note, .proj.live, .flip, .btn').forEach(el => {
-  el.addEventListener('mouseenter', () => cur_el.classList.add('big'));
-  el.addEventListener('mouseleave', () => cur_el.classList.remove('big'));
-});
+/* minimap */
+const mini = $('#mini'), mc = mini.getContext('2d'), MW = 180, MH = 120, bw = B.x1 - B.x0, bh = B.y1 - B.y0;
+const mx = x => (x - B.x0) / bw * MW, my = y => (y - B.y0) / bh * MH;
+mini.addEventListener('click', e => { const r = mini.getBoundingClientRect(); fly(B.x0 + (e.clientX - r.left) / r.width * bw, B.y0 + (e.clientY - r.top) / r.height * bh, Math.max(.35, tgt.z)); });
 
-function loop(t) {
-  t *= .001;
-  const target = scrollY;
-  vel = target - cur;
-  cur += vel * .09;
-  const prog = (key, pinned = true) => {
-    const s = T[key]; if (!s) return 0;
-    return pinned ? clamp((cur - s.top) / (s.h - vh)) : clamp((cur + vh * .55 - s.top) / s.h);
-  };
+/* menu */
+$('#menuNav').innerHTML = sts.map((s, i) => `<a href="#" data-i="${i}" style="--i:${i}">${s.dataset.name}</a>`).join('') + `<button id="menuChat" style="--i:${sts.length}">Live chat</button>`;
+const setMenu = on => { document.body.classList.toggle('menu', on); $('#burger').setAttribute('aria-expanded', on); $('#menu').setAttribute('aria-hidden', !on); };
+$('#burger').onclick = () => setMenu(!document.body.classList.contains('menu'));
+$$('#menuNav a').forEach(a => a.onclick = e => { e.preventDefault(); setMenu(false); flyTo(sts[+a.dataset.i]); });
+$('#menuChat').onclick = () => { setMenu(false); openChat(); };
+$('#sigBtn').onclick = () => openChat();
+addEventListener('keydown', e => { if (e.key === 'Escape') { setMenu(false); closeChat(); } });
 
-  $('#progress').style.transform = `scaleX(${clamp(cur / (docH - vh))})`;
-
-  /* stars */
-  ctx.clearRect(0, 0, bg.width, bg.height);
-  warp += ((warpOn && !reduce ? 18 : 0) - warp) * .08;
-  drift += warp;
+/* main loop */
+let px = 0, py = 0;
+function loop() {
+  const k = reduce ? .4 : .11;
+  if (!dragging && (Math.abs(vx) > .05 || Math.abs(vy) > .05)) { tgt.x -= vx / cam.z; tgt.y -= vy / cam.z; vx *= .93; vy *= .93; }
+  tgt.x = clamp(tgt.x, B.x0, B.x1); tgt.y = clamp(tgt.y, B.y0, B.y1);
+  cam.x += (tgt.x - cam.x) * k; cam.y += (tgt.y - cam.y) * k; cam.z += (tgt.z - cam.z) * k;
+  layers.forEach(l => { const d = +l.dataset.d, zd = Math.pow(cam.z, d); l.style.transform = `translate3d(${vw / 2 - cam.x * d * zd}px,${vh / 2 - cam.y * d * zd}px,0) scale(${zd})`; });
+  const sx = (cam.x - px) * cam.z, sy = (cam.y - py) * cam.z; px = cam.x; py = cam.y;
+  ctx.clearRect(0, 0, vw, vh); ctx.lineCap = 'round';
+  const zs = 1 + (cam.z - .9) * .25;
   for (const s of stars) {
-    let y = (s.y - cur * s.z * .5 + drift * s.z) % bg.height; if (y < 0) y += bg.height;
-    ctx.globalAlpha = .35 + .65 * Math.abs(Math.sin(t * s.z + s.p));
-    ctx.fillStyle = s.z > .8 ? '#ffd9c2' : '#dfe8ff';
-    ctx.fillRect(s.x, y, s.z * 2.2, s.z * 2.2 + warp * s.z * 3);
+    let x = (s.x * vw - cam.x * cam.z * s.d * .5) % vw, y = (s.y * vh - cam.y * cam.z * s.d * .5) % vh; if (x < 0) x += vw; if (y < 0) y += vh;
+    x = vw / 2 + (x - vw / 2) * (1 + (zs - 1) * s.d); y = vh / 2 + (y - vh / 2) * (1 + (zs - 1) * s.d);
+    ctx.strokeStyle = `rgba(230,236,255,${.3 + .7 * Math.abs(Math.sin(performance.now() * .001 * s.d + s.p))})`;
+    ctx.lineWidth = s.d * 2.1; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + sx * s.d * .9 + .1, y + sy * s.d * .9); ctx.stroke();
   }
-
-  document.body.style.setProperty('--sy', cur);
-  if (!reduce && Math.random() < .004) comets.push({ x: Math.random() * bg.width, y: -10, vx: -4 - Math.random() * 4, vy: 7 + Math.random() * 5, l: 1 });
-  for (let i = comets.length - 1; i >= 0; i--) {
-    const c = comets[i]; c.x += c.vx; c.y += c.vy; c.l -= .008;
-    if (c.l <= 0) { comets.splice(i, 1); continue; }
-    const g = ctx.createLinearGradient(c.x, c.y, c.x - c.vx * 9, c.y - c.vy * 9);
-    g.addColorStop(0, `rgba(255,255,255,${c.l})`); g.addColorStop(1, 'rgba(106,75,255,0)');
-    ctx.globalAlpha = 1; ctx.strokeStyle = g; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x - c.vx * 9, c.y - c.vy * 9); ctx.stroke();
-  }
-  chaps.forEach((c, i) => {
-    const r = c.getBoundingClientRect(); if (r.bottom < -50 || r.top > vh + 50) return;
-    const p = clamp(1 - (r.top + r.height) / (vh + r.height)), d = i % 2 ? -1 : 1;
-    const big = c.firstElementChild, body = c.lastElementChild;
-    big.style.transform = `translateX(${(p - .5) * -d * vw * .9 + (d > 0 ? vw * .05 : 0)}px) rotate(${(p - .5) * 6 * A * d}deg) scale(${.85 + Math.sin(p * Math.PI) * .3})`;
-    body.style.opacity = clamp(Math.sin(p * Math.PI) * 2.2);
-    body.style.transform = `translateY(${(.5 - p) * 120 * A}px) skewY(${(.5 - p) * 6 * A}deg)`;
-  });
-  /* hero: wiggly letters that scatter on scroll */
-  const hp = clamp(cur / vh);
-  letters.forEach((l, i) => {
-    const wob = Math.sin(t * 2 + i * .9) * 6 * A;
-    const y = wob + hp * vh * (i % 2 ? .5 : -.35) * A + Math.sin(cur * .006 + i) * 25 * hp * A;
-    const r = Math.sin(cur * .004 + i * 1.7) * 30 * hp * A;
-    l.style.transform = `translateY(${y}px) rotate(${r}deg)`;
-  });
-  $('.hero').style.opacity = 1 - hp * .9;
-
-  /* marquees: speed and skew follow scroll velocity */
-  const sk = clamp(vel * .12, -22, 22) * A;
-  rows.forEach((row, i) => {
-    const w = row.firstElementChild.offsetWidth;
-    const off = (t * 60 + cur * .7) % w;
-    row.style.transform = `translateX(${i ? -w + off : -off}px) skewX(${sk}deg)`;
-  });
-
-  /* words light up one by one */
-  const wpv = clamp((cur + vh * .75 - T.words.top) / (T.words.h * .9));
-  words.forEach((w, i) => { w.style.opacity = clamp(.12 + (wpv * words.length * 1.15 - i) * .5, .12, 1); });
-
-  /* horizontal scroll with wavy cards */
-  const p = prog('hscroll');
-  track.style.transform = `translateX(${-p * (track.scrollWidth - vw)}px)`;
-  cards.forEach((c, i) => {
-    const y = Math.sin(p * 9 + i * 1.4) * 45 * A;
-    const r = Math.sin(p * 7 + i) * 5 * A;
-    c.style.transform = `translateY(${y}px) rotate(${r}deg)`;
-  });
-
-  /* rocket along wavy path */
-  const pp = prog('path', false);
-  const L = pp * len;
-  trail.style.strokeDashoffset = len - L;
-  const a = trail.getPointAtLength(L), b = trail.getPointAtLength(Math.min(len, L + 2));
-  rocket.setAttribute('transform', `translate(${a.x},${a.y}) rotate(${Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI})`);
-  notes.forEach(n => n.classList.toggle('on', pp >= +n.dataset.at));
-
-  /* dive into the planet */
-  const dp = prog('dive');
-  planet.style.transform = `scale(${.15 + Math.pow(dp, 3) * 70})`;
-  d1.style.opacity = 1 - clamp(dp * 3);
-  d1.style.transform = `scale(${1 + dp * 2})`;
-  d2.style.opacity = clamp((dp - .7) * 4);
-  d2.style.transform = `scale(${.6 + clamp((dp - .6) * 2.5) * .4})`;
-
-  /* cursor */
-  cx += (tx - cx) * .18; cy += (ty - cy) * .18;
-  cur_el.style.transform = `translate(${cx}px,${cy}px)`;
+  $$('.zr').forEach(el => { el.style.opacity = clamp((cam.z - +el.dataset.zmin) / .35 + .15, 0, 1) * (cam.z >= +el.dataset.zmin - .1 ? 1 : 0); });
+  mc.clearRect(0, 0, MW, MH);
+  sts.forEach(s => { mc.fillStyle = '#7cf3ff'; mc.beginPath(); mc.arc(mx(s.offsetLeft + s.offsetWidth / 2), my(s.offsetTop + s.offsetHeight / 2), 3, 0, 7); mc.fill(); });
+  mc.strokeStyle = '#ff7ab8'; mc.lineWidth = 1.5; mc.strokeRect(mx(cam.x - vw / 2 / cam.z), my(cam.y - vh / 2 / cam.z), vw / cam.z / bw * MW, vh / cam.z / bh * MH);
+  $('#readout').textContent = `${Math.round(cam.x)}, ${Math.round(cam.y)} · ×${cam.z.toFixed(2)}`;
   requestAnimationFrame(loop);
 }
-requestAnimationFrame(loop);
+loop();
+/* cinematic intro: zoom out of nothing */
+setTimeout(() => { tgt.z = clamp(vw * .86 / sts[0].offsetWidth, .18, 1); }, reduce ? 0 : 500);
+setTimeout(() => $('#hint').classList.add('off'), 9000);
 
+/* ================= LIVE CHAT (Firebase) ================= */
+let FB = null, unsub = null, mode = 'up', lastSend = 0;
+const chat = $('#chat'), E = id => document.getElementById(id);
+function openChat() { chat.classList.add('open'); chat.setAttribute('aria-hidden', 'false'); initChat(); }
+function closeChat() { chat.classList.remove('open'); chat.setAttribute('aria-hidden', 'true'); }
+E('chatX').onclick = closeChat;
+const setMode = m => { mode = m; E('tUp').classList.toggle('on', m === 'up'); E('tIn').classList.toggle('on', m === 'in'); E('aName').hidden = m === 'in'; $('#authF .cta').textContent = m === 'up' ? 'Create account' : 'Log in'; E('authMsg').textContent = ''; };
+E('tUp').onclick = () => setMode('up'); E('tIn').onclick = () => setMode('in'); setMode('up');
+const ERR = { 'auth/email-already-in-use': 'That email already has an account. Try Log in.', 'auth/invalid-credential': 'Wrong email or password.', 'auth/weak-password': 'Password needs 6+ characters.', 'auth/invalid-email': 'That email does not look right.', 'auth/too-many-requests': 'Too many tries. Wait a minute.' };
 
-/* ---------- landing extras ---------- */
-$('#yr').textContent = new Date().getFullYear();
-$('#top-btn').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
-
-/* hyperdrive: hold H or hold the button */
-addEventListener('keydown', e => { if (e.key.toLowerCase() === 'h' && !e.repeat) warpOn = true; });
-addEventListener('keyup', e => { if (e.key.toLowerCase() === 'h') warpOn = false; });
-const wb = $('#warpBtn');
-['pointerdown'].forEach(ev => wb.addEventListener(ev, e => { e.preventDefault(); warpOn = true; }));
-['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => wb.addEventListener(ev, () => warpOn = false));
-
-/* counters */
-const io = new IntersectionObserver(es => es.forEach(en => {
-  if (!en.isIntersecting) return;
-  io.unobserve(en.target);
-  const el = en.target, end = +el.dataset.count, dec = +(el.dataset.dec || 0), t0 = performance.now(), dur = 1800;
-  (function tick(n) {
-    const k = clamp((n - t0) / dur), e = 1 - Math.pow(1 - k, 4);
-    el.textContent = (end * e).toLocaleString(undefined, { minimumFractionDigits: dec, maximumFractionDigits: dec });
-    if (k < 1) requestAnimationFrame(tick);
-  })(t0);
-}), { threshold: .6 });
-$$('[data-count]').forEach(el => io.observe(el));
-
-/* flip-card facts */
-const FACTS = [
-  ['How long is a day on Venus?', 'Longer than its year. Venus spins in about 243 Earth days but orbits the Sun in about 225. It also spins backwards.'],
-  ['Could Saturn float?', 'In a big enough bathtub, yes. Saturn is less dense than water, about 0.69 times as dense.'],
-  ['How tall is the tallest volcano?', 'Olympus Mons on Mars is about 22 km high, roughly two and a half times the height of Mount Everest.'],
-  ['What is the light from Andromeda?', 'About 2.5 million years old. You see the galaxy as it was before humans existed.'],
-  ['How far has Voyager 1 gone?', 'More than 24 billion km from Earth since launching in 1977. It is the farthest human-made object.'],
-  ['How heavy is neutron star stuff?', 'A teaspoon of it would weigh billions of tonnes. Gravity squashes atoms until almost only neutrons remain.'],
-  ['How long do Moon footprints last?', 'Possibly millions of years. There is no wind or rain on the Moon to wear them away.'],
-  ['Where is most of the Solar System\'s mass?', 'In the Sun, about 99.86 percent of it. Everything else is a rounding error.']
-];
-const grid = $('#flipGrid');
-FACTS.forEach(([q, a]) => {
-  const d = document.createElement('div');
-  d.className = 'flip'; d.tabIndex = 0; d.setAttribute('role', 'button');
-  d.innerHTML = `<div class="flip-in"><div class="face front">${q}</div><div class="face back">${a}</div></div>`;
-  const flip = () => d.classList.toggle('on');
-  d.addEventListener('click', flip);
-  d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
-  d.addEventListener('mouseenter', () => cur_el.classList.add('big'));
-  d.addEventListener('mouseleave', () => cur_el.classList.remove('big'));
-  grid.appendChild(d);
-});
-
-/* random fact typewriter */
-const ONE = [
-  'Sunlight takes about 8 minutes and 20 seconds to reach Earth.',
-  'There may be more stars in the universe than grains of sand on all of Earth\'s beaches.',
-  'A year on Mercury is just 88 Earth days.',
-  'Jupiter\'s Great Red Spot is a storm wider than Earth.',
-  'Space is not totally empty: it still holds a few atoms in every cubic metre.',
-  'The Milky Way and Andromeda are on course to merge in about 4 to 5 billion years.',
-  'Footprints, flags and rovers are all still sitting up there right now.',
-  'Your atoms were made inside stars that died long before the Sun was born.',
-  'Light from the Sun takes thousands of years to get out of the Sun itself, then minutes to reach us.',
-  'Neptune has supersonic winds that blow faster than 2,000 km/h.'
-];
-let last = -1, timer;
-$('#randBtn').addEventListener('click', () => {
-  let i; do { i = Math.floor(Math.random() * ONE.length); } while (i === last); last = i;
-  const out = $('#randText'), txt = ONE[i]; let n = 0;
-  clearInterval(timer);
-  if (reduce) { out.textContent = txt; return; }
-  timer = setInterval(() => { out.textContent = txt.slice(0, ++n); if (n >= txt.length) clearInterval(timer); }, 22);
-});
-
-
-/* ---------- premium layer ---------- */
-/* preloader + staggered hero entrance */
-letters.forEach((l, i) => l.style.transitionDelay = (1.1 + i * .06) + 's');
-{
-  const pre = $('#pre'), n = $('#preN'); let v = 0;
-  const id = setInterval(() => {
-    v = Math.min(100, v + 1 + Math.random() * 4); n.textContent = Math.floor(v);
-    if (v >= 100) { clearInterval(id); setTimeout(() => { pre.classList.add('done'); document.body.classList.add('ready'); measure(); }, 250); setTimeout(() => pre.remove(), 1400); }
-  }, 28);
+async function initChat() {
+  if (FB) return;
+  const cfg = window.FIREBASE_CONFIG;
+  if (!cfg || !cfg.apiKey) { E('authMsg').textContent = 'Chat is not switched on yet. Owner: follow SETUP.md.'; return; }
+  try {
+    const V = 'https://www.gstatic.com/firebasejs/10.12.2/';
+    const [app, A, S] = await Promise.all([import(V + 'firebase-app.js'), import(V + 'firebase-auth.js'), import(V + 'firebase-firestore.js')]);
+    const a = app.initializeApp(cfg); FB = { A, S, auth: A.getAuth(a), db: S.getFirestore(a) };
+  } catch (e) { E('authMsg').textContent = 'Could not load chat. Check your connection.'; return; }
+  FB.A.onAuthStateChanged(FB.auth, u => {
+    E('authView').hidden = !!u; E('chatView').hidden = !u; E('outBtn').hidden = !u; E('idBtn').hidden = !u;
+    E('who').textContent = u ? (u.displayName || '') : '';
+    if (unsub) { unsub(); unsub = null; }
+    if (u) listen();
+  });
 }
-/* spotlight + tilt */
-$$('.stat, .proj').forEach(el => el.addEventListener('mousemove', e => {
-  const r = el.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-  el.style.setProperty('--mx', x + 'px'); el.style.setProperty('--my', y + 'px');
-  if (el.classList.contains('proj') && !reduce) el.style.transform = `perspective(700px) rotateY(${(x / r.width - .5) * 10}deg) rotateX(${(.5 - y / r.height) * 10}deg) translateY(-6px)`;
-}));
-$$('.proj').forEach(el => el.addEventListener('mouseleave', () => el.style.transform = ''));
-/* magnetic buttons */
-$$('.btn, .warp-btn, .fab').forEach(b => {
-  b.addEventListener('mousemove', e => { if (reduce) return; const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .3}px,${(e.clientY - r.top - r.height / 2) * .4}px)`; });
-  b.addEventListener('mouseleave', () => b.style.transform = '');
-});
-
-/* ---------- live chat ---------- */
-const CONFIG = {
-  tawk: '6b0a8cc6b295e13cb436bfc3/1k8gjbq8f',   // paste 'PROPERTY_ID/WIDGET_ID' from tawk.to to switch on REAL live chat with you
-  email: ''   // your email, used by the Contact reply
+E('authF').onsubmit = async e => {
+  e.preventDefault(); if (!FB) return initChat();
+  const msg = E('authMsg'); msg.textContent = '';
+  try {
+    if (mode === 'up') {
+      const n = E('aName').value.trim().replace(/[^\w .-]/g, '').slice(0, 20); if (n.length < 2) { msg.textContent = 'Pick a username (2+ letters).'; return; }
+      const c = await FB.A.createUserWithEmailAndPassword(FB.auth, E('aMail').value, E('aPass').value);
+      await FB.A.updateProfile(c.user, { displayName: n }); E('who').textContent = n;
+    } else await FB.A.signInWithEmailAndPassword(FB.auth, E('aMail').value, E('aPass').value);
+  } catch (er) { msg.textContent = ERR[er.code] || 'Something went wrong. Try again.'; }
 };
-if (CONFIG.tawk) {
-  const sc = document.createElement('script'); sc.async = true; sc.src = 'https://embed.tawk.to/' + CONFIG.tawk; document.head.appendChild(sc);
-  $('#chatFab').remove(); $('#chat').remove();
-} else {
-  const box = $('#chat'), M = $('#chatM');
-  const add = (t, who) => { const d = document.createElement('div'); d.className = 'msg ' + who; d.textContent = t; M.appendChild(d); M.scrollTop = M.scrollHeight; return d; };
-  const RULES = [
-    [/^(hi|hey|hello|yo|sup)\b/, () => 'Hey! I am Scott Bot. Ask me for a space fact, about the projects, or how to get in touch.'],
-    [/fact|space|venus|saturn|mars|planet|star|moon/, () => ONE[Math.floor(Math.random() * ONE.length)]],
-    [/project|orbital|panche|built|work/, () => 'The big one right now is ORBITAL, a scroll-driven space journey. Open it from the Projects section, or go to scottcode.fun/Panche.'],
-    [/contact|email|hire|reach|message|talk/, () => CONFIG.email ? 'Email Scott at ' + CONFIG.email : 'Scott has not added a public email yet. Check back soon!'],
-    [/who|scott|about/, () => 'Scott Code builds interactive, scroll-driven websites by hand. No templates, just HTML, CSS and JavaScript.'],
-    [/how|made|tech|stack|code/, () => 'This whole page is plain HTML, CSS and JavaScript. No frameworks. The scroll effects run on one animation loop.'],
-    [/hyper|warp|h key/, () => 'Hold the H key (or the hyperdrive button) and watch the stars streak.'],
-    [/thank|thx/, () => 'Anytime! 🚀']
-  ];
-  const reply = q => {
-    const t = q.toLowerCase().trim();
-    const hit = RULES.find(([re]) => re.test(t));
-    const typing = add('…', 'bot typing');
-    setTimeout(() => { typing.remove(); add(hit ? hit[1]() : 'Not sure about that one. Try asking for a space fact, the projects, or contact info.', 'bot'); }, 500 + Math.random() * 500);
-  };
-  let opened = false;
-  const toggle = open => { box.hidden = !open; if (open && !opened) { opened = true; add('Hi! I am Scott Bot 👋 What would you like to know?', 'bot'); } if (open) $('#chatI').focus(); };
-  $('#chatFab').addEventListener('click', () => toggle(box.hidden));
-  $('#chatX').addEventListener('click', () => toggle(false));
-  $('#chatF').addEventListener('submit', e => { e.preventDefault(); const i = $('#chatI'), v = i.value.trim(); if (!v) return; add(v, 'me'); i.value = ''; reply(v); });
-  $$('#chatQ button').forEach(b => b.addEventListener('click', () => { add(b.textContent, 'me'); reply(b.textContent); }));
+E('outBtn').onclick = () => FB.A.signOut(FB.auth);
+E('idBtn').onclick = () => { navigator.clipboard && navigator.clipboard.writeText(FB.auth.currentUser.uid); E('idBtn').textContent = 'Copied'; setTimeout(() => E('idBtn').textContent = 'ID', 1500); };
+
+function listen() {
+  const { S, db } = FB, q = S.query(S.collection(db, 'messages'), S.orderBy('ts', 'asc'), S.limitToLast(300));
+  unsub = S.onSnapshot(q, snap => {
+    const box = E('msgs'), near = box.scrollHeight - box.scrollTop - box.clientHeight < 80, me = FB.auth.currentUser, owner = me && me.uid === window.OWNER_UID;
+    box.innerHTML = '';
+    if (snap.empty) sys('No messages yet. Say hi!');
+    snap.forEach(d => {
+      const m = d.data({ serverTimestamps: 'estimate' }), el = document.createElement('div'), s = document.createElement('small');
+      el.className = 'm' + (me && m.uid === me.uid ? ' me' : ''); s.textContent = (m.name || '?') + (m.uid === window.OWNER_UID && window.OWNER_UID ? ' ★' : ''); el.appendChild(s);
+      el.appendChild(document.createTextNode(m.text));
+      if (owner) { const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕'; x.title = 'Delete'; x.onclick = () => S.deleteDoc(d.ref); el.appendChild(x); }
+      box.appendChild(el);
+    });
+    if (near) box.scrollTop = box.scrollHeight;
+  }, () => sys('Could not read messages. Check the Firestore rules in SETUP.md.'));
 }
-
-
-/* ---------- hamburger menu ---------- */
-const burger = $('#burger'), setMenu = on => { document.body.classList.toggle('menu', on); burger.setAttribute('aria-expanded', on); burger.setAttribute('aria-label', on ? 'Close menu' : 'Open menu'); $('#menu').setAttribute('aria-hidden', !on); };
-burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu')));
-addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-$$('#menu a').forEach(a => a.addEventListener('click', () => setMenu(false)));
-$('#menuChat').addEventListener('click', () => { setMenu(false); if (window.Tawk_API && Tawk_API.maximize) Tawk_API.maximize(); else if ($('#chatFab')) $('#chatFab').click(); });
+function sys(t) { const d = document.createElement('div'); d.className = 'm sys'; d.textContent = t; E('msgs').appendChild(d); E('msgs').scrollTop = E('msgs').scrollHeight; }
+E('sendF').onsubmit = async e => {
+  e.preventDefault(); const i = E('msgI'), t = i.value.trim(), u = FB && FB.auth.currentUser; if (!t || !u) return;
+  if (t.toLowerCase() === '/del chat') {
+    i.value = '';
+    if (!window.OWNER_UID || u.uid !== window.OWNER_UID) return sys('Only the owner can use that command.');
+    const { S, db } = FB, snap = await S.getDocs(S.collection(db, 'messages'));
+    for (let a = 0; a < snap.docs.length; a += 400) { const b = S.writeBatch(db); snap.docs.slice(a, a + 400).forEach(d => b.delete(d.ref)); await b.commit(); }
+    return sys('Chat cleared.');
+  }
+  if (Date.now() - lastSend < 1200) return sys('Slow down a little.'); lastSend = Date.now(); i.value = '';
+  try { await FB.S.addDoc(FB.S.collection(FB.db, 'messages'), { uid: u.uid, name: (u.displayName || 'guest').slice(0, 20), text: t.slice(0, 300), ts: FB.S.serverTimestamp() }); } catch { sys('Message failed to send.'); }
+};
