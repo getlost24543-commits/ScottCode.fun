@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORBITAL — scroll into the dark</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;800&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+<div class="cursor" id="cursor"></div>
+
+<section class="hero" data-sec="hero">
+  <h1 aria-label="Wander beyond">
+    <span class="line" data-letters>WANDER</span>
+    <span class="line l2" data-letters>BEYOND</span>
+  </h1>
+  <p class="hint">Scroll. Everything moves.</p>
+</section>
+
+<div class="marquees" id="marquees" aria-hidden="true">
+  <div class="mrow"><div class="mgroup">STARDUST • DEEP FIELD • EVENT HORIZON • SOLAR WIND • </div><div class="mgroup">STARDUST • DEEP FIELD • EVENT HORIZON • SOLAR WIND • </div></div>
+  <div class="mrow outline rev"><div class="mgroup">ORBIT • DRIFT • IGNITE • ASCEND • WANDER • </div><div class="mgroup">ORBIT • DRIFT • IGNITE • ASCEND • WANDER • </div></div>
+</div>
+
+<section class="words" data-sec="words">
+  <p id="words">Four billion years ago nothing here was looking up. Now we send machines past the edge of the Sun, and every one of them started as someone staring at a dark sky and asking what is out there.</p>
+</section>
+
+<section class="hscroll" data-sec="hscroll" id="hscroll">
+  <div class="sticky">
+    <h2 class="htitle">Five places worth the trip</h2>
+    <div class="track" id="track">
+      <article class="card c1"><div class="orb"></div><h3>Moon</h3><p>1.3 light-seconds away. Footprints from 1969 are still there.</p></article>
+      <article class="card c2"><div class="orb"></div><h3>Mars</h3><p>Rust-red dust, ancient riverbeds and the tallest volcano known.</p></article>
+      <article class="card c3"><div class="orb"></div><h3>Europa</h3><p>A shell of ice over an ocean with more water than all of Earth's.</p></article>
+      <article class="card c4"><div class="orb"></div><h3>Titan</h3><p>Methane rain, orange haze and lakes you could not drink.</p></article>
+      <article class="card c5"><div class="orb"></div><h3>Saturn</h3><p>Rings 280,000 km wide and sometimes only ten metres thick.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="path" data-sec="path" id="path">
+  <svg viewBox="0 0 1000 3200" id="pathsvg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#ff6a3d"/><stop offset=".5" stop-color="#6a4bff"/><stop offset="1" stop-color="#bfe9ff"/>
+      </linearGradient>
+    </defs>
+    <path id="ghost" d="M500 0 C950 250 50 450 500 700 S950 1150 500 1400 S50 1850 500 2100 S950 2550 500 2800 S500 3100 500 3200" fill="none" stroke="#ffffff18" stroke-width="3" stroke-dasharray="4 14"/>
+    <path id="trail" d="M500 0 C950 250 50 450 500 700 S950 1150 500 1400 S50 1850 500 2100 S950 2550 500 2800 S500 3100 500 3200" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+    <g id="rocket"><path d="M22 0 L-14 -12 L-6 0 L-14 12 Z" fill="#eef2ff"/><circle cx="2" cy="0" r="3" fill="#6a4bff"/><path d="M-8 0 L-30 0" stroke="#ff6a3d" stroke-width="6" stroke-linecap="round"/></g>
+  </svg>
+  <div class="note n1" data-at=".08"><h3>Liftoff</h3><p>The first nine minutes use most of the fuel.</p></div>
+  <div class="note n2 r" data-at=".30"><h3>Max Q</h3><p>Peak stress on the rocket. Then the air thins and it gets easy.</p></div>
+  <div class="note n3" data-at=".52"><h3>Coast</h3><p>No engines needed. Momentum carries you for months.</p></div>
+  <div class="note n4 r" data-at=".74"><h3>Burn</h3><p>One precise push to drop into orbit around a new world.</p></div>
+</section>
+
+<section class="dive" data-sec="dive" id="dive">
+  <div class="sticky">
+    <div class="planet" id="planet"></div>
+    <h2 class="d1" id="d1">Descend.</h2>
+    <h2 class="d2" id="d2">Look up again.</h2>
+  </div>
+</section>
+
+<footer><p>Made to be scrolled slowly.</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
