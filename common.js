@@ -1,5 +1,5 @@
-const $=s=>document.querySelector(s);
-document.body.insertAdjacentHTML('afterbegin',`<nav><b>ORBITAL</b><a class=h href="/">Universe</a><a class=h href="/jwst/">JWST</a><a class=h href="/voyager/">Voyager</a><a class=h href="/#artemis">Artemis</a><a class=h href="/#signal">Chat</a>
+const $=s=>document.querySelector(s);const ROOT=document.currentScript.src.replace(/js\/common\.js.*$/,'');
+document.body.insertAdjacentHTML('afterbegin',`<nav><b>ORBITAL</b><a class=h href="${ROOT}index.html">Universe</a><a class=h href="${ROOT}jwst/index.html">JWST</a><a class=h href="${ROOT}voyager/index.html">Voyager</a><a class=h href="${ROOT}index.html#artemis">Artemis</a><a class=h href="${ROOT}index.html#signal">Chat</a>
 <select id=env aria-label="Sound environment"><option value=0>Deep Space</option><option value=1>Observatory</option><option value=2>Mission Control</option><option value=3>Cornfield (original)</option></select><button id=lic>Licensed track</button>
 <input id=vol type=range min=0 max=1 step=.05 value=.4 aria-label=Volume><button id=snd aria-pressed=false>Sound off</button></nav><canvas id=bg></canvas>`);
 let AC,master,nodes=[];const CH=[[110,165,220,330],[98,147,196,294],[82,123,164,247],[110,165,220,277]];
@@ -50,3 +50,22 @@ async function chat(){const box=$('#log');if(!box)return;const K=window.ORBITAL|
   send=async b=>{const m={name,body:b,created_at:new Date().toISOString()};const a=JSON.parse(localStorage.demo||'[]');a.push(m);localStorage.demo=JSON.stringify(a.slice(-100));add(m)}}
  let last=0;$('#chat form').onsubmit=e=>{e.preventDefault();const i=$('#msg'),b=i.value.trim().slice(0,280);if(!b||Date.now()-last<2500)return;last=Date.now();i.value='';send(b)}}
 addEventListener('DOMContentLoaded',chat);
+
+// UI layer: enter gate, progress, cursor glow, tilt
+document.body.insertAdjacentHTML('beforeend','<div id=prog></div><div id=glow></div>');
+addEventListener('scroll',()=>$('#prog').style.height=scrollY/(document.documentElement.scrollHeight-innerHeight)*100+'%',{passive:true});
+if(matchMedia('(pointer:fine)').matches)addEventListener('pointermove',e=>{$('#glow').style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});else $('#glow').remove();
+if(matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches)document.addEventListener('pointermove',e=>{const k=e.target.closest&&e.target.closest('.card');if(!k)return;const r=k.getBoundingClientRect();k.style.transform=`perspective(700px) rotateY(${((e.clientX-r.left)/r.width-.5)*10}deg) rotateX(${-((e.clientY-r.top)/r.height-.5)*10}deg) translateY(-4px)`;k.onpointerleave=()=>k.style.transform=''});
+if($('.hero')){document.body.style.overflow='hidden';document.body.insertAdjacentHTML('beforeend','<div id=gate><h1>ORBITAL</h1><p>Beyond the known.</p><div class=row style="justify-content:center"><button class=btn id=g1>Enter with sound</button><button class=btn id=g2>Enter silent</button></div><small>Headphones recommended. Sound is generated ambience and can be turned off at any time.</small></div>');
+ const go=s=>{if(s)setSnd(true);$('#gate').classList.add('out');dispatchEvent(new Event('entered'));document.body.style.overflow='';setTimeout(()=>$('#gate').remove(),1500)};$('#g1').onclick=()=>go(1);$('#g2').onclick=()=>go(0)}
+
+function drawGal(cv,t,h){const x=cv.getContext('2d'),W=cv.width,C=W/2;x.fillStyle='#02030a';x.fillRect(0,0,W,W);
+ for(let i=0;i<(t=='n'?1800:3200);i++){let px,py,c,s=Math.random()<.04?2:1;
+  if(t=='i'||t=='n'){const k=i%7,rr=(Math.random()+Math.random()+Math.random()-1.5)*W*(t=='n'?.28:.22),an=Math.random()*6.28;px=C+Math.sin(k*2.1+h)*W*.2+Math.cos(an)*rr;py=C+Math.cos(k*1.7+h)*W*.2+Math.sin(an)*rr;c=`hsl(${h+(k*12)%60},80%,${55+Math.random()*30}%)`}
+  else{const arm=i%2*Math.PI,u=Math.random()**.7*3.4*Math.PI,r=u/(3.4*Math.PI)*C*.92,sp=(Math.random()-.5)*r*.18;let ax=Math.cos(u+arm)*r+sp,ay=Math.sin(u+arm)*r+sp;
+   if(t=='e'){ax=(Math.random()+Math.random()-1)*C*.95;ay=(Math.random()+Math.random()-1)*C*.24*(1-Math.abs(ax)/C)}
+   if(t=='t'){ay*=.38;const q=.9,rx=ax*Math.cos(q)-ay*Math.sin(q);ay=ax*Math.sin(q)+ay*Math.cos(q);ax=rx}
+   px=C+ax;py=C+ay;c=`hsl(${r<C*.3?40:h},75%,${60+Math.random()*30}%)`}
+  x.globalAlpha=.25+Math.random()*.6;x.fillStyle=c;x.fillRect(px,py,s,s)}
+ const q=x.createRadialGradient(C,C,0,C,C,W*.2);q.addColorStop(0,'rgba(255,230,180,.8)');q.addColorStop(1,'transparent');x.globalAlpha=1;x.fillStyle=q;x.fillRect(0,0,W,W);
+ if(t=='e'){x.fillStyle='#02030a';x.fillRect(0,C-2,W,3)}}
