@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HELIOS — A field guide to the solar system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;600;800&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<header class="nav">
+  <a href="#top" class="logo">HELIOS</a>
+  <nav>
+    <a href="#system">Orbits</a>
+    <a href="#scale">Your weight</a>
+    <a href="#log">Mission log</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <h1 class="mega"><span>Fall</span><span>upward.</span></h1>
+    <p class="lede">A field guide to the eight worlds orbiting our star. Move your mouse to steer. Hold anywhere to engage hyperdrive.</p>
+    <div class="hud">
+      <div><b id="speed">0.2</b><small>c &nbsp;velocity</small></div>
+      <div><b id="clock">00:00:00</b><small>mission time</small></div>
+      <div><b id="dist">0</b><small>million km travelled</small></div>
+    </div>
+    <a class="cta" href="#system">Begin the tour</a>
+  </section>
+
+  <section id="system" class="system">
+    <div class="sys-head">
+      <h2>The neighbourhood</h2>
+      <p>Click any planet. Orbits are real in ratio: Mercury laps Neptune about 680 times per Neptune year.</p>
+    </div>
+    <div class="orrery-wrap">
+      <div class="orrery" id="orrery"></div>
+      <aside class="card" id="card" aria-live="polite">
+        <h3 id="c-name">Earth</h3>
+        <p id="c-desc"></p>
+        <dl>
+          <dt>Day length</dt><dd id="c-day"></dd>
+          <dt>Year length</dt><dd id="c-year"></dd>
+          <dt>Moons</dt><dd id="c-moons"></dd>
+          <dt>Surface gravity</dt><dd id="c-g"></dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section id="scale" class="scale">
+    <h2>What you'd weigh out there</h2>
+    <label class="field">Your weight on Earth (kg)
+      <input type="range" id="w" min="20" max="150" value="70">
+      <output id="wout">70 kg</output>
+    </label>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <section id="log" class="log">
+    <h2>Mission log</h2>
+    <ol class="timeline">
+      <li><time>1957</time><p>Sputnik 1 becomes the first artificial satellite. The race begins.</p></li>
+      <li><time>1969</time><p>Apollo 11 lands two people on the Moon. Six hundred million watched.</p></li>
+      <li><time>1977</time><p>Voyager 1 and 2 launch. Voyager 1 is now the farthest human-made object.</p></li>
+      <li><time>1990</time><p>Hubble opens its eye. Deep field images reveal thousands of galaxies in a dark patch.</p></li>
+      <li><time>2012</time><p>Curiosity touches down on Mars after a sky-crane descent.</p></li>
+      <li><time>2021</time><p>The James Webb Space Telescope launches and unfolds a mirror the size of a tennis court.</p></li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <p>Built for the curious. Look up tonight.</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
