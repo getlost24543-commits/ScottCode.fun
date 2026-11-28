@@ -1,0 +1,29 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>James Webb Observatory | ORBITAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans&family=Syne:wght@700&display=swap" rel=stylesheet><link rel=stylesheet href="/css/style.css"></head><body>
+<section class=t><h2>James Webb Space Telescope</h2><p class=mut>Drag to rotate, scroll to zoom. This 3D model is a simplified artistic representation, not to scale in detail.</p>
+<canvas class=c3 id=cv></canvas><div class=row id=parts></div><div id=info class=mut></div></section>
+<section><h2>First light archive</h2><p class=mut>Tap an entry. Official full-resolution images are on the linked NASA/STScI pages (image URLs can be added in the <code>img</code> field of the script).</p><div class=rail id=gal></div></section>
+<div id=panel></div><div id=viewer></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="/js/config.js"></script><script src="/js/common.js"></script>
+<script>
+const W0=stars();(function f(){W0.pts.rotation.y+=.0002;W0.r.render(W0.s,W0.c);requestAnimationFrame(f)})();
+const gold=new THREE.MeshStandardMaterial({color:0xffc94a,metalness:1,roughness:.25});
+const P={mirror:["Primary mirror","18 hexagonal beryllium segments with a thin gold coating, 6.5 m across in total. Gold reflects infrared well."],shield:["Sunshield","Five layers of Kapton-type film, about the size of a tennis court. It keeps the instruments below roughly 50 K."],sec:["Secondary mirror","Held on struts in front of the primary; it directs light back through a hole into the instruments."],inst:["Instruments","NIRCam, NIRSpec, MIRI and FGS/NIRISS observe mostly infrared light."],l2:["Sun-Earth L2","Webb orbits the L2 point about 1.5 million km from Earth, on the side away from the Sun, in a halo orbit."]};
+const V=viewer3d(cv,o=>{const m=new THREE.Group();const hx=[];for(let q=-2;q<=2;q++)for(let r=-2;r<=2;r++){const t=-q-r;if(Math.abs(t)>2||(!q&&!r))continue;hx.push([q,r])}
+ hx.forEach(([q,r])=>{const h=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,.06,6),gold);h.rotation.x=Math.PI/2;h.position.set(.9*(q+r/2)*1.04,.9*r*.866*1.04,0);m.add(h)});o.add(m);
+ [[0,.5],[Math.PI*2/3,.5],[Math.PI*4/3,.5]].forEach(a=>{const s=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,3.4),new THREE.MeshStandardMaterial({color:0x888888}));s.position.set(Math.cos(a[0]+1.57)*.9,Math.sin(a[0]+1.57)*.9,1.5);s.rotation.set(Math.cos(a[0]+1.57)*.5,0,-Math.sin(a[0]+1.57)*.5);o.add(s)});
+ const sm=new THREE.Mesh(new THREE.SphereGeometry(.28,24,12,0,6.3,0,1.6),gold);sm.position.z=3.1;sm.rotation.x=Math.PI/2;o.add(sm);
+ for(let i=0;i<5;i++){const sh=new THREE.Mesh(new THREE.BoxGeometry(7-i*.25,.02,3.2-i*.1),new THREE.MeshStandardMaterial({color:i?0xb9a9ff:0x9a8cff,metalness:.6,roughness:.4,side:2}));sh.position.set(0,-2.2-i*.18,-.6);o.add(sh)}
+ const bus=new THREE.Mesh(new THREE.BoxGeometry(1.4,.8,1.4),new THREE.MeshStandardMaterial({color:0x444c66}));bus.position.set(0,-1,-.9);o.add(bus);o.position.y=.6});
+parts.innerHTML=Object.keys(P).map(k=>`<button class=btn data-k=${k}>${P[k][0]}</button>`).join('');
+parts.onclick=e=>{const k=e.target.dataset.k;if(!k)return;info.innerHTML=`<b style="color:var(--tx)">${P[k][0]}</b>: ${P[k][1]}`;V.view({mirror:6,shield:14,sec:5,inst:8,l2:22}[k],{mirror:.05,shield:1.2,sec:.2,inst:.5,l2:.3}[k])};
+const U="https://webbtelescope.org/";
+const I=[["Carina Nebula (Cosmic Cliffs)","12 Jul 2022","Webb's NIRCam saw the edge of a gas-and-dust cavity in the Carina Nebula, ~7,600 light-years away, where young stars sculpt the cloud.","Also catalogued as NGC 3324 (the 'Cosmic Cliffs' region)."],
+["Southern Ring Nebula","12 Jul 2022","A dying star ~2,000 light-years away shed shells of gas. Webb's MIRI revealed a second, hidden star.","Planetary nebula NGC 3132."],
+["Stephan's Quintet","12 Jul 2022","Five galaxies about 290 million light-years away (four interacting). Shock waves and a black hole outflow were resolved.","One member is a foreground galaxy."],
+["SMACS 0723 Deep Field","12 Jul 2022","A galaxy cluster ~4.6 billion light-years away bends light from much older galaxies behind it (gravitational lensing).","Webb's first deep field."],
+["Pillars of Creation","19 Oct 2022","Webb's near-infrared view of dust columns in the Eagle Nebula, ~6,500 light-years away, shows newborn stars.","Famous from Hubble's 1995 image."],
+["Rho Ophiuchi cloud complex","12 Jul 2023","Webb's first-anniversary image of the nearest star-forming region, ~390 light-years away, with ~50 young stars.","Jets from forming stars glow red."]];
+gal.innerHTML=I.map((g,i)=>`<button class=card data-i=${i}><div class=orb style="--c:hsl(${i*50+200},80%,60%)"></div><h3 style="font-size:20px">${g[0]}</h3><small>${g[1]}</small></button>`).join('');
+gal.onclick=e=>{const b=e.target.closest('.card');if(!b)return;const g=I[b.dataset.i];modal('viewer',`<div class=pbox><h2 style="font-size:34px">${g[0]}</h2><p class=mut>Published ${g[1]} · NASA, ESA, CSA, STScI</p>${g[4]?`<img loading=lazy src="${g[4]}" alt="${g[0]}">`:''}<p>${g[2]}</p><p class=mut>${g[3]}</p><p><a href="${U}" rel=noopener>Official image page (NASA/STScI)</a> · <a href="https://science.nasa.gov/mission/webb/">NASA Webb</a></p><button class=btn data-x=1>Close</button></div>`)};
+</script><div style="display:none"><div id=chat><form></form></div></div></body></html>
