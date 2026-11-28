@@ -1,191 +1,418 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>ORBITAL: Beyond the Known</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans&family=Syne:wght@700&display=swap" rel=stylesheet><style>:root{--bg:#02030a;--navy:#0a1230;--blue:#3d7bff;--cy:#7ff3ff;--tx:#e9eefc;--mut:#8f9bbd}
-*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font:16px/1.6 'Instrument Sans',system-ui,sans-serif;overflow-x:hidden}
-h1,h2,h3{font-family:'Syne',system-ui,sans-serif;font-weight:700;line-height:1}
-a{color:var(--cy)}:focus-visible{outline:2px solid var(--cy);outline-offset:3px}
-#bg{position:fixed;inset:0;z-index:-1}
-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;gap:14px;align-items:center;padding:12px 5vw;background:linear-gradient(#02030acc,transparent);flex-wrap:wrap}
-nav b{font-family:Syne;letter-spacing:.2em;margin-right:auto}nav a{color:var(--tx);text-decoration:none;font-size:14px;opacity:.8}
-nav select,nav button,.btn{background:#ffffff14;border:1px solid #ffffff30;color:var(--tx);padding:7px 14px;border-radius:99px;cursor:pointer;font:inherit;font-size:13px}
-#vol{width:70px;accent-color:var(--cy)}
-section{padding:14vh 5vw 10vh;position:relative}section.t{padding-top:16vh}
-.hero{height:420vh;padding:0}.hero .in{position:sticky;top:0;height:100vh;display:grid;place-content:center;text-align:center;padding:0 5vw}
-.hero h1{font-size:clamp(48px,11vw,150px);letter-spacing:-.03em}.hero p{color:var(--mut);max-width:520px;margin:20px auto}
-h2{font-size:clamp(32px,6vw,72px);margin-bottom:24px}.mut{color:var(--mut)}
-.rail{display:flex;gap:20px;overflow-x:auto;padding:10px 5vw 30px;margin:0 -5vw;scroll-snap-type:x proximity;cursor:grab;scrollbar-width:thin}
-.card{flex:0 0 min(320px,80vw);scroll-snap-align:start;border:1px solid #ffffff22;border-radius:18px;padding:18px;background:#0a123099;color:inherit;font:inherit;cursor:pointer;text-align:left;text-decoration:none;display:block}
-.grid .card{flex:none}.card:hover{border-color:var(--blue)}.card h3{font-size:24px;margin:10px 0 6px}.card small{color:var(--mut)}
-.orb{height:150px;border-radius:12px;background:radial-gradient(circle,#fff 0,var(--c) 18%,transparent 62%),repeating-conic-gradient(transparent 0 20deg,#ffffff18 20deg 40deg)}
-#panel,#viewer{position:fixed;inset:0;z-index:30;background:#02030af0;display:none;place-items:center;padding:5vw;overflow:auto}
-#panel.on,#viewer.on{display:grid}.pbox{max-width:620px;border:1px solid #ffffff30;border-radius:20px;padding:30px;background:var(--navy)}.pbox li{margin:8px 0 8px 18px}.pbox img{max-width:100%;border-radius:10px}
-.tl{border-left:2px solid var(--blue);padding-left:14px;flex:0 0 230px}.tl b{font-family:Syne;font-size:26px;color:var(--cy)}
-blockquote{font:italic clamp(26px,5vw,60px)/1.15 Syne;max-width:900px;margin:auto;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-canvas.c3{width:100%;height:60vh;border-radius:20px;border:1px solid #ffffff22;touch-action:none;background:#000;display:block}
-#cd{font:700 clamp(24px,5vw,56px) Syne;color:var(--cy)}
-#chat{border:1px solid #ffffff30;border-radius:20px;background:#0a123099;max-width:760px;overflow:hidden}
-#log{height:320px;overflow:auto;padding:16px}.m{margin:6px 0;font-size:15px;word-break:break-word}.m i{color:var(--mut);font-size:12px;font-style:normal}.m u{color:var(--cy);text-decoration:none;font-weight:600}
-#chat form{display:flex;gap:8px;padding:12px;border-top:1px solid #ffffff22}
-#chat input{flex:1;min-width:0;background:#0006;border:1px solid #ffffff30;color:var(--tx);border-radius:10px;padding:10px;font:inherit}
-.sl{width:100%;accent-color:var(--cy)}.bar{height:14px;border-radius:7px;background:linear-gradient(90deg,var(--blue),var(--cy));width:0;transition:width 2s cubic-bezier(.2,.8,.2,1)}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto;transition:none!important}}
-@media(max-width:640px){nav a.h{display:none}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aether — an interactive atlas of the universe</title>
+<meta name="description" content="Fly through the solar system, measure the distance to the stars and scrub 13.8 billion years of cosmic history.">
+<meta name="theme-color" content="#03050c">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add('js')</script>
 
-nav{backdrop-filter:blur(14px);border-bottom:1px solid #ffffff12;background:linear-gradient(#02030aee,#02030a66)}
-nav a{position:relative}nav a:hover{opacity:1;color:var(--cy)}nav button:hover,.btn:hover{background:#7ff3ff22;border-color:var(--cy)}
-.hero h1{background:linear-gradient(180deg,#fff 30%,#7fa6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .in::after{content:"";width:1px;height:60px;background:linear-gradient(var(--cy),transparent);margin:30px auto 0;animation:dr 2s infinite}
-@keyframes dr{0%{transform:scaleY(0);transform-origin:top}60%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);opacity:0}}
-h2{background:linear-gradient(90deg,#fff,#8fb2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.card{transition:transform .25s,border-color .25s,box-shadow .25s;box-shadow:0 0 0 #0000}.card:hover{box-shadow:0 10px 50px #3d7bff33}
-.orb{width:150px;aspect-ratio:1;height:auto;border-radius:50%;margin:6px auto 14px;animation:sp 40s linear infinite;box-shadow:0 0 50px var(--c)}@keyframes sp{to{transform:rotate(360deg)}}
-.tl{padding:6px 0 6px 16px}.pbox{box-shadow:0 0 120px #3d7bff44}
-#prog{position:fixed;right:0;top:0;width:3px;background:linear-gradient(var(--cy),var(--blue));z-index:40}
-#glow{position:fixed;top:0;left:0;width:400px;height:400px;border-radius:50%;background:radial-gradient(#3d7bff22,transparent 65%);pointer-events:none;z-index:5}
-#gate{position:fixed;inset:0;z-index:100;background:#02030a;display:grid;place-content:center;text-align:center;gap:14px;transition:opacity 1.4s,transform 1.4s}
-#gate.out{opacity:0;transform:scale(1.15);pointer-events:none}#gate h1{font-size:clamp(48px,12vw,140px);letter-spacing:.3em;padding-left:.3em}#gate p{color:var(--cyan,#7ff3ff);letter-spacing:.4em}#gate small{color:var(--mut)}
-section.t{padding-top:18vh}
+<!-- Archivo is a variable font with a width axis. The hero headline stretches as you accelerate. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
 
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
-section::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(55% 45% at 85% 15%,#3d7bff24,transparent),radial-gradient(45% 40% at 8% 92%,#8b6bff1f,transparent)}
-h2{font-size:clamp(44px,10vw,150px);letter-spacing:-.04em;line-height:.92;padding-bottom:.08em}
-.hero h1 span{display:block;overflow:hidden;padding-bottom:.08em}.hero h1 i{display:block;font-style:normal}
-#scale{position:fixed;left:5vw;bottom:4vh;z-index:15;color:var(--cy);font:13px Syne;letter-spacing:.25em;transition:opacity .4s}
-.gc{width:100%;aspect-ratio:1;border-radius:14px;display:block;background:#02030a}#gx .card{flex:0 0 min(360px,80vw);padding:12px}
-#sv{height:46vh;display:grid;place-items:center}#sdot{border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#7ff3ff 12%,#3d7bff 45%,#0a1230 75%);box-shadow:0 0 90px #3d7bff88;transition:width 1.1s cubic-bezier(.7,0,.2,1),height 1.1s cubic-bezier(.7,0,.2,1)}
-.tl{flex:0 0 270px;border-left:1px solid #7ff3ff55;padding:10px 0 10px 18px}.tl b{font-size:56px;color:transparent;-webkit-text-stroke:1px var(--cy);display:block;line-height:1}
-canvas.c3{box-shadow:0 0 90px #3d7bff2a inset,0 0 60px #3d7bff18}
-</style></head><body>
-<header class=hero><div class=in><h1><span><i>BEYOND</i></span><span><i>THE KNOWN.</i></span></h1><p class=fadeo>A journey through space, time, and everything humanity has yet to discover.</p></div></header><div id=scale>Scale: planet</div>
-<section id=galaxies><h2>Neighbouring galaxies</h2><p class=mut>Drag, swipe or scroll sideways. Tap a galaxy for its profile.</p><div class=rail id=gx></div></section>
-<section><h2>Cosmic scale</h2><div id=sv><div id=sdot></div></div><input class=sl id=sc type=range min=0 max=5 step=1 value=0 aria-label="Scale"><h3 id=st style="margin-top:20px"></h3><p id=sd class=mut></p></section>
-<section><h2>Two ways to see Webb and Voyager</h2><div class=grid><a class=card href="jwst/index.html"><h3>James Webb observatory</h3><small>Rotate the 3D telescope, browse the first images.</small></a><a class=card href="voyager/index.html"><h3>Voyager 1</h3><small>3D spacecraft, trajectory map, distance scale.</small></a></div></section>
-<section><h2>Human spaceflight</h2><div class=rail id=tl></div><blockquote style="margin-top:12vh">“That's one small step for man, one giant leap for mankind.”<br><small class=mut style="font:16px Instrument Sans">Neil Armstrong, Apollo 11, 20 July 1969</small></blockquote></section>
-<section id=artemis><h2>Artemis</h2><p class=mut>Crewed return to the Moon, with a lunar south pole focus. Orion, Space Launch System, Gateway and a Human Landing System are the core elements.</p>
-<p>Next confirmed launch date: <b id=cd>TO BE CONFIRMED</b></p><p class=mut id=cdn>NASA has not given a confirmed target in this build. Edit <code>ARTEMIS_TARGET_UTC</code> in the page only once NASA publishes one.</p>
-<p><a href="https://www.nasa.gov/humans-in-space/artemis/">Official Artemis mission pages</a> · <a href="https://www.nasa.gov/image-article/artemis-image-gallery/">NASA Artemis images</a></p></section>
-<section><h2>Space news</h2><div class=grid id=news><p class=mut>Loading…</p></div><p class=mut id=fact></p></section>
-<section id=signal><h2>Cosmic Signal</h2><div id=chat><div class=btn style="border-radius:0;border:0"><span id=me></span> · <span id=on></span></div><div id=log aria-live=polite></div><form><input id=msg maxlength=280 placeholder="Send a message (280 characters max)" aria-label=Message><button class=btn>Send</button></form></div></section>
-<footer style="padding:40px 5vw;color:var(--mut)">Images: link out to NASA, ESA, CSA and STScI. Music is original generated ambience. For Cornfield Chase use a licensed service.</footer>
-<div id=panel></div><div id=viewer></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>// Supabase anon key is PUBLIC by design (protected by Row Level Security). NEVER put a service_role key here.
-window.ORBITAL={SUPABASE_URL:"",SUPABASE_ANON_KEY:"",
-// Paste the OFFICIAL embed URL from Spotify/YouTube (e.g. https://open.spotify.com/embed/track/...). Empty = opens a search page.
-MUSIC_URL:""};
-</script><script>const $=s=>document.querySelector(s);const ROOT='';
-document.body.insertAdjacentHTML('afterbegin',`<nav><b>ORBITAL</b><a class=h href="${ROOT}index.html">Universe</a><a class=h href="${ROOT}jwst/index.html">JWST</a><a class=h href="${ROOT}voyager/index.html">Voyager</a><a class=h href="${ROOT}index.html#artemis">Artemis</a><a class=h href="${ROOT}index.html#signal">Chat</a>
-<select id=env aria-label="Sound environment"><option value=0>Deep Space</option><option value=1>Observatory</option><option value=2>Mission Control</option><option value=3>Cornfield (original)</option></select><button id=lic>Licensed track</button>
-<input id=vol type=range min=0 max=1 step=.05 value=.4 aria-label=Volume><button id=snd aria-pressed=false>Sound off</button></nav><canvas id=bg></canvas>`);
-let AC,master,nodes=[];const CH=[[110,165,220,330],[98,147,196,294],[82,123,164,247],[110,165,220,277]];
-function startAudio(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();AC.resume();master=AC.createGain();master.gain.value=+$('#vol').value;master.connect(AC.destination);
- const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=900;f.connect(master);
- const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=.07;lg.gain.value=400;lfo.connect(lg);lg.connect(f.frequency);lfo.start();nodes=[lfo];
- CH[+$('#env').value].forEach((fr,i)=>[0,4].forEach(d=>{const o=AC.createOscillator(),g=AC.createGain();o.type=i%2?'sine':'triangle';o.frequency.value=fr;o.detune.value=d*(i+1);g.gain.value=.07;o.connect(g);g.connect(f);o.start();nodes.push(o)}));
- if($('#env').value==3){const i0=[0,2,4,2,5,4,2,1];let k=0;arp=setInterval(()=>pluck(SC[i0[k++%8]]*(k%16<8?1:.75),master),520)}}
-let arp;const SC=[220,247,262,330,392,440,524,660];
-function pluck(f,dest){const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+2.2);o.connect(g);g.connect(dest);o.start(t);o.stop(t+2.3)}
-function stopAudio(){clearInterval(arp);nodes.forEach(o=>{try{o.stop()}catch(e){}});nodes=[]}
-let on=false;function setSnd(v){on=v;$('#snd').textContent=v?'Sound on':'Sound off';$('#snd').setAttribute('aria-pressed',v);sessionStorage.snd=v?1:'';stopAudio();if(v)startAudio()}
-$('#snd').onclick=()=>setSnd(!on);$('#env').onchange=()=>on&&setSnd(true);$('#vol').oninput=e=>master&&(master.gain.value=+e.target.value);
-$('#lic').onclick=()=>{const u=(window.ORBITAL||{}).MUSIC_URL;if(u&&u.includes('/embed/')){let b=$('#lp');if(!b){document.body.insertAdjacentHTML('beforeend',`<iframe id=lp src="${u}" width=300 height=152 allow="autoplay;encrypted-media" style="position:fixed;right:10px;bottom:10px;z-index:25;border:0;border-radius:12px"></iframe>`)}else b.remove()}else open(u||'https://open.spotify.com/search/Cornfield%20Chase','_blank','noopener')};
-if(sessionStorage.snd)$('#snd').textContent='Resume sound';$('#snd').addEventListener('click',()=>{},{once:true});
-function stars(){const r=new THREE.WebGLRenderer({canvas:$('#bg'),alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,innerWidth<700?1:1.5));
- const s=new THREE.Scene(),c=new THREE.PerspectiveCamera(60,1,.1,4000),N=innerWidth<700?1500:4000,p=new Float32Array(N*3);
- for(let i=0;i<N*3;i++)p[i]=(Math.random()-.5)*2000;const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));
- const pts=new THREE.Points(g,new THREE.PointsMaterial({size:1.6,color:0xcfe0ff,sizeAttenuation:false}));s.add(pts);
- const rs=()=>{r.setSize(innerWidth,innerHeight);c.aspect=innerWidth/innerHeight;c.updateProjectionMatrix()};rs();addEventListener('resize',rs);return{r,s,c,pts}}
-document.querySelectorAll('.rail').forEach(el=>{let d,x,sl;el.onpointerdown=e=>{if(e.pointerType=='mouse'){d=1;x=e.clientX;sl=el.scrollLeft}};addEventListener('pointerup',()=>d=0);el.onpointermove=e=>{if(d)el.scrollLeft=sl-(e.clientX-x)};
- el.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){const m=el.scrollLeft,M=el.scrollWidth-el.clientWidth;if((e.deltaY>0&&m<M-1)||(e.deltaY<0&&m>0)){e.preventDefault();el.scrollLeft+=e.deltaY}}},{passive:false})});
-// 3D viewer: drag to rotate, wheel/pinch-less zoom
-function viewer3d(cv,build){const r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));
- const s=new THREE.Scene(),c=new THREE.PerspectiveCamera(45,1,.1,100),o=new THREE.Group();s.add(o);s.add(new THREE.AmbientLight(0x8899cc,.7));const dl=new THREE.DirectionalLight(0xffffff,1.4);dl.position.set(3,4,5);s.add(dl);build(o);
- let rx=.3,ry=.6,z=11,d=0,x,y;cv.onpointerdown=e=>{d=1;x=e.clientX;y=e.clientY;cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>d=0;
- cv.onpointermove=e=>{if(d){ry+=(e.clientX-x)*.008;rx+=(e.clientY-y)*.008;x=e.clientX;y=e.clientY}};cv.addEventListener('wheel',e=>{e.preventDefault();z=Math.min(24,Math.max(3,z+e.deltaY*.01))},{passive:false});
- const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
- (function f(){const w=cv.clientWidth,h=cv.clientHeight;if(cv.width!=w*r.getPixelRatio())r.setSize(w,h,false),c.aspect=w/h,c.updateProjectionMatrix();if(!d&&!rm)ry+=.003;
-  o.rotation.y+=(ry-o.rotation.y)*.15;o.rotation.x+=(rx-o.rotation.x)*.15;c.position.z+=(z-c.position.z)*.1;r.render(s,c);requestAnimationFrame(f)})();return{o,view:(zz,xx)=>{z=zz;rx=xx}}}
-function modal(id,html){const m=$('#'+id);m.innerHTML=html;m.classList.add('on');m.onclick=e=>{if(e.target==m||e.target.dataset.x)m.classList.remove('on')}}
-addEventListener('keydown',e=>{if(e.key=='Escape')document.querySelectorAll('#panel,#viewer').forEach(m=>m.classList.remove('on'))});
-async function chat(){const box=$('#log');if(!box)return;const K=window.ORBITAL||{},live=K.SUPABASE_URL&&K.SUPABASE_ANON_KEY;
- const name=sessionStorage.nm||(sessionStorage.nm='Voyager-'+Math.floor(Math.random()*9000+1000));$('#me').textContent=name;
- const esc=t=>String(t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
- const add=m=>{box.insertAdjacentHTML('beforeend',`<div class=m><u>${esc(m.name)}</u> <i>${new Date(m.created_at).toLocaleString()}</i><br>${esc(m.body)} ${live&&m.id?`<button class=btn data-r="${m.id}" style="padding:1px 8px">report</button>`:''}</div>`);box.scrollTop=1e9};
- let send;
- if(live){try{await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';s.onload=ok;s.onerror=no;document.head.append(s)});
-  const sb=supabase.createClient(K.SUPABASE_URL,K.SUPABASE_ANON_KEY);
-  const {data}=await sb.from('messages').select('*').order('created_at',{ascending:false}).limit(100);(data||[]).reverse().forEach(add);
-  const ch=sb.channel('room',{config:{presence:{key:name}}});
-  ch.on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>add(p.new)).on('presence',{event:'sync'},()=>{$('#on').textContent=Object.keys(ch.presenceState()).length+' online'})
-   .subscribe(st=>{if(st=='SUBSCRIBED')ch.track({n:name})}); // supabase-js reconnects automatically
-  send=async b=>{const {error}=await sb.from('messages').insert({name,body:b});if(error)alert('Message rejected: '+error.message)};
-  box.onclick=async e=>{const id=e.target.dataset.r;if(id){await sb.from('reports').insert({message_id:+id});e.target.textContent='reported'}}
- }catch(e){$('#on').textContent='Chat server unreachable. Reload to retry.';return}}
- else{$('#on').textContent='DEMO MODE: messages stay on this device only';JSON.parse(localStorage.demo||'[]').forEach(add);
-  send=async b=>{const m={name,body:b,created_at:new Date().toISOString()};const a=JSON.parse(localStorage.demo||'[]');a.push(m);localStorage.demo=JSON.stringify(a.slice(-100));add(m)}}
- let last=0;$('#chat form').onsubmit=e=>{e.preventDefault();const i=$('#msg'),b=i.value.trim().slice(0,280);if(!b||Date.now()-last<2500)return;last=Date.now();i.value='';send(b)}}
-addEventListener('DOMContentLoaded',chat);
+<body class="is-loading" data-view="home">
 
-// UI layer: enter gate, progress, cursor glow, tilt
-document.body.insertAdjacentHTML('beforeend','<div id=prog></div><div id=glow></div>');
-addEventListener('scroll',()=>$('#prog').style.height=scrollY/(document.documentElement.scrollHeight-innerHeight)*100+'%',{passive:true});
-if(matchMedia('(pointer:fine)').matches)addEventListener('pointermove',e=>{$('#glow').style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});else $('#glow').remove();
-if(matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches)document.addEventListener('pointermove',e=>{const k=e.target.closest&&e.target.closest('.card');if(!k)return;const r=k.getBoundingClientRect();k.style.transform=`perspective(700px) rotateY(${((e.clientX-r.left)/r.width-.5)*10}deg) rotateX(${-((e.clientY-r.top)/r.height-.5)*10}deg) translateY(-4px)`;k.onpointerleave=()=>k.style.transform=''});
-if($('.hero')){document.body.style.overflow='hidden';document.body.insertAdjacentHTML('beforeend','<div id=gate><h1>ORBITAL</h1><p>Beyond the known.</p><div class=row style="justify-content:center"><button class=btn id=g1>Enter with sound</button><button class=btn id=g2>Enter silent</button></div><small>Headphones recommended. Sound is generated ambience and can be turned off at any time.</small></div>');
- const go=s=>{if(s)setSnd(true);$('#gate').classList.add('out');dispatchEvent(new Event('entered'));document.body.style.overflow='';setTimeout(()=>$('#gate').remove(),1500)};$('#g1').onclick=()=>go(1);$('#g2').onclick=()=>go(0)}
+<a class="skip" href="#main">Skip to content</a>
 
-function drawGal(cv,t,h){const x=cv.getContext('2d'),W=cv.width,C=W/2;x.fillStyle='#02030a';x.fillRect(0,0,W,W);
- for(let i=0;i<(t=='n'?1800:3200);i++){let px,py,c,s=Math.random()<.04?2:1;
-  if(t=='i'||t=='n'){const k=i%7,rr=(Math.random()+Math.random()+Math.random()-1.5)*W*(t=='n'?.28:.22),an=Math.random()*6.28;px=C+Math.sin(k*2.1+h)*W*.2+Math.cos(an)*rr;py=C+Math.cos(k*1.7+h)*W*.2+Math.sin(an)*rr;c=`hsl(${h+(k*12)%60},80%,${55+Math.random()*30}%)`}
-  else{const arm=i%2*Math.PI,u=Math.random()**.7*3.4*Math.PI,r=u/(3.4*Math.PI)*C*.92,sp=(Math.random()-.5)*r*.18;let ax=Math.cos(u+arm)*r+sp,ay=Math.sin(u+arm)*r+sp;
-   if(t=='e'){ax=(Math.random()+Math.random()-1)*C*.95;ay=(Math.random()+Math.random()-1)*C*.24*(1-Math.abs(ax)/C)}
-   if(t=='t'){ay*=.38;const q=.9,rx=ax*Math.cos(q)-ay*Math.sin(q);ay=ax*Math.sin(q)+ay*Math.cos(q);ax=rx}
-   px=C+ax;py=C+ay;c=`hsl(${r<C*.3?40:h},75%,${60+Math.random()*30}%)`}
-  x.globalAlpha=.25+Math.random()*.6;x.fillStyle=c;x.fillRect(px,py,s,s)}
- const q=x.createRadialGradient(C,C,0,C,C,W*.2);q.addColorStop(0,'rgba(255,230,180,.8)');q.addColorStop(1,'transparent');x.globalAlpha=1;x.fillStyle=q;x.fillRect(0,0,W,W);
- if(t=='e'){x.fillStyle='#02030a';x.fillRect(0,C-2,W,3)}}
-</script>
-<script>
-const G=[["Milky Way","Our home","Barred spiral","Solar System about 26,000 light-years from the centre","Sagittarius A* sits at the centre","Roughly 100,000 light-years across; hundreds of billions of stars","#6aa0ff","https://science.nasa.gov/universe/galaxies/"],
-["Andromeda (M31)","2.5 million light-years","Spiral","Largest big galaxy near us","Expected to merge with the Milky Way in several billion years","About 1 trillion stars (estimate)","#8b6bff","https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-31/"],
-["Triangulum (M33)","~2.7 million light-years","Spiral","Third largest Local Group galaxy","Likely bound to Andromeda","","#7ff3ff","https://science.nasa.gov/"],
-["Large Magellanic Cloud","~160,000 light-years","Irregular","Satellite of the Milky Way","Hosts the Tarantula Nebula; visible from the southern hemisphere","","#ffd27f","https://science.nasa.gov/"],
-["Small Magellanic Cloud","~200,000 light-years","Dwarf irregular","Satellite of the Milky Way","Linked to the LMC by gas","","#ff8fb0","https://science.nasa.gov/"],
-["Whirlpool (M51)","~31 million light-years","Spiral, interacting","Interacting with companion NGC 5195","First galaxy with spiral structure recognised, by Lord Rosse","","#9fd0ff","https://science.nasa.gov/"],
-["Sombrero (M104)","~29 million light-years","Spiral, seen edge-on","Prominent dust lane and large central bulge","","","#ffb86b","https://science.nasa.gov/"]];
-const GT=['b','t','s','i','i','s','e'],GH=[215,265,185,40,330,205,30];
-gx.innerHTML=G.map((g,i)=>`<button class=card data-i=${i}><canvas class=gc width=300 height=300></canvas><h3>${g[0]}</h3><small>${g[1]} · ${g[2]}</small></button>`).join('');gx.querySelectorAll('canvas').forEach((k,i)=>drawGal(k,GT[i],GH[i]));
-gx.onclick=e=>{const b=e.target.closest('.card');if(!b)return;const i=b.dataset.i,g=G[i];modal('panel',`<div class=pbox><canvas id=pc class=gc width=300 height=300 style="width:min(220px,42%);float:right;margin:0 0 12px 16px"></canvas><h2 style="font-size:38px;letter-spacing:0">${g[0]}</h2><p class=mut>${g[1]} · ${g[2]}</p><ul>${g.slice(3,6).filter(Boolean).map(f=>'<li>'+f+'</li>').join('')}</ul><p><a href="${g[7]}" rel=noopener>Official imagery (NASA)</a></p><button class=btn data-x=1>Close</button></div>`);drawGal($('#pc'),GT[i],GH[i]);gsap.from('.pbox',{scale:.85,opacity:0,duration:.6,ease:'back.out(1.5)'})};
-const T=[["1957","Sputnik 1","Soviet; first artificial satellite, 4 Oct"],["1961","Yuri Gagarin","First human in space, 12 Apr, Vostok 1"],["1961","Alan Shepard","First American in space, 5 May, Freedom 7"],["1969","Apollo 11","Armstrong and Aldrin landed 20 Jul; Collins orbited"],["1977","Voyager 1 and 2","2 launched Aug 20, 1 launched 5 Sep"],["1981","STS-1","First Space Shuttle flight, 12 Apr, Columbia"],["1990","Hubble","Launched 24 Apr on Discovery"],["1998","ISS","First module Zarya launched 20 Nov"],["2020","Crew Dragon Demo-2","First commercial crew launch to ISS, 30 May"],["2021","James Webb","Launched 25 Dec on Ariane 5"],["2022","Artemis I","Uncrewed Orion flight, launched 16 Nov"]];
-tl.innerHTML=T.map(t=>`<div class=tl><b>${t[0]}</b><h3>${t[1]}</h3><small class=mut>${t[2]}</small></div>`).join('');
-const S=[["Earth","12,742 km across","Our reference size."],["Moon","3,474 km across; about 384,400 km away","About 30 Earths fit in the gap."],["Sun","About 1.39 million km across","Around 109 Earths side by side."],["Solar System","Neptune orbits at ~30 AU","1 AU is the Earth–Sun distance, ~150 million km."],["Milky Way","~100,000 light-years across","Light needs that long to cross it."],["Observable universe","~93 billion light-years across","The part we can see; the whole may be larger."]];
-sc.oninput=()=>{st.textContent=S[sc.value][0]+': '+S[sc.value][1];sd.textContent=S[sc.value][2];sdot.style.width=sdot.style.height=[3,6,14,30,55,92][sc.value]+'vmin'};sc.oninput();
-const F=["Venus rotates so slowly that its day is longer than its year.","A day on Mars lasts about 24 hours 37 minutes.","Neutron stars can spin hundreds of times per second.","Light from the Sun takes about 8 minutes 20 seconds to reach Earth.","Saturn's average density is lower than water's."];
-fact.textContent='Daily fact: '+F[Math.floor(Date.now()/864e5)%F.length];
-fetch('https://api.spaceflightnewsapi.net/v4/articles/?limit=6').then(r=>r.json()).then(d=>news.innerHTML=d.results.map(a=>`<a class=card href="${a.url}" rel=noopener><small>${a.news_site} · ${a.published_at.slice(0,10)}</small><h3 style="font-size:18px">${a.title.replace(/</g,'&lt;')}</h3></a>`).join('')).catch(()=>news.innerHTML='<p>News feed unavailable. Visit <a href="https://www.nasa.gov/news/">NASA</a> or <a href="https://www.esa.int/Newsroom">ESA</a>.</p>');
-// Artemis countdown: ONLY set when NASA publishes a confirmed date
-const ARTEMIS_TARGET_UTC=null;
-if(ARTEMIS_TARGET_UTC){cdn.textContent='';setInterval(()=>{let s=Math.max(0,(new Date(ARTEMIS_TARGET_UTC)-Date.now())/1e3|0);cd.textContent=`${s/86400|0}d ${s/3600%24|0}h ${s/60%60|0}m ${s%60}s`},1e3)}
-// 3D scroll
-const W=stars(),{r,s,c}=W;c.position.z=9;
-const pl=new THREE.Mesh(new THREE.SphereGeometry(2,64,64),new THREE.ShaderMaterial({uniforms:{t:{value:0}},vertexShader:'varying vec3 n,p;void main(){n=normal;p=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-fragmentShader:'varying vec3 n,p;uniform float t;float h(vec3 q){return fract(sin(dot(q,vec3(12.9,78.2,37.7)))*43758.5);}float no(vec3 q){vec3 i=floor(q),f=fract(q);f=f*f*(3.-2.*f);return mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);}void main(){float k=no(p*1.6+t*.05)*.6+no(p*4.)*.3+no(p*9.)*.1;vec3 col=mix(vec3(.02,.1,.3),vec3(.2,.5,.3),smoothstep(.5,.62,k));float l=max(dot(normalize(n),normalize(vec3(-1,.4,.8))),.04);float rim=pow(1.-abs(normalize(n).z),3.);gl_FragColor=vec4(col*l+vec3(.2,.5,1.)*rim*.6,1.);}'}));
-s.add(pl);const ring=new THREE.Mesh(new THREE.TorusGeometry(3.2,.01,8,128),new THREE.MeshBasicMaterial({color:0x7ff3ff,transparent:true,opacity:.5}));ring.rotation.x=1.2;s.add(ring);
-const at=new THREE.Mesh(new THREE.SphereGeometry(2.25,64,64),new THREE.ShaderMaterial({transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,vertexShader:'varying vec3 vN;void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec3 vN;void main(){float i=pow(max(.72-dot(vN,vec3(0,0,1.)),0.),3.);gl_FragColor=vec4(.25,.55,1.,1.)*i*2.;}'}));s.add(at);
-function glow(c1,sz,x0,y0,z0,op){const k=document.createElement('canvas');k.width=k.height=128;const q=k.getContext('2d'),g=q.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,c1);g.addColorStop(1,'rgba(0,0,0,0)');q.fillStyle=g;q.fillRect(0,0,128,128);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(k),transparent:true,opacity:op,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(sz,sz,1);sp.position.set(x0,y0,z0);s.add(sp);return sp}
-glow('rgba(80,110,255,1)',500,-120,40,-250,.22);glow('rgba(150,90,255,1)',600,150,-60,-350,.2);glow('rgba(60,220,255,1)',400,40,90,-200,.12);glow('rgba(255,235,200,1)',9,-12,5,-8,.9);
-let mx=0;addEventListener('pointermove',e=>mx=(e.clientX/innerWidth-.5)*2);
-const gal=new THREE.Group(),GN=5000,gp=new Float32Array(GN*3);for(let i=0;i<GN;i++){const a=Math.random()*40,rr=a*2,arm=(i%2)*Math.PI;gp[i*3]=Math.cos(a*.5+arm)*rr+(Math.random()-.5)*10;gp[i*3+1]=(Math.random()-.5)*4;gp[i*3+2]=Math.sin(a*.5+arm)*rr+(Math.random()-.5)*10}
-const gg=new THREE.BufferGeometry();gg.setAttribute('position',new THREE.BufferAttribute(gp,3));const gm=new THREE.PointsMaterial({size:1.5,color:0x9fb8ff,transparent:true,opacity:0,sizeAttenuation:false});gal.add(new THREE.Points(gg,gm));gal.position.set(0,0,-300);gal.rotation.x=.9;s.add(gal);
-const o={z:9,g:0,u:0};const L=['planet','atmosphere','solar system','galaxy','universe'];
-gsap.registerPlugin(ScrollTrigger);
-addEventListener('entered',()=>gsap.from('.hero h1 i',{yPercent:110,duration:1.6,ease:'power4.out',stagger:.15}));
-document.querySelectorAll('section h2').forEach(h=>gsap.from(h,{clipPath:'inset(0 0 100% 0)',y:70,duration:1.3,ease:'power4.out',clearProps:'clipPath,transform',scrollTrigger:{trigger:h,start:'top 88%'}}));
-gsap.from('#gx .card',{opacity:0,x:120,stagger:.1,duration:1.1,ease:'power3.out',clearProps:'transform,opacity',scrollTrigger:{trigger:'#gx',start:'top 85%'}});
-gsap.timeline({scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom bottom',scrub:1,onToggle:t=>scale.style.opacity=t.isActive?1:0,onUpdate:v=>scale.textContent='Scale: '+L[Math.min(4,v.progress*5|0)]}})
-.to('.fadeo,.hero h1',{opacity:0,y:-80,duration:.6},0).to(o,{z:2.6,duration:2,ease:'power1.in'},0).to([pl.scale,at.scale,ring.scale],{x:.001,y:.001,z:.001,duration:.4},'>-.2').to(o,{z:60,g:1,duration:3},'<').to(c.position,{y:20,duration:3},'<').to(o,{u:1,duration:2});
-const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-(function f(t){pl.material.uniforms.t.value=t*.001;pl.rotation.y+=rm?0:.002;c.position.z=o.z;c.position.x+=(mx-c.position.x)*.04;gm.opacity=o.g;gal.position.z=-300+o.u*-300;gal.rotation.y+=rm?0:.0008;W.pts.rotation.y=o.z*.002;c.lookAt(0,0,0);r.render(s,c);requestAnimationFrame(f)})(0);
-</script></body></html>
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__row">
+    <span class="preloader__name">Aether</span>
+    <span class="preloader__count"><span id="loadCount">0</span>%</span>
+  </div>
+  <div class="preloader__bar"><i></i></div>
+</div>
+
+<div class="nebula" aria-hidden="true"></div>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================ NAVIGATION ============================ -->
+<header class="nav">
+  <a class="logo" href="#/" aria-label="Aether, home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="9.5" r="2.7" fill="#f0c985"/></svg>
+    <span>Aether</span>
+  </a>
+
+  <nav class="nav__links" id="menu" aria-label="Main">
+    <a href="#/planets">Planets</a>
+    <a href="#/missions">Missions</a>
+    <a href="#/travel">Travel</a>
+    <a href="#/light">Light</a>
+    <a href="#/timeline">Timeline</a>
+    <a class="nav__join" href="#/join">Join the list</a>
+  </nav>
+
+  <a class="btn btn--ghost btn--sm nav__cta" href="#/join">Join the list</a>
+
+  <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<noscript><p class="noscript">Aether needs JavaScript for its interactive parts. Please turn it on and reload.</p></noscript>
+
+<main id="main" tabindex="-1">
+
+  <!-- ============================ 1. HOME ============================ -->
+  <section class="view view--home" id="view-home" data-view="home" aria-labelledby="heroTitle">
+    <div class="limb" aria-hidden="true">
+      <div class="limb__sun"></div>
+      <div class="limb__streak"></div>
+    </div>
+
+    <div class="view__inner">
+      <div class="hero__inner">
+        <h1 class="hero__title" id="heroTitle">
+          <span class="ln"><span style="--i:0">Explore</span></span>
+          <span class="ln"><span style="--i:1">what lies</span></span>
+          <span class="ln"><span style="--i:2">beyond</span></span>
+          <span class="ln"><span style="--i:3">the sky.</span></span>
+        </h1>
+
+        <div class="hero__foot">
+          <div class="hero__copy">
+            <p class="hero__sub">Fly through the solar system, measure the distance to the stars and scrub 13.8 billion years of cosmic history.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#/planets">Start exploring</a>
+              <a class="btn btn--ghost" href="#/travel">How far is it?</a>
+            </div>
+          </div>
+
+          <div class="hold" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle class="hold__bg" cx="20" cy="20" r="17"/><circle class="hold__fg" id="holdRing" cx="20" cy="20" r="17" pathLength="1"/></svg>
+            <p class="hold__txt">
+              <span class="only-fine">Press and hold anywhere to jump</span>
+              <span class="only-touch">Touch and hold to jump</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flash" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================ 2. PLANETS ============================ -->
+  <section class="view" id="view-planets" data-view="planets" aria-labelledby="planetsTitle">
+    <div class="view__inner">
+      <header class="head">
+        <h2 class="h2 rv" id="planetsTitle">Eight planets, one star.</h2>
+        <p class="lede rv">Select a planet to read its numbers. Orbits are animated for effect; sizes and distances are not drawn to scale.</p>
+      </header>
+
+      <div class="planets">
+        <div class="planets__map rv">
+          <div class="orrery" id="orrery">
+            <svg id="orrerySvg" viewBox="-500 -500 1000 1000" role="group" aria-label="Map of the solar system. Select a planet.">
+              <defs>
+                <radialGradient id="sunGlow">
+                  <stop offset="0" stop-color="#fff2d2" stop-opacity=".95"/>
+                  <stop offset=".22" stop-color="#ffd48f" stop-opacity=".5"/>
+                  <stop offset=".6" stop-color="#f0a850" stop-opacity=".08"/>
+                  <stop offset="1" stop-color="#f0a850" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="sunCore" cx=".4" cy=".35" r=".75">
+                  <stop offset="0" stop-color="#fffbe9"/>
+                  <stop offset=".6" stop-color="#ffe0a3"/>
+                  <stop offset="1" stop-color="#f5b861"/>
+                </radialGradient>
+                <radialGradient id="sphere" cx=".35" cy=".3" r=".9">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".3"/>
+                  <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset="1" stop-color="#000" stop-opacity=".3"/>
+                </radialGradient>
+                <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset=".3" stop-color="#000" stop-opacity="0"/>
+                  <stop offset="1" stop-color="#000" stop-opacity=".78"/>
+                </linearGradient>
+                <linearGradient id="bands-jupiter" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#a98a6b"/>
+                  <stop offset=".12" stop-color="#e5d1b2"/>
+                  <stop offset=".24" stop-color="#b78558"/>
+                  <stop offset=".36" stop-color="#ead9bc"/>
+                  <stop offset=".48" stop-color="#c4936a"/>
+                  <stop offset=".6" stop-color="#efe0c6"/>
+                  <stop offset=".72" stop-color="#b88a64"/>
+                  <stop offset=".86" stop-color="#dcc5a4"/>
+                  <stop offset="1" stop-color="#9a7556"/>
+                </linearGradient>
+                <linearGradient id="bands-saturn" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#bfa874"/>
+                  <stop offset=".2" stop-color="#e6d3a0"/>
+                  <stop offset=".4" stop-color="#cdb482"/>
+                  <stop offset=".6" stop-color="#ecdcae"/>
+                  <stop offset=".8" stop-color="#c9b07e"/>
+                  <stop offset="1" stop-color="#a38c5e"/>
+                </linearGradient>
+              </defs>
+              <g id="bezel" aria-hidden="true"></g>
+              <g id="orbits" aria-hidden="true"></g>
+              <g aria-hidden="true">
+                <circle r="150" fill="url(#sunGlow)"/>
+                <circle r="36" fill="url(#sunCore)"/>
+              </g>
+              <g id="planetLayer"></g>
+            </svg>
+            <div class="orrery__tag" id="orreryTag" aria-hidden="true"></div>
+          </div>
+          <div class="chips" id="chips" role="group" aria-label="Choose a planet"></div>
+        </div>
+
+        <article class="panel rv" id="panel" aria-live="polite">
+          <div class="panel__top">
+            <p class="panel__count" id="pCount">03 of 08</p>
+            <div class="panel__arrows">
+              <button class="icon-btn" id="pPrev" type="button" aria-label="Previous planet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button class="icon-btn" id="pNext" type="button" aria-label="Next planet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+          <div class="panel__body" id="pBody">
+            <p class="panel__tag" id="pTag"></p>
+            <h3 class="panel__name" id="pName"></h3>
+            <p class="panel__desc" id="pDesc"></p>
+            <dl class="facts">
+              <div><dt>Diameter</dt><dd id="fDia"></dd></div>
+              <div><dt>Distance from the Sun</dt><dd id="fDist"></dd></div>
+              <div><dt>One day</dt><dd id="fDay"></dd></div>
+              <div><dt>One year</dt><dd id="fYear"></dd></div>
+              <div><dt>Moons</dt><dd id="fMoons"></dd></div>
+              <div><dt>Temperature</dt><dd id="fTemp"></dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 3. MISSIONS ============================ -->
+  <section class="view" id="view-missions" data-view="missions" aria-labelledby="missionsTitle">
+    <div class="view__inner">
+      <header class="head">
+        <h2 class="h2 rv" id="missionsTitle">What we’ve sent so far.</h2>
+        <p class="lede rv">Five machines that changed what we know, from a Moon landing to a spacecraft flying through the Sun’s atmosphere.</p>
+      </header>
+
+      <div class="plates">
+        <article class="plate plate--a rv" data-tilt>
+          <p class="plate__year">1977</p>
+          <svg class="plate__art" viewBox="0 0 160 120" aria-hidden="true">
+            <circle cx="46" cy="60" r="40"/>
+            <circle cx="46" cy="60" r="32" opacity=".6"/>
+            <circle cx="46" cy="60" r="24" opacity=".45"/>
+            <circle cx="46" cy="60" r="16" opacity=".35"/>
+            <circle cx="46" cy="60" r="5" class="g"/>
+            <path d="M96 60H154" class="g dash"/>
+            <circle cx="154" cy="60" r="2.4" class="g fill"/>
+          </svg>
+          <div class="plate__body">
+            <h3>Voyager 1</h3>
+            <p>The most distant human-made object. It crossed into interstellar space in 2012, and its Golden Record carries sounds and images of Earth.</p>
+            <p class="plate__fig">In interstellar space since 2012</p>
+          </div>
+        </article>
+
+        <article class="plate plate--b rv" data-tilt>
+          <p class="plate__year">2021</p>
+          <svg class="plate__art" viewBox="-75 -75 150 150" aria-hidden="true"><g id="webbHex" class="g"></g></svg>
+          <div class="plate__body">
+            <h3>James Webb Space Telescope</h3>
+            <p>A 6.5-metre mirror of 18 gold-coated hexagons, 1.5 million km from Earth, reading infrared light from some of the first galaxies.</p>
+            <p class="plate__fig">1.5 million km from Earth</p>
+          </div>
+        </article>
+
+        <article class="plate plate--c rv" data-tilt>
+          <p class="plate__year">1969</p>
+          <svg class="plate__art" viewBox="0 0 160 120" aria-hidden="true">
+            <circle cx="22" cy="92" r="11"/>
+            <circle cx="126" cy="34" r="20"/>
+            <circle cx="119" cy="29" r="3.4" opacity=".5"/>
+            <circle cx="133" cy="40" r="2.4" opacity=".5"/>
+            <path d="M32 84C58 48 92 36 106 36" class="g dash"/>
+          </svg>
+          <div class="plate__body">
+            <h3>Apollo 11</h3>
+            <p>On 20 July, Neil Armstrong and Buzz Aldrin walked on the Moon for about two and a half hours while Michael Collins orbited above.</p>
+            <p class="plate__fig">20 July 1969</p>
+          </div>
+        </article>
+
+        <article class="plate plate--c rv" data-tilt>
+          <p class="plate__year">2018</p>
+          <svg class="plate__art" viewBox="0 0 160 120" aria-hidden="true">
+            <circle cx="14" cy="60" r="34"/>
+            <circle cx="14" cy="60" r="44" opacity=".4" stroke-dasharray="2 4"/>
+            <circle cx="14" cy="60" r="54" opacity=".25" stroke-dasharray="2 4"/>
+            <ellipse cx="108" cy="60" rx="48" ry="22" opacity=".5"/>
+            <rect x="104" y="34" width="8" height="8" class="g fill"/>
+          </svg>
+          <div class="plate__body">
+            <h3>Parker Solar Probe</h3>
+            <p>The first spacecraft to fly through the Sun’s corona. At its closest it moves at about 692,000 km/h, the fastest any human-made object has travelled.</p>
+            <p class="plate__fig">692,000 km/h</p>
+          </div>
+        </article>
+
+        <article class="plate plate--c rv" data-tilt>
+          <p class="plate__year">2021</p>
+          <svg class="plate__art" viewBox="0 0 160 120" aria-hidden="true">
+            <circle cx="80" cy="60" r="46"/>
+            <path d="M36 52q14-8 26 2t24-2" opacity=".6"/>
+            <path d="M44 66q12-6 22 2t20-2" opacity=".45"/>
+            <path d="M60 96C76 80 92 92 108 72S126 56 134 50" class="g dash dots"/>
+            <circle cx="134" cy="50" r="2.6" class="g fill"/>
+          </svg>
+          <div class="plate__body">
+            <h3>Perseverance</h3>
+            <p>Landed in Mars’s Jezero Crater and has been collecting sealed rock samples from an ancient river delta. Its helicopter, Ingenuity, flew 72 times.</p>
+            <p class="plate__fig">Landed 18 February 2021</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 4. TRAVEL ============================ -->
+  <section class="view" id="view-travel" data-view="travel" aria-labelledby="travelTitle">
+    <div class="view__inner">
+      <header class="head">
+        <h2 class="h2 rv" id="travelTitle">How long would it take to get there?</h2>
+        <p class="lede rv">Pick a destination and a vehicle. Planet distances use each planet’s closest approach to Earth.</p>
+      </header>
+
+      <div class="calc rv">
+        <div class="calc__stage">
+          <div class="route" aria-hidden="true">
+            <span>Earth</span>
+            <div class="route__line"><i class="ship" id="ship"></i></div>
+            <span id="routeDest">Mars</span>
+          </div>
+          <p class="calc__time" aria-hidden="true"><span id="tNum">0</span><span class="calc__unit" id="tUnit">years</span></p>
+          <p class="sr-only" id="tSr" aria-live="polite"></p>
+          <p class="calc__meta" id="tMeta"></p>
+          <p class="calc__fun" id="tFun"></p>
+        </div>
+
+        <div class="calc__controls">
+          <fieldset class="group">
+            <legend>Destination</legend>
+            <div class="pills" id="destPills"></div>
+          </fieldset>
+          <fieldset class="group">
+            <legend>Vehicle</legend>
+            <div class="pills" id="vehPills"></div>
+          </fieldset>
+        </div>
+        <p class="fine">Speeds are held constant in a straight line. Real missions follow curved paths and fly slower.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 5. LIGHT ============================ -->
+  <section class="view" id="view-light" data-view="light" aria-labelledby="lightTitle">
+    <div class="view__inner">
+      <header class="head">
+        <h2 class="h2 rv" id="lightTitle">The farther you look, the older the light.</h2>
+        <p class="lede rv">Light covers about 300,000 km every second. Distances in space are easiest to feel as the time light needs to cross them.</p>
+      </header>
+
+      <ol class="ladder">
+        <li class="rv" data-sec="499" data-value="8.3" data-dec="1">
+          <p class="ladder__val"><span class="num">8.3</span><small>minutes</small></p>
+          <p class="ladder__txt">Sunlight reaching Earth. You always see the Sun as it was eight minutes ago.</p>
+          <div class="ladder__bar" aria-hidden="true"><i></i></div>
+        </li>
+        <li class="rv" data-sec="134000000" data-value="4.2" data-dec="1">
+          <p class="ladder__val"><span class="num">4.2</span><small>years</small></p>
+          <p class="ladder__txt">Light from Proxima Centauri, the nearest star after the Sun.</p>
+          <div class="ladder__bar" aria-hidden="true"><i></i></div>
+        </li>
+        <li class="rv" data-sec="3156000000000" data-value="100000" data-dec="0">
+          <p class="ladder__val"><span class="num">100,000</span><small>years</small></p>
+          <p class="ladder__txt">Light crossing the Milky Way from one edge to the other.</p>
+          <div class="ladder__bar" aria-hidden="true"><i></i></div>
+        </li>
+        <li class="rv" data-sec="78900000000000" data-value="2.5" data-dec="1">
+          <p class="ladder__val"><span class="num">2.5</span><small>million years</small></p>
+          <p class="ladder__txt">Light from the Andromeda galaxy, which you can see with your own eyes on a dark night.</p>
+          <div class="ladder__bar" aria-hidden="true"><i></i></div>
+        </li>
+        <li class="rv" data-sec="435500000000000000" data-value="13.8" data-dec="1">
+          <p class="ladder__val"><span class="num">13.8</span><small>billion years</small></p>
+          <p class="ladder__txt">The age of the universe. The oldest light we can see has travelled almost this long.</p>
+          <div class="ladder__bar" aria-hidden="true"><i></i></div>
+        </li>
+      </ol>
+      <p class="fine rv">Bars use a logarithmic scale, so each step is far larger than the one before it.</p>
+    </div>
+  </section>
+
+  <!-- ============================ 6. TIMELINE ============================ -->
+  <section class="view" id="view-timeline" data-view="timeline" aria-labelledby="timelineTitle">
+    <div class="view__inner">
+      <header class="head">
+        <h2 class="h2 rv" id="timelineTitle">Scrub through 13.8 billion years.</h2>
+        <p class="lede rv">Drag the slider, or tap a milestone, to move through cosmic history.</p>
+      </header>
+
+      <div class="tl">
+        <div class="tl__view rv"><canvas id="tlCanvas" aria-hidden="true"></canvas></div>
+        <div class="tl__text rv" aria-live="polite">
+          <p class="tl__when" id="tlWhen"></p>
+          <h3 class="tl__title" id="tlTitle"></h3>
+          <p class="tl__desc" id="tlDesc"></p>
+        </div>
+      </div>
+
+      <div class="tl__ctrl rv">
+        <label class="sr-only" for="tlRange">Cosmic time, from the Big Bang to today</label>
+        <input class="range" id="tlRange" type="range" min="0" max="800" step="1" value="0">
+        <div class="tl__ticks" id="tlTicks"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 7. JOIN ============================ -->
+  <section class="view" id="view-join" data-view="join" aria-labelledby="joinTitle">
+    <div class="view__inner">
+      <div class="cta">
+        <h2 class="cta__title rv" id="joinTitle">Keep exploring.</h2>
+        <div class="cta__side rv">
+          <p class="cta__text">New interactive journeys through space, a few times a year.</p>
+          <form class="signup" id="signup" novalidate>
+            <label for="email">Email address</label>
+            <div class="signup__row">
+              <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+              <button class="btn btn--primary" type="submit">Join the list</button>
+            </div>
+            <p class="signup__msg" id="signupMsg" role="status"></p>
+          </form>
+        </div>
+      </div>
+      <p class="footnote rv">Figures are rounded from public NASA and ESA data. © 2026 Aether.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ======================= BOTTOM BAR: DISTANCE + PAGER ======================= -->
+<div class="bar">
+  <div class="journey" aria-hidden="true">
+    <b id="journeyVal">408 km</b>
+    <span id="journeyCap">from Earth, in low orbit</span>
+  </div>
+  <nav class="pager" aria-label="Step through the journey">
+    <button class="icon-btn" id="pgPrev" type="button" aria-label="Previous view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <p class="pager__txt"><b id="pgNum">01</b> / 07<span id="pgName">Home</span></p>
+    <button class="icon-btn" id="pgNext" type="button" aria-label="Next view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
